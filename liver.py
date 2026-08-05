@@ -10,26 +10,32 @@ from tqdm import tqdm
 sample_attr_url = "https://storage.googleapis.com/adult-gtex/annotations/v8/metadata-files/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt"
 subject_pheno_url = "https://storage.googleapis.com/adult-gtex/annotations/v8/metadata-files/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt"
 
-print("Loading GTEx metadata files...")
-df_samples = pd.read_csv(sample_attr_url, sep="\t")
-df_subjects = pd.read_csv(subject_pheno_url, sep="\t")
+def main() -> None:
+    print("Loading GTEx metadata files...")
+    df_samples = pd.read_csv(sample_attr_url, sep="\t")
+    df_subjects = pd.read_csv(subject_pheno_url, sep="\t")
 
-# 2. Extract Donor ID (SUBJID) and Tissue Slide ID (TISSUE_ID)
-df_samples["SUBJID"] = df_samples["SAMPID"].apply(lambda x: "-".join(x.split("-")[:2]))
-df_samples["TISSUE_ID"] = df_samples["SAMPID"].apply(
-    lambda x: x.split("-SM-")[0] if "-SM-" in x else x
-)
+    df_samples["SUBJID"] = df_samples["SAMPID"].apply(
+        lambda x: "-".join(x.split("-")[:2])
+    )
+    df_samples["TISSUE_ID"] = df_samples["SAMPID"].apply(
+        lambda x: x.split("-SM-")[0] if "-SM-" in x else x
+    )
 
-# 3. Filter for Liver tissue specimens and deduplicate by Tissue ID
-liver_all = df_samples[df_samples["SMTS"] == "Liver"].copy()
-liver_wsi = liver_all.drop_duplicates(subset=["TISSUE_ID"]).copy()
+    liver_all = df_samples[df_samples["SMTS"] == "Liver"].copy()
+    liver_wsi = liver_all.drop_duplicates(subset=["TISSUE_ID"]).copy()
 
-# 4. Merge Subject Phenotypes (AGE, SEX)
-liver_wsi = liver_wsi.merge(
-    df_subjects[["SUBJID", "AGE", "SEX"]], on="SUBJID", how="left"
-)
+    liver_wsi = liver_wsi.merge(
+        df_subjects[["SUBJID", "AGE", "SEX"]], on="SUBJID", how="left"
+    )
 
-liver_wsi["TISSUE_ID"].to_csv("liver_wsis.csv", header=False, index=False)
+    liver_wsi["TISSUE_ID"].to_csv("liver_wsis.csv", header=False, index=False)
+
+    with open("liver_wsis.csv") as fh:
+        ids = [line.strip() for line in fh if line.strip()]
+    print(f"Found {len(ids)} tissue IDs in liver_wsis.csv\n")
+
+    download_histoplus(ids)
 
 # ---------------------------------------------------------------------------
 # Download HistoPlus geojson files from CEMB
@@ -102,8 +108,4 @@ def download_histoplus(tissue_ids: list[str]) -> None:
 
 
 if __name__ == "__main__":
-    # Read tissue IDs generated above and start the download
-    with open("liver_wsis.csv") as fh:
-        ids = [line.strip() for line in fh if line.strip()]
-    print(f"Found {len(ids)} tissue IDs in liver_wsis.csv\n")
-    download_histoplus(ids)
+    main()
