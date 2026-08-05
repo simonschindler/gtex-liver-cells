@@ -1,6 +1,7 @@
 import importlib
 import os
 import shutil
+import subprocess
 import tempfile
 import unittest
 from unittest import mock
@@ -155,6 +156,26 @@ class DownloadFilesTests(unittest.TestCase):
             )
         cmd = mock_run.call_args.args[0]
         self.assertIn("-azL", cmd)
+
+    def test_rsync_timeout_is_counted_as_failed(self):
+        liver = load_liver()
+        with mock.patch.object(liver, "check_ssh", return_value=True), \
+             mock.patch.object(liver.os, "makedirs"), \
+             mock.patch.object(liver.os.path, "exists", return_value=False), \
+             mock.patch.object(
+                 liver.subprocess,
+                 "run",
+                 side_effect=subprocess.TimeoutExpired("rsync", 300),
+             ) as mock_run:
+            counts = liver.download_files(
+                ["GTEX-14AS3-0126"],
+                "user@example.org",
+                "/remote/base",
+                self.tmpdir.name,
+                ".npz",
+            )
+        self.assertEqual(counts, {"downloaded": 0, "skipped": 0, "failed": 1})
+        self.assertEqual(mock_run.call_args.kwargs["timeout"], liver.RSYNC_TIMEOUT)
 
     def test_raises_when_ssh_check_fails(self):
         liver = load_liver()

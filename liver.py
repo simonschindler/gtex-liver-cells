@@ -72,6 +72,7 @@ RSYNC_SSH = (
     "ssh -o ConnectTimeout=30 -o BatchMode=yes "
     "-o StrictHostKeyChecking=accept-new"
 )
+RSYNC_TIMEOUT = 300
 
 
 def check_ssh(remote_host: str) -> bool:
@@ -97,11 +98,14 @@ def download_files(
     suffix: str,
     desc: str = "Downloading",
     follow_symlinks: bool = False,
+    timeout: float = RSYNC_TIMEOUT,
 ) -> dict[str, int]:
     """Download <tissue_id><suffix> files from remote_host:remote_base.
 
-    Skips files that already exist locally. Returns counts for
-    downloaded, skipped, and failed files.
+    Skips files that already exist locally. Each rsync call is killed after
+    `timeout` seconds and counted as failed, so a stalled transfer cannot
+    hang the whole batch. Returns counts for downloaded, skipped, and
+    failed files.
     """
     local_dir = os.path.realpath(local_dir)
     os.makedirs(local_dir, exist_ok=True)
@@ -124,10 +128,17 @@ def download_files(
         pbar.set_postfix_str(f"{tid}")
 
         rsync_flags = "-azL" if follow_symlinks else "-az"
-        result = subprocess.run(
-            ["rsync", rsync_flags, "-e", RSYNC_SSH, remote_path, local_path],
-            capture_output=True, text=True,
-        )
+        try:
+            result = subprocess.run(
+                ["rsync", rsync_flags, "-e", RSYNC_SSH, remote_path, local_path],
+                capture_output=True, text=True,
+                timeout=timeout,
+            )
+        except subprocess.TimeoutExpired:
+            pbar.set_postfix_str(f"{tid} FAILED")
+            tqdm.write(f"  {tid}: timed out after {timeout:.0f}s")
+            failed += 1
+            continue
 
         if result.returncode == 0:
             done += 1
