@@ -38,22 +38,29 @@ def main() -> None:
     download_histoplus(ids)
 
 # ---------------------------------------------------------------------------
-# Download HistoPlus geojson files from CEMB
+# Download helpers
 # ---------------------------------------------------------------------------
 
 REMOTE_HOST = "sschindler@login.int.cemm.at"
 REMOTE_BASE = "/nobackup/lab_rendeiro/projects/histopath/data/gtex/HistoPlus"
 LOCAL_DIR = os.path.expanduser("~/data/GTEX/histoplus")
 
+SSH_OPTS = [
+    "-o", "ConnectTimeout=10",
+    "-o", "BatchMode=yes",
+    "-o", "StrictHostKeyChecking=accept-new",
+]
+RSYNC_SSH = (
+    "ssh -o ConnectTimeout=30 -o BatchMode=yes "
+    "-o StrictHostKeyChecking=accept-new"
+)
 
-def check_ssh() -> bool:
-    """Test that SSH to the remote host works without a password prompt."""
-    print(f"Checking SSH connection to {REMOTE_HOST} ...", end=" ", flush=True)
+
+def check_ssh(remote_host: str) -> bool:
+    """Test that SSH to remote_host works without a password prompt."""
+    print(f"Checking SSH connection to {remote_host} ...", end=" ", flush=True)
     result = subprocess.run(
-        ["ssh", "-o", "ConnectTimeout=10",
-         "-o", "BatchMode=yes",
-         "-o", "StrictHostKeyChecking=accept-new",
-         REMOTE_HOST, "echo ok"],
+        ["ssh", *SSH_OPTS, remote_host, "echo ok"],
         capture_output=True, text=True,
     )
     if result.returncode == 0 and "ok" in result.stdout:
@@ -64,33 +71,41 @@ def check_ssh() -> bool:
     return False
 
 
-def download_histoplus(tissue_ids: list[str]) -> None:
-    """Download .histoplus.geojson.gz files for each tissue id, skipping
-    those already present locally."""
-    os.makedirs(LOCAL_DIR, exist_ok=True)
+def download_files(
+    tissue_ids: list[str],
+    remote_host: str,
+    remote_base: str,
+    local_dir: str,
+    suffix: str,
+    desc: str = "Downloading",
+) -> dict[str, int]:
+    """Download <tissue_id><suffix> files from remote_host:remote_base.
 
-    if not check_ssh():
-        print("Aborting: SSH connection could not be established.", file=sys.stderr)
-        sys.exit(1)
+    Skips files that already exist locally. Returns counts for
+    downloaded, skipped, and failed files.
+    """
+    local_dir = os.path.realpath(local_dir)
+    os.makedirs(local_dir, exist_ok=True)
+
+    if not check_ssh(remote_host):
+        raise ConnectionError(f"SSH connection to {remote_host} failed")
 
     total = len(tissue_ids)
     done = skipped = failed = 0
 
-    pbar = tqdm(tissue_ids, unit="file", desc="Downloading")
+    pbar = tqdm(tissue_ids, unit="file", desc=desc)
     for tid in pbar:
-        local_path = os.path.join(LOCAL_DIR, f"{tid}.histoplus.geojson.gz")
+        local_path = os.path.join(local_dir, f"{tid}{suffix}")
         if os.path.exists(local_path):
             pbar.set_postfix_str(f"{tid} (skipped)")
             skipped += 1
             continue
 
-        remote_path = f"{REMOTE_HOST}:{REMOTE_BASE}/{tid}.histoplus.geojson.gz"
+        remote_path = f"{remote_host}:{remote_base}/{tid}{suffix}"
         pbar.set_postfix_str(f"{tid}")
 
         result = subprocess.run(
-            ["rsync", "-az",
-             "-e", "ssh -o ConnectTimeout=30 -o BatchMode=yes -o StrictHostKeyChecking=accept-new",
-             remote_path, local_path],
+            ["rsync", "-az", "-e", RSYNC_SSH, remote_path, local_path],
             capture_output=True, text=True,
         )
 
@@ -105,6 +120,19 @@ def download_histoplus(tissue_ids: list[str]) -> None:
     pbar.close()
     print(f"\nDone: {done} downloaded, {skipped} skipped, {failed} failed "
           f"(out of {total})")
+    return {"downloaded": done, "skipped": skipped, "failed": failed}
+
+
+def download_histoplus(tissue_ids: list[str]) -> dict[str, int]:
+    """Download .histoplus.geojson.gz files from the CEMB host."""
+    return download_files(
+        tissue_ids,
+        remote_host=REMOTE_HOST,
+        remote_base=REMOTE_BASE,
+        local_dir=LOCAL_DIR,
+        suffix=".histoplus.geojson.gz",
+        desc="HistoPlus",
+    )
 
 
 if __name__ == "__main__":
