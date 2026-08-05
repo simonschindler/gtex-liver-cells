@@ -45,6 +45,12 @@ REMOTE_HOST = "sschindler@login.int.cemm.at"
 REMOTE_BASE = "/nobackup/lab_rendeiro/projects/histopath/data/gtex/HistoPlus"
 LOCAL_DIR = os.path.expanduser("~/data/GTEX/histoplus")
 
+CENTROID_HOST = "schindlers@transfer01.lisc.univie.ac.at"
+CENTROID_REMOTE_BASE = (
+    "/lisc/data/scratch/menche/schindlers/tissuegeometry/data/cell_centroids"
+)
+CENTROID_LOCAL_DIR = os.path.expanduser("~/data/GTEX/pc")
+
 SSH_OPTS = [
     "-o", "ConnectTimeout=10",
     "-o", "BatchMode=yes",
@@ -132,6 +138,18 @@ def download_histoplus(tissue_ids: list[str]) -> dict[str, int]:
         local_dir=LOCAL_DIR,
         suffix=".histoplus.geojson.gz",
         desc="HistoPlus",
+    )
+
+
+def download_cell_centroids(tissue_ids: list[str]) -> dict[str, int]:
+    """Download .npz cell-centroid files from the LISC transfer host."""
+    return download_files(
+        tissue_ids,
+        remote_host=CENTROID_HOST,
+        remote_base=CENTROID_REMOTE_BASE,
+        local_dir=CENTROID_LOCAL_DIR,
+        suffix=".npz",
+        desc="Cell centroids",
     )
 
 

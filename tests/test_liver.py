@@ -150,3 +150,28 @@ class HistoplusWrapperTests(unittest.TestCase):
         self.assertEqual(mock_df.call_args.kwargs["remote_base"], liver.REMOTE_BASE)
         self.assertEqual(mock_df.call_args.kwargs["local_dir"], liver.LOCAL_DIR)
         self.assertEqual(mock_df.call_args.kwargs["suffix"], ".histoplus.geojson.gz")
+
+
+class CellCentroidsWrapperTests(unittest.TestCase):
+    def test_cell_centroids_uses_correct_endpoint(self):
+        liver = load_liver()
+        with mock.patch.object(
+            liver,
+            "download_files",
+            return_value={"downloaded": 0, "skipped": 1, "failed": 0},
+        ) as mock_df:
+            liver.download_cell_centroids(["GTEX-14AS3-0126"])
+        self.assertEqual(mock_df.call_args.args[0], ["GTEX-14AS3-0126"])
+        self.assertEqual(
+            mock_df.call_args.kwargs["remote_host"],
+            "schindlers@transfer01.lisc.univie.ac.at",
+        )
+        self.assertEqual(
+            mock_df.call_args.kwargs["remote_base"],
+            "/lisc/data/scratch/menche/schindlers/tissuegeometry/data/cell_centroids",
+        )
+        self.assertEqual(
+            mock_df.call_args.kwargs["local_dir"],
+            os.path.expanduser("~/data/GTEX/pc"),
+        )
+        self.assertEqual(mock_df.call_args.kwargs["suffix"], ".npz")
