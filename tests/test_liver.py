@@ -138,6 +138,24 @@ class DownloadFilesTests(unittest.TestCase):
             )
         self.assertEqual(counts, {"downloaded": 0, "skipped": 0, "failed": 1})
 
+    def test_follow_symlinks_adds_copy_links_flag(self):
+        liver = load_liver()
+        with mock.patch.object(liver, "check_ssh", return_value=True), \
+             mock.patch.object(liver.os, "makedirs"), \
+             mock.patch.object(liver.os.path, "exists", return_value=False), \
+             mock.patch.object(liver.subprocess, "run") as mock_run:
+            mock_run.return_value = mock.Mock(returncode=0, stderr="")
+            liver.download_files(
+                ["GTEX-14AS3-0126"],
+                "user@example.org",
+                "/remote/base",
+                self.tmpdir.name,
+                ".npz",
+                follow_symlinks=True,
+            )
+        cmd = mock_run.call_args.args[0]
+        self.assertIn("-azL", cmd)
+
     def test_raises_when_ssh_check_fails(self):
         liver = load_liver()
         with mock.patch.object(liver, "check_ssh", return_value=False), \
@@ -209,3 +227,4 @@ class CellCentroidsWrapperTests(unittest.TestCase):
             os.path.expanduser("~/data/GTEX/pc"),
         )
         self.assertEqual(mock_df.call_args.kwargs["suffix"], ".npz")
+        self.assertIs(mock_df.call_args.kwargs["follow_symlinks"], True)

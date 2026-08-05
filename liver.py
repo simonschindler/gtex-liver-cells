@@ -96,6 +96,7 @@ def download_files(
     local_dir: str,
     suffix: str,
     desc: str = "Downloading",
+    follow_symlinks: bool = False,
 ) -> dict[str, int]:
     """Download <tissue_id><suffix> files from remote_host:remote_base.
 
@@ -122,8 +123,9 @@ def download_files(
         remote_path = f"{remote_host}:{remote_base}/{tid}{suffix}"
         pbar.set_postfix_str(f"{tid}")
 
+        rsync_flags = "-azL" if follow_symlinks else "-az"
         result = subprocess.run(
-            ["rsync", "-az", "-e", RSYNC_SSH, remote_path, local_path],
+            ["rsync", rsync_flags, "-e", RSYNC_SSH, remote_path, local_path],
             capture_output=True, text=True,
         )
 
@@ -162,6 +164,7 @@ def download_cell_centroids(tissue_ids: list[str]) -> dict[str, int]:
         local_dir=CENTROID_LOCAL_DIR,
         suffix=".npz",
         desc="Cell centroids",
+        follow_symlinks=True,
     )
 
 
