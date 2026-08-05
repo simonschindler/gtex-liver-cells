@@ -13,7 +13,7 @@ def load_liver():
 
 
 class MainTests(unittest.TestCase):
-    def test_main_runs_histoplus_download(self):
+    def test_main_runs_both_downloads(self):
         df_samples = pd.DataFrame(
             {"SAMPID": ["GTEX-1117F-0626-SM-5GZZY"], "SMTS": ["Liver"]}
         )
@@ -30,11 +30,45 @@ class MainTests(unittest.TestCase):
                     liver = load_liver()
                     with mock.patch.object(
                         liver, "download_histoplus"
-                    ) as mock_histo:
+                    ) as mock_histo, mock.patch.object(
+                        liver, "download_cell_centroids"
+                    ) as mock_centro:
                         liver.main()
                 finally:
                     os.chdir(old_cwd)
         self.assertEqual(mock_histo.call_args.args[0], ["GTEX-1117F-0626"])
+        self.assertEqual(mock_centro.call_args.args[0], ["GTEX-1117F-0626"])
+
+    def test_main_tries_second_host_after_first_fails(self):
+        df_samples = pd.DataFrame(
+            {"SAMPID": ["GTEX-1117F-0626-SM-5GZZY"], "SMTS": ["Liver"]}
+        )
+        df_subjects = pd.DataFrame(
+            {"SUBJID": ["GTEX-1117F"], "AGE": ["60-69"], "SEX": [1]}
+        )
+        with mock.patch(
+            "pandas.read_csv", side_effect=[df_samples, df_subjects]
+        ):
+            with tempfile.TemporaryDirectory() as tmp:
+                old_cwd = os.getcwd()
+                os.chdir(tmp)
+                try:
+                    liver = load_liver()
+                    with mock.patch.object(
+                        liver,
+                        "download_histoplus",
+                        side_effect=ConnectionError("host unreachable"),
+                        autospec=True,
+                    ), mock.patch.object(
+                        liver, "download_cell_centroids"
+                    ) as mock_centro, mock.patch.object(
+                        liver.sys, "exit"
+                    ) as mock_exit:
+                        liver.main()
+                finally:
+                    os.chdir(old_cwd)
+        mock_centro.assert_called_once_with(["GTEX-1117F-0626"])
+        mock_exit.assert_called_once_with(1)
 
 
 class CheckSshTests(unittest.TestCase):

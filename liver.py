@@ -35,7 +35,19 @@ def main() -> None:
         ids = [line.strip() for line in fh if line.strip()]
     print(f"Found {len(ids)} tissue IDs in liver_wsis.csv\n")
 
-    download_histoplus(ids)
+    failures = 0
+    for download in (download_histoplus, download_cell_centroids):
+        try:
+            download(ids)
+        except ConnectionError as exc:
+            print(f"Skipping {download.__name__}: {exc}", file=sys.stderr)
+            failures += 1
+    if failures:
+        print(
+            f"{failures} download(s) skipped because SSH connection failed",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
 # ---------------------------------------------------------------------------
 # Download helpers
