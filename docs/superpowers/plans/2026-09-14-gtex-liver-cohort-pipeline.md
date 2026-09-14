@@ -38,7 +38,7 @@
 - Consumes: nothing
 - Produces: importable package `gtex_meta` with `gtex_meta.__version__ == "0.1.0"`; an editable install in `.venv` so `python -m gtex_meta.*` resolves
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/test_package.py`:
 
@@ -53,13 +53,13 @@ class PackageTests(unittest.TestCase):
         self.assertEqual(gtex_meta.__version__, "0.1.0")
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `uv run --no-sync python -m unittest tests.test_package -v`
 
 Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_meta'`.
 
-- [ ] **Step 3: Replace `pyproject.toml`**
+- [x] **Step 3: Replace `pyproject.toml`**
 
 ```toml
 [project]
@@ -93,7 +93,7 @@ target-version = "py314"
 line-length = 100
 ```
 
-- [ ] **Step 4: Create the package and replace `.gitignore`**
+- [x] **Step 4: Create the package and replace `.gitignore`**
 
 Create `src/gtex_meta/__init__.py`:
 
@@ -127,13 +127,13 @@ data/centroids/
 *.h5ad
 ```
 
-- [ ] **Step 5: Install the package**
+- [x] **Step 5: Install the package**
 
 Run: `uv sync`
 
 Expected: resolves and installs successfully. The trimmed dependency list drops `marimo`, `matplotlib`, `seaborn`, `pydicom`, `idc-index`, and `lazyslide`.
 
-- [ ] **Step 6: Remove the legacy modules that the trim breaks**
+- [x] **Step 6: Remove the legacy modules that the trim breaks**
 
 `liver.py` imports `matplotlib` and `seaborn`, and both legacy test modules import it, so they cannot survive the dependency trim. They are superseded by this pipeline and are removed now rather than in Task 8.
 
@@ -141,13 +141,13 @@ Expected: resolves and installs successfully. The trimmed dependency list drops 
 git rm liver.py tests/test_liver.py tests/test_import_safety.py
 ```
 
-- [ ] **Step 7: Run the tests to verify the baseline is clean**
+- [x] **Step 7: Run the tests to verify the baseline is clean**
 
 Run: `uv run --no-sync python -m unittest discover -s tests -v`
 
 Expected: `OK` (1 test).
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add pyproject.toml uv.lock .gitignore src/gtex_meta/__init__.py tests/test_package.py
@@ -173,7 +173,7 @@ git commit -m "chore: scaffold gtex_meta package, trim dependencies, drop legacy
   - `write_csv(rows: list[list[str]], path: str) -> None`
   - `main(argv: list[str] | None = None) -> int`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `tests/test_portal.py`:
 
@@ -287,13 +287,13 @@ class WriteCsvTests(unittest.TestCase):
         self.assertEqual(len(written), 2)
 ```
 
-- [ ] **Step 2: Run the tests to verify they fail**
+- [x] **Step 2: Run the tests to verify they fail**
 
 Run: `uv run --no-sync python -m unittest tests.test_portal -v`
 
 Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_meta.portal'`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `src/gtex_meta/portal.py`:
 
@@ -408,13 +408,13 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-- [ ] **Step 4: Run the tests to verify they pass**
+- [x] **Step 4: Run the tests to verify they pass**
 
 Run: `uv run --no-sync python -m unittest tests.test_portal -v`
 
 Expected: `OK` (7 tests).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/gtex_meta/portal.py tests/test_portal.py
@@ -440,7 +440,7 @@ git commit -m "feat: fetch GTEx Portal histology slide table"
   - `build_cohort(slides: pandas.DataFrame) -> pandas.DataFrame` — adds `label`, `label_reason`, `quality_flag`, `has_finding_text`
   - `main(argv: list[str] | None = None) -> int`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `tests/test_cohort.py`:
 
@@ -547,13 +547,13 @@ class BuildCohortTests(unittest.TestCase):
             cohort.build_cohort(slides)
 ```
 
-- [ ] **Step 2: Run the tests to verify they fail**
+- [x] **Step 2: Run the tests to verify they fail**
 
 Run: `uv run --no-sync python -m unittest tests.test_cohort -v`
 
 Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_meta.cohort'`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `src/gtex_meta/cohort.py`:
 
@@ -687,13 +687,13 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-- [ ] **Step 4: Run the tests to verify they pass**
+- [x] **Step 4: Run the tests to verify they pass**
 
 Run: `uv run --no-sync python -m unittest tests.test_cohort -v`
 
 Expected: `OK` (12 tests).
 
-- [ ] **Step 5: Generate the tracked CSVs from the public API**
+- [x] **Step 5: Generate the tracked CSVs from the public API**
 
 Run:
 
@@ -724,7 +724,7 @@ wrote 610 slides to data/liver_cohort.csv
   atrophy         1
 ```
 
-- [ ] **Step 6: Verify the cohort CSV against the known distribution**
+- [x] **Step 6: Verify the cohort CSV against the known distribution**
 
 Run:
 
@@ -750,7 +750,7 @@ empty notes 7
 {'curated non-cirrhotic pathology': 445, 'uncategorized, finding in note': 25, 'uncategorized, preservation warning': 9, 'uncategorized, no note (unknown)': 7}
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/gtex_meta/cohort.py tests/test_cohort.py data/liver_slides.csv data/liver_cohort.csv
@@ -777,7 +777,7 @@ git commit -m "feat: label the GTEx liver cohort from the public slide table"
   - `extract_many(sources, out_dir: str, workers: int, overwrite: bool) -> dict[str, int]` — counts keyed `extracted`, `skipped`, `failed`, `missing`
   - `main(argv: list[str] | None = None) -> int`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `tests/test_centroids.py`:
 
@@ -949,13 +949,13 @@ class MainTests(unittest.TestCase):
         self.assertEqual(exit_code, 1)
 ```
 
-- [ ] **Step 2: Run the tests to verify they fail**
+- [x] **Step 2: Run the tests to verify they fail**
 
 Run: `uv run --no-sync python -m unittest tests.test_centroids -v`
 
 Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_meta.centroids'`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `src/gtex_meta/centroids.py`:
 
@@ -1134,13 +1134,13 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-- [ ] **Step 4: Run the tests to verify they pass**
+- [x] **Step 4: Run the tests to verify they pass**
 
 Run: `uv run --no-sync python -m unittest tests.test_centroids -v`
 
 Expected: `OK` (10 tests).
 
-- [ ] **Step 5: Verify against an existing LISC npz**
+- [x] **Step 5: Verify against an existing LISC npz**
 
 This confirms our extraction reproduces the reference implementation. It skips cleanly if the local files are absent.
 
@@ -1174,7 +1174,7 @@ max coord diff: 0.000973
 cells: 35076 | classes: 12
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/gtex_meta/centroids.py tests/test_centroids.py
@@ -1197,7 +1197,7 @@ git commit -m "feat: extract cell centroids and labels from HistoPlus files"
   - `consolidate(entries: list[dict], cohort: pandas.DataFrame) -> anndata.AnnData`
   - `main(argv: list[str] | None = None) -> int`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `tests/test_consolidate.py`:
 
@@ -1398,13 +1398,13 @@ class MainTests(unittest.TestCase):
         self.assertEqual(exit_code, 1)
 ```
 
-- [ ] **Step 2: Run the tests to verify they fail**
+- [x] **Step 2: Run the tests to verify they fail**
 
 Run: `uv run --no-sync python -m unittest tests.test_consolidate -v`
 
 Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_meta.consolidate'`.
 
-- [ ] **Step 3: Write the implementation**
+- [x] **Step 3: Write the implementation**
 
 Create `src/gtex_meta/consolidate.py`:
 
@@ -1577,19 +1577,19 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-- [ ] **Step 4: Run the tests to verify they pass**
+- [x] **Step 4: Run the tests to verify they pass**
 
 Run: `uv run --no-sync python -m unittest tests.test_consolidate -v`
 
 Expected: `OK` (8 tests).
 
-- [ ] **Step 5: Run the full suite**
+- [x] **Step 5: Run the full suite**
 
 Run: `uv run --no-sync python -m unittest discover -s tests -v`
 
 Expected: `OK` (38 tests: 1 package + 7 portal + 12 cohort + 10 centroids + 8 consolidate).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/gtex_meta/consolidate.py tests/test_consolidate.py
@@ -1608,7 +1608,7 @@ git commit -m "feat: consolidate centroid files into a single AnnData"
 - Consumes: the `gtex_meta.centroids` and `gtex_meta.consolidate` entry points
 - Produces: two job scripts reading `REPO_DIR`, `HISTOPLUS_DIR`, `CENTROIDS_DIR`, `COHORT_CSV`, `OUT_H5AD`, and `FILTER_TO_COHORT` from the environment
 
-- [ ] **Step 1: Create `sbatch/extract_centroids.sbatch`**
+- [x] **Step 1: Create `sbatch/extract_centroids.sbatch`**
 
 ```bash
 #!/bin/bash
@@ -1661,7 +1661,7 @@ echo "npz now:    $(ls -1 "$CENTROIDS_DIR" 2>/dev/null | wc -l)"
 exit $STATUS
 ```
 
-- [ ] **Step 2: Create `sbatch/consolidate_anndata.sbatch`**
+- [x] **Step 2: Create `sbatch/consolidate_anndata.sbatch`**
 
 ```bash
 #!/bin/bash
@@ -1715,7 +1715,7 @@ ls -lh "$OUT_H5AD" 2>/dev/null
 exit $STATUS
 ```
 
-- [ ] **Step 3: Make them executable and syntax-check**
+- [x] **Step 3: Make them executable and syntax-check**
 
 Run:
 
@@ -1726,7 +1726,7 @@ bash -n sbatch/extract_centroids.sbatch && bash -n sbatch/consolidate_anndata.sb
 
 Expected: `syntax OK`.
 
-- [ ] **Step 4: Verify directives and the absence of `uv run`**
+- [x] **Step 4: Verify directives and the absence of `uv run`**
 
 Run:
 
@@ -1738,7 +1738,7 @@ grep -n "PYTHONPATH=src" sbatch/*.sbatch
 
 Expected: 11 `#SBATCH` lines per file (`grep -c` prints two numbers), `no uv run (expected)`, and one `PYTHONPATH=src` line per file.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add sbatch/
@@ -1756,7 +1756,7 @@ git commit -m "feat: add SLURM wrappers for extraction and consolidation"
 - Consumes: the design spec and the measured facts it records
 - Produces: a README a new user can follow end to end
 
-- [ ] **Step 1: Replace `README.md` with six sections**
+- [x] **Step 1: Replace `README.md` with six sections**
 
 Use exactly these six level-two headings, in this order:
 
@@ -1769,7 +1769,7 @@ Use exactly these six level-two headings, in this order:
 
 Add a `### Removed from this repository` subsection under "Running it" listing `liver.py`, `downloader.py`, `cohorts.py`, `cohorts_notebook.py`, `meta.py`, `path.py`, `vocab.py`, `main.py`, `path_terms.txt`, `liver_wsis.csv`, and `__marimo__/`, each with a one-line reason.
 
-- [ ] **Step 2: Verify the required headings exist in order**
+- [x] **Step 2: Verify the required headings exist in order**
 
 Run:
 
@@ -1780,7 +1780,7 @@ grep -n "^## " README.md
 
 Expected: `6`, listing the six headings above in order.
 
-- [ ] **Step 3: Verify the key facts appear**
+- [x] **Step 3: Verify the key facts appear**
 
 Run:
 
@@ -1792,7 +1792,7 @@ done
 
 Expected: every count is at least 1.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add README.md
@@ -1811,7 +1811,7 @@ git commit -m "docs: document pipeline decisions in the README"
 - Consumes: the tested pipeline from Tasks 1-7
 - Produces: a repository containing only the four-stage pipeline
 
-- [ ] **Step 1: Confirm nothing in the new code references the doomed files**
+- [x] **Step 1: Confirm nothing in the new code references the doomed files**
 
 Run:
 
@@ -1821,13 +1821,13 @@ grep -rn -E "liver_wsis|cohorts\.py|downloader|path_terms|marimo" src/ sbatch/ t
 
 Expected: `no references (expected)`. If anything matches, fix that reference before deleting.
 
-- [ ] **Step 2: Delete the tracked files**
+- [x] **Step 2: Delete the tracked files**
 
 ```bash
 git rm docs/superpowers/plans/2026-08-05-cell-centroids-download.md
 ```
 
-- [ ] **Step 3: Delete the untracked files**
+- [x] **Step 3: Delete the untracked files**
 
 ```bash
 rm -f main.py meta.py path.py vocab.py cohorts.py cohorts_notebook.py downloader.py \
@@ -1839,13 +1839,13 @@ rm -f main.py meta.py path.py vocab.py cohorts.py cohorts_notebook.py downloader
 rm -rf __marimo__ wsi_slides .superpowers __pycache__
 ```
 
-- [ ] **Step 4: Run the full test suite**
+- [x] **Step 4: Run the full test suite**
 
 Run: `uv run --no-sync python -m unittest discover -s tests -v`
 
 Expected: `OK` (38 tests), with only `test_cohort`, `test_centroids`, `test_consolidate`, and `test_package` present.
 
-- [ ] **Step 5: Verify the final repository layout**
+- [x] **Step 5: Verify the final repository layout**
 
 Run:
 
@@ -1857,7 +1857,7 @@ find src sbatch tests data -type f | sort
 
 Expected: top level contains `README.md`, `pyproject.toml`, `uv.lock`, `.gitignore`, `.python-version`, `.venv`, `data/`, `docs/`, `sbatch/`, `src/`, `tests/`. `find` lists the four modules, `__init__.py`, the two sbatch files, the four test files, and the two cohort CSVs.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add -A
