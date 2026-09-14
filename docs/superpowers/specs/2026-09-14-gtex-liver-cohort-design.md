@@ -67,14 +67,14 @@ API is the only public route, which is why the repository ships a fetcher.
 - Categories per slide: 0 for 101 slides, 1 for 308, 2 for 158, 3 for 30,
   4 for 11, 5 for 2.
 - Curated categories are absent for 101 slides. Those slides are *not* healthy:
-  27 describe a finding in free text ("<10% macrovesicular fat", "mild central
-  degeneration", "thick fibrous trabeculae"), 4 carry preservation warnings,
+  25 describe a finding in free text ("<10% macrovesicular fat", "mild central
+  degeneration", "thick fibrous trabeculae"), 9 carry preservation warnings,
   and 7 have no note at all.
 - Exactly 7 slides have no note, and they are the same 7 slides that have no
   HistoPlus file. All 7 fall in the `other` label.
 - 31 slides are flagged `hide` in the Portal; exactly one is liver
   (`GTEX-1269W-1826`), and it falls in `other` regardless.
-- HistoPlus coverage: 603 of 610 slides. Both the healthy (69) and cirrhotic
+- HistoPlus coverage: 603 of 610 slides. Both the healthy (66) and cirrhotic
   (58) groups are fully covered.
 
 ### HistoPlus GeoJSON and the centroid files
@@ -94,7 +94,7 @@ API is the only public route, which is why the repository ships a fetcher.
   across files and must be remapped through `class_names`.
 - Measured cell counts: 18,501,178 cells across 66 files; per slide, minimum
   35,076, median 265,670, maximum 808,053. Extrapolated: roughly 34M cells for
-  the 127-slide healthy/cirrhotic subset and 160M for all 603 available slides.
+  the 124-slide healthy/cirrhotic subset and 160M for all 603 available slides.
 
 ## Decisions
 
@@ -118,17 +118,23 @@ subset artifact; matching is a downstream analysis choice.
 - `healthy`: either the curator assigned `no_abnormalities` or
   `clean_specimens` (6 slides), or the slide has no curated category, a
   non-empty note, no finding term after negation stripping, and no preservation
-  warning (63 slides).
-- `other`: everything else (483 slides).
+  warning (60 slides).
+- `other`: everything else (486 slides).
 
 An empty note is treated as unknown, never as healthy. The finding and
 preservation term lists are explicit constants in the code, and the reason for
 every label is written to the CSV so the classification is auditable.
 
-Resulting counts: 58 cirrhosis, 69 healthy, 483 other. Cirrhosis is
-heterogeneous (21 steatotic, 18 fibrotic, 10 hepatitis, 8 nodularity, 8
-congested, 6 inflamed, plus rarer findings); only 8 slides carry cirrhosis
-alone. This is recorded as a property of the cohort rather than used to filter.
+Preservation warnings cover autolysis in either spelling (`autolys` /
+`autolyz`), poor preservation, and poor or bad fixation. An earlier prototype
+matched only `autolys` and therefore mislabeled three autolyzed slides as
+healthy; the corrected term list is what the counts above reflect.
+
+Resulting counts: 58 cirrhosis, 66 healthy, 486 other, giving a 124-slide
+healthy/cirrhotic subset. Cirrhosis is heterogeneous (21 steatotic, 18
+fibrotic, 10 hepatitis, 8 nodularity, 8 congested, 6 inflamed, plus rarer
+findings); only 8 slides carry cirrhosis alone. This is recorded as a property
+of the cohort rather than used to filter.
 
 Known limitations, to be documented in the README:
 
@@ -307,7 +313,7 @@ cohort row, cohort slides with no npz, and any class name outside the union
 observed in the inputs. The observed vocabulary is always recorded in `uns`
 rather than assumed. With `--filter-to-cohort`, npz files whose slide is not in
 the cohort CSV are excluded instead of warned about, which is how all 603
-slides are narrowed to the 127-slide healthy/cirrhotic subset.
+slides are narrowed to the 124-slide healthy/cirrhotic subset.
 
 ## Error handling summary
 
