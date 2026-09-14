@@ -133,17 +133,25 @@ Run: `uv sync`
 
 Expected: resolves and installs successfully. The trimmed dependency list drops `marimo`, `matplotlib`, `seaborn`, `pydicom`, `idc-index`, and `lazyslide`.
 
-- [ ] **Step 6: Run the test to verify it passes**
+- [ ] **Step 6: Remove the legacy modules that the trim breaks**
 
-Run: `uv run --no-sync python -m unittest tests.test_package -v`
+`liver.py` imports `matplotlib` and `seaborn`, and both legacy test modules import it, so they cannot survive the dependency trim. They are superseded by this pipeline and are removed now rather than in Task 8.
+
+```bash
+git rm liver.py tests/test_liver.py tests/test_import_safety.py
+```
+
+- [ ] **Step 7: Run the tests to verify the baseline is clean**
+
+Run: `uv run --no-sync python -m unittest discover -s tests -v`
 
 Expected: `OK` (1 test).
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
 git add pyproject.toml uv.lock .gitignore src/gtex_meta/__init__.py tests/test_package.py
-git commit -m "chore: scaffold gtex_meta package and trim dependencies"
+git commit -m "chore: scaffold gtex_meta package, trim dependencies, drop legacy modules"
 ```
 
 ---
@@ -1792,7 +1800,7 @@ git commit -m "docs: document pipeline decisions in the README"
 ### Task 8: Remove superseded files
 
 **Files:**
-- Delete (tracked): `liver.py`, `tests/test_liver.py`, `tests/test_import_safety.py`, `docs/superpowers/plans/2026-08-05-cell-centroids-download.md`
+- Delete (tracked): `docs/superpowers/plans/2026-08-05-cell-centroids-download.md` (`liver.py` and the two legacy test modules were already removed in Task 1)
 - Delete (untracked): `main.py`, `meta.py`, `path.py`, `vocab.py`, `cohorts.py`, `cohorts_notebook.py`, `downloader.py`, `path_terms.txt`, `liver_wsis.csv`, `extract_centroids_liver.sbatch`, `fetch_gtex_histology.py`, `build_liver_cohort.py`, `liver_healthy_vs_cirrhotic.csv`, `liver_hvc_matched_pairs.csv`, `gtex_portal_liver_slides.csv`, `__marimo__/`, `wsi_slides/`, `.superpowers/`, `__pycache__/`, `docs/superpowers/plans/2026-08-04-cohorts-marimo-notebook.md`
 
 **Interfaces:**
@@ -1812,7 +1820,7 @@ Expected: `no references (expected)`. If anything matches, fix that reference be
 - [ ] **Step 2: Delete the tracked files**
 
 ```bash
-git rm liver.py tests/test_liver.py tests/test_import_safety.py docs/superpowers/plans/2026-08-05-cell-centroids-download.md
+git rm docs/superpowers/plans/2026-08-05-cell-centroids-download.md
 ```
 
 - [ ] **Step 3: Delete the untracked files**
