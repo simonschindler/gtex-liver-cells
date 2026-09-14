@@ -166,13 +166,17 @@ classes) and writing them to disk:
 | `X=None`, integer index | 32.7 | 55.1 | 1.11 GB | 5.23 GB | 64 s |
 
 The chosen layout is sparse one-hot `X` (CSR, float32) with `cell_type` also in
-`obs`, a `RangeIndex`, and gzip compression. Rationale:
+`obs`, no per-cell identifiers, and gzip compression. Rationale:
 
 - On disk the one-hot costs only ~1.8 B/cell after gzip, because the CSR
   indices are a stride-1 run and the data are all ones. The 16 B/cell figure is
   the in-memory CSR cost, which matters for job RSS but not for file size.
 - The global string cell index is the larger cost (~16.5 B/cell), hence the
-  `RangeIndex`; cell identity is `(slide_id, row offset)`.
+  default sequential index; cell identity is `(slide_id, row offset)`.
+  anndata stringifies `obs_names` regardless — a `RangeIndex` comes back as
+  `"0", "1", "2", …` — but sequential digits compress to almost nothing, which
+  is what the measured 34.5 B/cell reflects. The cost being avoided is the long
+  per-cell identifier, not the existence of a string index.
 - `X=None` would save 6% but breaks tools that assume a matrix.
 
 ### D6 — Recompute centroid npz rather than reuse the LISC files
@@ -300,7 +304,8 @@ union of class names, and writes one `.h5ad`:
 
 - `obs`: `slide_id` (category), `cell_type` (category), `subject_id`
   (category), `label` (category), `Age Bracket`, `Sex`, `Hardy Scale`, `prob`
-  (float32); index is a `RangeIndex`.
+  (float32); no per-cell identifier is stored, so anndata assigns the default
+  sequential `obs_names`.
 - `var`: the sorted union of class names.
 - `X`: CSR one-hot float32, shape `(n_cells, n_classes)`.
 - `obsm["spatial"]`: float32 centroids.

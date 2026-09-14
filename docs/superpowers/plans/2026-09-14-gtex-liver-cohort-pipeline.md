@@ -21,7 +21,7 @@
 - HistoPlus files are gzipped GeoJSON and must be read with a GDAL `/vsigzip/` path prefix. Verified: `gpd.read_file(path)` raises `DataSourceError`; `gpd.read_file(f"/vsigzip/{path}")` works in 0.9 s for 35,076 features.
 - Centroid coordinates are stored as float32. Verified against the LISC output for `GTEX-1JJ6O-0826`: identical class sequence, maximum coordinate difference 0.000973 px.
 - `prob` is one scalar per cell (confidence in the assigned class). It is stored, never filtered by default.
-- The consolidated AnnData uses: `X` = CSR one-hot float32, `var` = sorted union of class names, `obs` carries `cell_type`, `obsm["spatial"]` = float32 coords, `RangeIndex`, gzip compression.
+- The consolidated AnnData uses: `X` = CSR one-hot float32, `var` = sorted union of class names, `obs` carries `cell_type`, `obsm["spatial"]` = float32 coords, no per-cell identifiers, gzip compression.
 - Every command in this plan runs from `/Users/simon/Desktop/gtex_meta`.
 
 ---
@@ -1300,7 +1300,11 @@ class ConsolidateTests(unittest.TestCase):
         )
         np.testing.assert_allclose(adata.obsm["spatial"], [[1, 1], [2, 2], [3, 3]])
         self.assertEqual(adata.obsm["spatial"].dtype, np.float32)
-        self.assertIsInstance(adata.obs.index, pd.RangeIndex)
+        # anndata stringifies obs_names even for a RangeIndex; keeping the
+        # default sequential names is what keeps the h5ad small, because
+        # sequential digits compress to almost nothing. What matters is that
+        # we never pay for a long per-cell identifier.
+        self.assertEqual(list(adata.obs_names), ["0", "1", "2"])
         np.testing.assert_allclose(adata.obs["prob"].to_numpy(), [0.5, 0.5, 0.5])
 
     def test_keeps_cells_whose_slide_has_no_cohort_row(self):
@@ -1410,7 +1414,7 @@ Create `src/gtex_meta/consolidate.py`:
 Layout decisions (see the design spec for the measurements behind them):
 ``X`` is a sparse one-hot indicator of ``cell_type``, ``var`` is the sorted
 union of the per-slide class vocabularies, ``obsm["spatial"]`` holds float32
-centroids, the index is a RangeIndex, and the file is gzip-compressed.
+centroids, there are no per-cell identifiers, and the file is gzip-compressed.
 """
 
 import argparse
@@ -1760,7 +1764,7 @@ Use exactly these six level-two headings, in this order:
 2. `## Data provenance` — the two GTEx files, why filtering the sample attributes gives 242 slides while the Portal histology table has 610, the API endpoint, and the fact that no bulk CSV exists.
 3. `## Cohort definition` — the labeling rules, the counts (58 cirrhosis, 66 healthy, 486 other, 124 in the healthy/cirrhotic subset), the cirrhosis co-findings, and the limitations: the healthy label is a text heuristic; `SMATSSCR` autolysis exists for only 8 of the 58 cirrhotic slides; `GTEX-1JJ6O-0826` carries the note "liver, not skin" and is flagged for review; an empty note means unknown, never healthy.
 4. `## About prob` — one scalar per cell, argmax confidence, no per-class breakdown, measured distribution (median 0.607, 34% below 0.5), and why no default threshold is applied.
-5. `## AnnData layout` — sparse one-hot `X`, `cell_type` in `obs`, `RangeIndex`, gzip, with the measured table: 34.5 B/cell gzipped, 1.17 GB for 34M cells, 5.52 GB for 160M cells, and the note that 16 B/cell is the in-memory CSR cost, not the file size.
+5. `## AnnData layout` — sparse one-hot `X`, `cell_type` in `obs`, no per-cell identifiers (`obs_names` are anndata's default sequential strings, which compress to almost nothing), gzip, with the measured table: 34.5 B/cell gzipped, 1.17 GB for 34M cells, 5.52 GB for 160M cells, and the note that 16 B/cell is the in-memory CSR cost, not the file size.
 6. `## Running it` — laptop commands, the sbatch commands with their environment variables, and the `uv run` re-sync caveat on the cluster.
 
 Add a `### Removed from this repository` subsection under "Running it" listing `liver.py`, `downloader.py`, `cohorts.py`, `cohorts_notebook.py`, `meta.py`, `path.py`, `vocab.py`, `main.py`, `path_terms.txt`, `liver_wsis.csv`, and `__marimo__/`, each with a one-line reason.
