@@ -1,0 +1,611 @@
+Tissue Sample ID,Tissue,Subject ID,Sex,Age Bracket,Hardy Scale,Pathology Categories,Pathology Notes,Hidden,label,label_reason,quality_flag,has_finding_text
+GTEX-1117F-1126,Liver,GTEX-1117F,female,60-69,Slow death,necrosis,"2 pieces, subtotal massive hepatic necrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-111FC-1226,Liver,GTEX-111FC,male,60-69,Fast death - violent,congestion,"2 pieces, congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-111VG-0826,Liver,GTEX-111VG,male,60-69,Intermediate death,"fibrosis, inflammation",2 pieces; chronic inflammation and fibrosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-113JC-0426,Liver,GTEX-113JC,female,50-59,Fast death - natural causes,steatosis,2 pieces; mild macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-117XS-0926,Liver,GTEX-117XS,male,60-69,Fast death - natural causes,"fibrosis, inflammation, steatosis","2 pieces, mild steatosis, widening of sinusoids with bridging fibrosis, chronic inflammation",false,other,curated non-cirrhotic pathology,,True
+GTEX-117YW-0626,Liver,GTEX-117YW,male,50-59,Intermediate death,"congestion, fibrosis, inflammation, steatosis","2 pieces, passive congestion, bridging fibrosis, some chronic inflammation, mild-moderate steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1192W-0726,Liver,GTEX-1192W,male,60-69,Fast death - natural causes,congestion,"2 pieces, prominent hepatic congestion/'nutmeg' liver",false,other,curated non-cirrhotic pathology,,True
+GTEX-1192X-1026,Liver,GTEX-1192X,male,50-59,Slow death,"cirrhosis, steatosis","2 pieces diffuse established cirrhosis, and macrovesicular steatosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-11DXY-0526,Liver,GTEX-11DXY,male,60-69,Fast death - natural causes,congestion,"2 pieces, congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-11DXZ-0126,Liver,GTEX-11DXZ,male,50-59,Ventilator case,necrosis,"2 pieces, foci of hepatocyte necrosis and ballooning degeneration",false,other,curated non-cirrhotic pathology,,True
+GTEX-11DYG-1726,Liver,GTEX-11DYG,male,60-69,Fast death - natural causes,"congestion, fibrosis, hyperplasia, inflammation, steatosis","2 pieces; portal fibrosis, chronic inflammation and duct hyperplasia; mild macrovesicular steatosis; moderate  central passive congestion; capsule on one surface",false,other,curated non-cirrhotic pathology,,True
+GTEX-11DZ1-1326,Liver,GTEX-11DZ1,male,50-59,Slow death,necrosis,2 pieces; acute necrosis centrally with polymorphs,false,other,curated non-cirrhotic pathology,,True
+GTEX-11EI6-0926,Liver,GTEX-11EI6,male,60-69,Slow death,"congestion, steatosis","2 pieces, moderate passive congestion; ~15-20% macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-11EMC-0326,Liver,GTEX-11EMC,female,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, moderate congestions; micro and macrovesicular steatosis in ~70% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-11EQ8-0626,Liver,GTEX-11EQ8,male,60-69,Slow death,steatosis,"2 pieces, mild steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-11EQ9-0526,Liver,GTEX-11EQ9,male,30-39,Fast death - natural causes,"nodularity, steatosis","2 pieces, diffuse macro and microvesucular steatosis, nodular regenerative changes",false,other,curated non-cirrhotic pathology,,True
+GTEX-11GS4-0926,Liver,GTEX-11GS4,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, some congestion, diffuse macro and microvesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-11GSO-0826,Liver,GTEX-11GSO,male,60-69,Fast death - natural causes,steatosis,"2 pieces, predominantly macrovesicular steatosis, includes capsule (target is 1 cm below capsule)",false,other,curated non-cirrhotic pathology,,True
+GTEX-11GSP-0626,Liver,GTEX-11GSP,female,60-69,Fast death - natural causes,congestion,2 pieces; central vascular congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-11ILO-0926,Liver,GTEX-11ILO,female,40-49,Ventilator case,,2 pieces; capsule [not target] on both pieces [annotated],false,healthy,"uncategorized, note reports no finding",,False
+GTEX-11NUK-1226,Liver,GTEX-11NUK,male,50-59,Fast death - natural causes,,"2 pieces, includes capsule (target is 1 cm below capsule), few collections of lymphocytes, often in portal tracts",false,other,"uncategorized, finding in note",,True
+GTEX-11NV4-1326,Liver,GTEX-11NV4,male,60-69,Fast death - natural causes,steatosis,"2 pieces, includes capsule (target is 1 cm below capsule), micro and macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-11O72-0926,Liver,GTEX-11O72,male,40-49,Fast death - natural causes,,2 pieces; <10% macrovesicular fat,false,other,"uncategorized, finding in note",,True
+GTEX-11OF3-0726,Liver,GTEX-11OF3,male,60-69,Fast death - natural causes,"congestion, steatosis",2 pieces; moderate central vascular congestion; mild macrovesicular steatosis; thin capsule present,false,other,curated non-cirrhotic pathology,,True
+GTEX-11ONC-0326,Liver,GTEX-11ONC,male,60-69,Fast death - natural causes,"congestion, hemorrhage","2 pieces; moderate central passive congestion; 3.5x1mm  focus of hemorrhage and fragmentation, (traumatic resuscitation, injury?) [annotated]",false,other,curated non-cirrhotic pathology,,True
+GTEX-11PRG-1626,Liver,GTEX-11PRG,male,50-59,Fast death - natural causes,congestion,"2 pieces, moderate-marked chronic passive congestion ('nutmeg' changes)",false,other,curated non-cirrhotic pathology,,True
+GTEX-11TT1-1726,Liver,GTEX-11TT1,male,20-29,Ventilator case,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-11TTK-1426,Liver,GTEX-11TTK,female,60-69,Slow death,"atrophy, congestion",2 pieces; severe central vascular congestion with liver cell atrophy [c/w heart failure]; only thin rim of periportal liver cells remain intact;,false,other,curated non-cirrhotic pathology,,True
+GTEX-11TUW-1726,Liver,GTEX-11TUW,male,60-69,Fast death - natural causes,steatosis,"2 pieces, severe micro and macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-11UD2-1626,Liver,GTEX-11UD2,male,50-59,Fast death - natural causes,steatosis,"2 pieces, diffuse macrovesicular steatosis involves ~80% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-11WQC-0726,Liver,GTEX-11WQC,male,60-69,Fast death - natural causes,"congestion, inflammation","2 pieces, congested, includes capsule (target is 1 cm below capsule), chronic inflammation",false,other,curated non-cirrhotic pathology,,True
+GTEX-11WQK-1126,Liver,GTEX-11WQK,male,50-59,Fast death - natural causes,"congestion, steatosis","2 pieces, diffuse mild micro/macrovesicular steatosis, moderate congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-11ZTS-1426,Liver,GTEX-11ZTS,female,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, moderate congestion, minimal steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-11ZU8-0926,Liver,GTEX-11ZU8,male,60-69,Slow death,steatosis,"2 pieces, pathcy macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-11ZUS-2526,Liver,GTEX-11ZUS,male,30-39,Fast death - violent,steatosis,"2 pieces, mild to moderate steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-11ZVC-0726,Liver,GTEX-11ZVC,female,50-59,Fast death - natural causes,,2 pieces; capsule present on one piece,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1212Z-0226,Liver,GTEX-1212Z,male,60-69,Fast death - natural causes,steatosis,"2 pieces, mild steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-12584-1526,Liver,GTEX-12584,male,40-49,Intermediate death,steatosis,2 pieces; severe macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-12696-0826,Liver,GTEX-12696,male,60-69,Intermediate death,congestion,"2 pieces, moderate congestion; no significant steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1269C-0626,Liver,GTEX-1269C,female,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, mild macrovesicular steatosis, passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1269W-1826,Liver,GTEX-1269W,male,60-69,Slow death,,,true,other,"uncategorized, no note (unknown)",,False
+GTEX-12KS4-1326,Liver,GTEX-12KS4,male,30-39,Ventilator case,congestion,2 pieces moderate passive congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-12WS9-2126,Liver,GTEX-12WS9,female,50-59,Intermediate death,"congestion, steatosis","2 pieces moderate congestion, ~10% microvesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-12WSA-2026,Liver,GTEX-12WSA,male,60-69,Slow death,"congestion, infarction",2 pieces severe acute congestion/hemorrhagic infarction,false,other,curated non-cirrhotic pathology,,True
+GTEX-12WSB-1526,Liver,GTEX-12WSB,female,60-69,Slow death,,2 pieces; moderately congested; 30% fibrovascular focus in 1 piece; 1 mm von Meyenberg complex in 2nd piece,false,other,"uncategorized, finding in note",,True
+GTEX-12WSC-1626,Liver,GTEX-12WSC,male,50-59,Fast death - natural causes,"congestion, steatosis","2 pieces, moderate steatosis, passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-12WSD-1426,Liver,GTEX-12WSD,female,60-69,Fast death - natural causes,no_abnormalities,"2 pieces, no major abnormalities",false,healthy,curated no_abnormalities,,False
+GTEX-12WSE-2226,Liver,GTEX-12WSE,male,20-29,Fast death - natural causes,congestion,2 pieces; acute vascular congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-12WSF-1326,Liver,GTEX-12WSF,male,70-79,Slow death,congestion,"2 pieces, mild congestion, minimal fat",false,other,curated non-cirrhotic pathology,,True
+GTEX-12WSG-0626,Liver,GTEX-12WSG,female,50-59,Ventilator case,"congestion, steatosis","2 pieces, mild steatosis and passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-12WSH-0526,Liver,GTEX-12WSH,male,50-59,Fast death - natural causes,congestion,2 pieces; moderate passive congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-12WSI-0226,Liver,GTEX-12WSI,male,50-59,Fast death - natural causes,"congestion, fibrosis, steatosis","2 pieces moderate macro and microvesicular steatosis, moderate congestion, early bridging fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-12WSL-0226,Liver,GTEX-12WSL,male,50-59,Ventilator case,steatosis,2 pieces; 20% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-12WSM-0726,Liver,GTEX-12WSM,male,60-69,Fast death - natural causes,,"2 pieces, ~ 5% macrovesicular fat.",false,other,"uncategorized, finding in note",,True
+GTEX-12ZZW-1426,Liver,GTEX-12ZZW,male,50-59,Slow death,congestion,"2 pieces, marked passive congestion, laking noted",false,other,curated non-cirrhotic pathology,,True
+GTEX-12ZZX-1526,Liver,GTEX-12ZZX,female,40-49,Fast death - violent,steatosis,"2 pieces, moderate-marked diffuse macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-12ZZY-2026,Liver,GTEX-12ZZY,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, minimal congestion/steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-12ZZZ-1326,Liver,GTEX-12ZZZ,male,60-69,Fast death - natural causes,steatosis,3 pieces; moderate macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-13112-1426,Liver,GTEX-13112,male,50-59,Fast death - natural causes,steatosis,2 pieces; 5% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-13113-1326,Liver,GTEX-13113,female,60-69,Ventilator case,"fibrosis, steatosis","2 pieces, diffuse microvesicular steatosis, mild-moderate  fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1313W-1726,Liver,GTEX-1313W,female,50-59,Fast death - natural causes,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1314G-0526,Liver,GTEX-1314G,male,30-39,Ventilator case,"cirrhosis, steatosis","2 pieces; early cirrhosis, bile duct proliferation and extensive macrovesicular steatosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-131XE-0326,Liver,GTEX-131XE,male,50-59,Ventilator case,,2 pieces; mild central degeneration,false,other,"uncategorized, finding in note",,True
+GTEX-131XH-0626,Liver,GTEX-131XH,male,50-59,Fast death - natural causes,steatosis,"2 pieces, mild macro and microvesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-131XW-0926,Liver,GTEX-131XW,female,50-59,Slow death,"congestion, fibrosis, steatosis","2 pieces, mild macrovesicular steatosis, mild congestion and fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-131YS-1626,Liver,GTEX-131YS,female,60-69,Fast death - natural causes,"congestion, fibrosis",3 pieces; accentuation of portal tracts with fibrosis and  congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-132AR-0426,Liver,GTEX-132AR,female,50-59,Ventilator case,"fibrosis, steatosis","2 pieces; many Mallory alcoholic hyalin bodies, bridging fibrosis, >90% macro and microsteatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-132NY-0926,Liver,GTEX-132NY,male,60-69,Fast death - violent,steatosis,"2 pieces, minimal steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-132Q8-1626,Liver,GTEX-132Q8,male,60-69,Slow death,"cirrhosis, inflammation","2 pieces; cirrhosis, residual chronic inflammation",false,cirrhosis,curated cirrhosis,,True
+GTEX-1399Q-1426,Liver,GTEX-1399Q,male,40-49,Ventilator case,steatosis,2 pieces; mild steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1399R-1226,Liver,GTEX-1399R,male,30-39,Ventilator case,steatosis,2 pieces; 50% macrosteatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1399T-0826,Liver,GTEX-1399T,male,60-69,Fast death - natural causes,"congestion, steatosis",2 pieces; some congestion and steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-139D8-2026,Liver,GTEX-139D8,female,30-39,Ventilator case,congestion,2 pieces; severe central congestion; no underlying disease,false,other,curated non-cirrhotic pathology,,True
+GTEX-139TS-1426,Liver,GTEX-139TS,male,60-69,Fast death - natural causes,"congestion, inflammation",2 pieces; some congestion and portal chronic inflammation,false,other,curated non-cirrhotic pathology,,True
+GTEX-139TT-1226,Liver,GTEX-139TT,male,60-69,Fast death - natural causes,"congestion, steatosis",2 pieces; moderate central congestion; 5% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-139TU-0826,Liver,GTEX-139TU,male,60-69,Intermediate death,"fibrosis, hepatitis, inflammation, steatosis","2 pieces; steatosis, bridging fibrosis, and chronic inflammation (?Nonalcoholic steatohepatitis)",false,other,curated non-cirrhotic pathology,,True
+GTEX-139UC-1426,Liver,GTEX-139UC,male,60-69,Fast death - natural causes,congestion,"2 pieces, moderte congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-139UW-1026,Liver,GTEX-139UW,male,60-69,Fast death - natural causes,,2 pieces; not congested; no fat,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-139YR-0226,Liver,GTEX-139YR,male,50-59,Ventilator case,"fibrosis, inflammation, steatosis","2 pieces; macrovesicular steatosis, Mallory hyaline, pericellular and perivenular fibrosis, and rare acute inflammation c/w alcohol use",false,other,curated non-cirrhotic pathology,,True
+GTEX-13CF2-0626,Liver,GTEX-13CF2,male,60-69,Fast death - natural causes,congestion,"2 pieces, mild congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-13CIG-1426,Liver,GTEX-13CIG,male,50-59,Fast death - natural causes,steatosis,2 pieces; severe macrovesicular steatosis; no cirrhosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-13CZV-1426,Liver,GTEX-13CZV,male,60-69,Fast death - natural causes,"atrophy, congestion","2 pieces; moderate central congestion with cord cell atrophy; no fat, no fobrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-13FHO-1126,Liver,GTEX-13FHO,male,60-69,Ventilator case,"cirrhosis, steatosis","2 pieces; includes capsule (target is 1cm below capsule), cirrhosis with severe microvesicular and macrovesicuar steatosis, Mallory hylaine",false,cirrhosis,curated cirrhosis,,True
+GTEX-13FHP-1426,Liver,GTEX-13FHP,male,50-59,Slow death,congestion,2 pieces; moderate vascular congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-13FLV-0326,Liver,GTEX-13FLV,male,50-59,Fast death - natural causes,"congestion, inflammation, steatosis","2 pieces; includes portion of capsule (target is 1 cm below capsule), mild steatosis, passive congestion, focal portal chronic inflammation",false,other,curated non-cirrhotic pathology,,True
+GTEX-13FLW-0626,Liver,GTEX-13FLW,male,50-59,Fast death - natural causes,congestion,2 pieces; chronic passive congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-13FTW-1126,Liver,GTEX-13FTW,male,40-49,Ventilator case,"fibrosis, steatosis","2 pieces; severe microvescicular and macrovesicular (predominant) steatosis, mild fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-13FTY-0826,Liver,GTEX-13FTY,female,40-49,Fast death - natural causes,"congestion, steatosis","2 pieces; moderate steatosis, congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-13FTZ-0726,Liver,GTEX-13FTZ,male,60-69,Fast death - natural causes,"fibrosis, steatosis",2 pieces; moderate macrovesicular steatosis with some fibrosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-13FXS-1426,Liver,GTEX-13FXS,male,50-59,Fast death - natural causes,"congestion, steatosis","2 pieces; severe steatosis, congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-13G51-0626,Liver,GTEX-13G51,male,60-69,Fast death - natural causes,steatosis,3 pieces; mild steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-13IVO-1526,Liver,GTEX-13IVO,male,70-79,Slow death,"congestion, steatosis",2 pieces;10% macrovesicular steatosis; central congestion and degeneration,false,other,curated non-cirrhotic pathology,,True
+GTEX-13JUV-0726,Liver,GTEX-13JUV,female,40-49,Ventilator case,congestion,2 pieces; congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-13JVG-1526,Liver,GTEX-13JVG,male,60-69,Fast death - natural causes,steatosis,2 pieces; severe steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-13N11-0926,Liver,GTEX-13N11,female,50-59,Ventilator case,"inflammation, steatosis","2 pieces; includes capsule (target is 1cm below capsule), mild steatosis and some portal chronic inflammation",false,other,curated non-cirrhotic pathology,,True
+GTEX-13N1W-1326,Liver,GTEX-13N1W,male,70-79,Ventilator case,congestion,2 pieces; congestion and mild fatty change,false,other,curated non-cirrhotic pathology,,True
+GTEX-13N2G-0926,Liver,GTEX-13N2G,male,60-69,Fast death - natural causes,"congestion, fibrosis",2 pieces; congestion  and accentuation of portal triads with fibrosis and mild lymphocytic infiltrate,false,other,curated non-cirrhotic pathology,,True
+GTEX-13NYB-1026,Liver,GTEX-13NYB,male,40-49,Fast death - natural causes,steatosis,"2 pieces, diffuse macrovesicular steatosis involves >80% parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-13NYC-0526,Liver,GTEX-13NYC,male,60-69,Fast death - natural causes,"congestion, fibrosis","2 pieces; portal fibrosis, congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-13NYS-1226,Liver,GTEX-13NYS,male,60-69,Slow death,"cirrhosis, nodularity, steatosis","2 pieces; nodular cirrhosis, alcoholic hyalin (Mallory bodies) with 50% macrosteatosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-13NZ8-1826,Liver,GTEX-13NZ8,female,60-69,Slow death,steatosis,2 pieces; 10% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-13NZ9-1326,Liver,GTEX-13NZ9,male,50-59,Ventilator case,steatosis,"2 pieces, micro (mainly) and macrovesicular steatosis involves ~70% parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-13NZA-1626,Liver,GTEX-13NZA,male,60-69,Fast death - natural causes,"fibrosis, inflammation","2 pieces, multiple von Meyenberg complexes up to 2.4mm; portal tracts expanded with fibrosis, bile duct proliferation, and chronic inflammation",false,other,curated non-cirrhotic pathology,,True
+GTEX-13NZB-0626,Liver,GTEX-13NZB,male,30-39,Ventilator case,congestion,2 pieces; congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-13O1R-2026,Liver,GTEX-13O1R,male,60-69,Fast death - natural causes,steatosis,2 pieces; <5% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-13O3O-1826,Liver,GTEX-13O3O,female,60-69,Intermediate death,,2 fragmented pieces; 20% of each consists of large vessels & nerves [outlined],false,healthy,"uncategorized, note reports no finding",,False
+GTEX-13O3P-1726,Liver,GTEX-13O3P,male,50-59,Slow death,"cirrhosis, nodularity",2 pieces; nodular cirrhosis,false,cirrhosis,curated cirrhosis,,True
+GTEX-13O3Q-1026,Liver,GTEX-13O3Q,male,50-59,Fast death - natural causes,steatosis,2 pieces; <5% macrovesicular steatosis; no active or chronic lesions,false,other,curated non-cirrhotic pathology,,True
+GTEX-13OVH-0926,Liver,GTEX-13OVH,male,70-79,Fast death - natural causes,steatosis,"2 pieces, ~5% macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-13OVJ-1026,Liver,GTEX-13OVJ,female,50-59,Fast death - natural causes,"cirrhosis, steatosis","2 pieces; cirrhosis, steatosis, Mallory hyaline c/w alcoholic cirrhosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-13OVL-0726,Liver,GTEX-13OVL,male,50-59,Fast death - natural causes,steatosis,2 fragmented pieces; 5% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-13OW5-1226,Liver,GTEX-13OW5,male,60-69,Intermediate death,"fibrosis, hepatitis, steatosis","2 pieces, chronic steatohepatitis, macrovesicular steatosis is ~30% parenchyma; patchy early bridging fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-13OW6-2626,Liver,GTEX-13OW6,male,50-59,Fast death - natural causes,congestion,2 pieces; congestion and accentuation of portal triads,false,other,curated non-cirrhotic pathology,,True
+GTEX-13OW7-1326,Liver,GTEX-13OW7,male,50-59,Fast death - natural causes,steatosis,"2 pieces, diffuse mixed macro/micro vesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-13OW8-0726,Liver,GTEX-13OW8,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces; congestion, mild steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-13PDP-1826,Liver,GTEX-13PDP,male,60-69,Slow death,congestion,2 pieces; congested,false,other,curated non-cirrhotic pathology,,True
+GTEX-13PL6-1226,Liver,GTEX-13PL6,female,40-49,Intermediate death,"congestion, steatosis","2 pieces, mild congestion, minimal steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-13PLJ-1026,Liver,GTEX-13PLJ,female,60-69,Fast death - natural causes,"cirrhosis, fibrosis","2 pieces; severe fibrosis without nodule formation consistent with cardiac cirrhosis, possible venous outflow obstruction",false,cirrhosis,curated cirrhosis,,True
+GTEX-13PVQ-1526,Liver,GTEX-13PVQ,male,50-59,Fast death - natural causes,,2 pieces; thick fibrous trabeculae,false,other,"uncategorized, finding in note",,True
+GTEX-13PVR-0126,Liver,GTEX-13PVR,female,60-69,Ventilator case,steatosis,"2 pieces, minimal steatosis, mulitple bile duct hamartomata (Meyenberg Complex) noted.",false,other,curated non-cirrhotic pathology,,True
+GTEX-13QIC-0526,Liver,GTEX-13QIC,female,60-69,Fast death - natural causes,"congestion, inflammation","2 pieces; congestion, focal portal chronic inflammation",false,other,curated non-cirrhotic pathology,,True
+GTEX-13QJ3-2026,Liver,GTEX-13QJ3,male,50-59,Ventilator case,steatosis,2 pieces mild macrovesicular steatosis (10-20%),false,other,curated non-cirrhotic pathology,,True
+GTEX-13QJC-0726,Liver,GTEX-13QJC,female,60-69,Fast death - natural causes,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-13RTJ-1226,Liver,GTEX-13RTJ,male,60-69,Slow death,"congestion, steatosis","2 pieces, severe difffuse passive congestion, mild macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-13S7M-1126,Liver,GTEX-13S7M,female,60-69,Fast death - natural causes,"congestion, hemorrhage","2 pieces; congested with focal hemorrhages; large vessels comprise 10%; no fat, no cirrhosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-13SLW-1426,Liver,GTEX-13SLW,male,70-79,Fast death - natural causes,"cirrhosis, hepatitis","2 pieces, established cirrhosis, diffuse steatohepatitis, mixed pattern",false,cirrhosis,curated cirrhosis,,True
+GTEX-13SLX-1226,Liver,GTEX-13SLX,female,50-59,Fast death - natural causes,"fibrosis, inflammation",2 pieces; periportal fibrosis with chronic inflammation and early bridging fibrosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-13VXU-0926,Liver,GTEX-13VXU,male,50-59,Fast death - natural causes,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-13W46-1026,Liver,GTEX-13W46,male,50-59,Ventilator case,"congestion, necrosis","2 pieces; congestion, agonal necrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-13X6I-1626,Liver,GTEX-13X6I,male,60-69,Slow death,cirrhosis,"2 pieces; cirrhosis, cholestatic features",false,cirrhosis,curated cirrhosis,,True
+GTEX-13X6J-1826,Liver,GTEX-13X6J,male,50-59,Fast death - natural causes,"congestion, steatosis",2 pieces; marked steatosis and congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-13X6K-1126,Liver,GTEX-13X6K,female,60-69,Slow death,,"2 pieces, no significant steatosis/congestion",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-13YAN-1626,Liver,GTEX-13YAN,male,60-69,Ventilator case,"cirrhosis, congestion","2 pieces, marked centrilobular congestion/cardiac 'cirrhosis'",false,cirrhosis,curated cirrhosis,,True
+GTEX-1445S-0926,Liver,GTEX-1445S,male,60-69,Intermediate death,"fibrosis, steatosis","2 pieces, moderate steatosis, bridging fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-144FL-1326,Liver,GTEX-144FL,male,50-59,Fast death - natural causes,,"2 pieces, diffuse infiltrative process suggestive of amyloid",false,other,"uncategorized, finding in note",,True
+GTEX-144GL-1426,Liver,GTEX-144GL,male,50-59,Fast death - natural causes,steatosis,2 pieces; 20% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-144GM-1326,Liver,GTEX-144GM,male,20-29,Ventilator case,no_abnormalities,"2 pieces, no abnormalities",false,healthy,curated no_abnormalities,,False
+GTEX-144GO-1126,Liver,GTEX-144GO,male,60-69,Slow death,,2 pieces; 10-20% of each is large vessels/nerve/fibrous tissue,false,other,"uncategorized, finding in note",,True
+GTEX-145LS-0926,Liver,GTEX-145LS,female,60-69,Slow death,,2 pieces; minimal fat,false,other,"uncategorized, finding in note",,True
+GTEX-145LU-1326,Liver,GTEX-145LU,male,50-59,Fast death - natural causes,steatosis,2 pieces; 10% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-145MF-0826,Liver,GTEX-145MF,male,50-59,Fast death - natural causes,"congestion, hepatitis","2 pieces, mild congestion, mild chronic hepatitis.  No significant steatosis.",false,other,curated non-cirrhotic pathology,,True
+GTEX-145MG-1326,Liver,GTEX-145MG,male,50-59,Fast death - natural causes,,2 pieces; <5% fat,false,other,"uncategorized, finding in note",,True
+GTEX-145MH-2126,Liver,GTEX-145MH,male,50-59,Fast death - violent,steatosis,2 pieces; mild steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-145MI-1226,Liver,GTEX-145MI,female,60-69,Fast death - natural causes,steatosis,2 pieces; 50% macrovesiculer steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-145MO-2326,Liver,GTEX-145MO,male,60-69,Intermediate death,congestion,2 pieces moderate congestion; no significant steatosis or hepatitis noted,false,other,curated non-cirrhotic pathology,,True
+GTEX-146FH-1526,Liver,GTEX-146FH,female,50-59,Ventilator case,"fibrosis, hepatitis, inflammation, steatosis","2 pieces; 80% macrovesicular steatosis, portal inflammation and bridging fibrosis  consistent with nonalcoholic steatohepatitis",false,other,curated non-cirrhotic pathology,,True
+GTEX-14753-1626,Liver,GTEX-14753,male,60-69,Slow death,congestion,2 pieces; moderate centrilobular congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1477Z-0526,Liver,GTEX-1477Z,male,60-69,Slow death,congestion,"2 pieces, moderate congestion, no steatosis/hepatitis noted",false,other,curated non-cirrhotic pathology,,True
+GTEX-147F4-1426,Liver,GTEX-147F4,male,50-59,Fast death - natural causes,congestion,"2 pieces, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-147GR-1326,Liver,GTEX-147GR,male,60-69,Fast death - natural causes,congestion,2 pieces: moderate central congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-147JS-1126,Liver,GTEX-147JS,male,60-69,Fast death - natural causes,congestion,"2 pieces, mild congestion; ~10% macrovesicular parenchymal fat",false,other,curated non-cirrhotic pathology,,True
+GTEX-148VI-0626,Liver,GTEX-148VI,female,60-69,Ventilator case,,"2 pieces; one piece includes capsule (target is 1cm below capsule), one includes larger vessel/duct (to be avoided)",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-148VJ-0926,Liver,GTEX-148VJ,male,70-79,Fast death - natural causes,"cirrhosis, congestion, fibrosis","2 pieces, severe chronic congestive damage/fibrosis, 'cardiac cirrhosis'",false,cirrhosis,curated cirrhosis,,True
+GTEX-1497J-0726,Liver,GTEX-1497J,male,60-69,Ventilator case,congestion,"2 pieces, moderate-severe subacute chronic congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-14A5H-1326,Liver,GTEX-14A5H,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, moderate centrilobular/cardiac congestion, minimal steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-14A5I-1726,Liver,GTEX-14A5I,female,50-59,Slow death,steatosis,"2 pieces, minimal steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-14A6H-0726,Liver,GTEX-14A6H,male,30-39,Ventilator case,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-14ABY-0826,Liver,GTEX-14ABY,male,50-59,Fast death - natural causes,steatosis,2 pieces; diffuse and marked steatosis (micro and macrovesicular fat),false,other,curated non-cirrhotic pathology,,True
+GTEX-14AS3-0126,Liver,GTEX-14AS3,female,40-49,Ventilator case,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-14ASI-1626,Liver,GTEX-14ASI,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces; 10% macrovesicular steatosis, moderate congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-14BIL-1326,Liver,GTEX-14BIL,male,50-59,Fast death - natural causes,congestion,2 pieces; central congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-14BIM-1726,Liver,GTEX-14BIM,female,60-69,Intermediate death,congestion,"2 pieces, mild congestion, no significant steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-14BIN-0326,Liver,GTEX-14BIN,female,50-59,Fast death - natural causes,steatosis,2 pieces; moderate macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-14BMV-2126,Liver,GTEX-14BMV,male,50-59,Fast death - natural causes,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-14C38-1526,Liver,GTEX-14C38,male,50-59,Ventilator case,congestion,"6 pieces, minimal congestion, no steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-14C39-0426,Liver,GTEX-14C39,male,40-49,Fast death - natural causes,"necrosis, steatosis","2 pieces  massive central hemorrhagic necrosis/submassive hepatic necrosis, ~30% mascrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-14C5O-1026,Liver,GTEX-14C5O,male,60-69,Slow death,"congestion, steatosis","2 pieces; mild steatosis, passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-14DAQ-1726,Liver,GTEX-14DAQ,female,60-69,Slow death,congestion,"2 pieces, no steatosis, minimal congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-14E1K-0326,Liver,GTEX-14E1K,male,50-59,Ventilator case,,"2 pieces, no steatosis",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-14E6C-1826,Liver,GTEX-14E6C,male,40-49,Slow death,"cirrhosis, nodularity",2 pieces; severe nodular cirrhosis with Mallory bodies; too little residual hepatic parenchyma for usual analysis,false,cirrhosis,curated cirrhosis,,True
+GTEX-14E6D-1426,Liver,GTEX-14E6D,male,50-59,Fast death - natural causes,congestion,2 pieces; congestion and marked fatty change,false,other,curated non-cirrhotic pathology,,True
+GTEX-14E7W-1526,Liver,GTEX-14E7W,male,70-79,Fast death - natural causes,congestion,2 pieces; congestion; distended sinusoids and fine droplets of bile in cytoplasm of the liver cells;,false,other,curated non-cirrhotic pathology,,True
+GTEX-14JFF-1026,Liver,GTEX-14JFF,male,60-69,Slow death,congestion,"2 pieces, no steatosis, moderate congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-14JG1-1626,Liver,GTEX-14JG1,male,40-49,Fast death - natural causes,"congestion, hemorrhage",2 pieces; 1 mm focal hemorrhage in 1 piece [marked]; venous congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-14JIY-1626,Liver,GTEX-14JIY,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, moderate congestion, macrovesicular steatosis (rep delineated)involves 20-30 % of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-14LLW-1726,Liver,GTEX-14LLW,female,70-79,Slow death,steatosis,2 pieces; moderate macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-14LZ3-0826,Liver,GTEX-14LZ3,female,60-69,Intermediate death,congestion,"2 pieces; mild congestion, includes focus of larger vessels/duct/nerve",false,other,curated non-cirrhotic pathology,,True
+GTEX-14PHW-1726,Liver,GTEX-14PHW,female,60-69,Slow death,congestion,"2 pieces, marked subacute central cardiac congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-14PHX-0526,Liver,GTEX-14PHX,male,50-59,Ventilator case,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-14PII-1926,Liver,GTEX-14PII,male,60-69,Slow death,"congestion, steatosis","2 pieces, marked mascrovesicular steatosis in ~50% parenchyma, centrilobular distribution; moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-14PJ2-1326,Liver,GTEX-14PJ2,male,50-59,Ventilator case,"fibrosis, inflammation",2 pieces; periportal and peribiliary chronic inflammation and fibrosis encroaching on liver parenchyma,false,other,curated non-cirrhotic pathology,,True
+GTEX-14PJM-1926,Liver,GTEX-14PJM,female,50-59,Fast death - natural causes,congestion,2 pieces; slight congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-14PJO-1726,Liver,GTEX-14PJO,male,60-69,Slow death,congestion,2 pieces; severe central congestion & degeneration,false,other,curated non-cirrhotic pathology,,True
+GTEX-14PN4-1126,Liver,GTEX-14PN4,male,50-59,Fast death - natural causes,cirrhosis,2 pieces; cirrhosis,false,cirrhosis,curated cirrhosis,,True
+GTEX-14PQA-1326,Liver,GTEX-14PQA,female,50-59,Slow death,congestion,2 pieces; congestion and mild fatty change,false,other,curated non-cirrhotic pathology,,True
+GTEX-14XAO-0226,Liver,GTEX-14XAO,female,60-69,Ventilator case,,"2 pieces, no significant steatosis or hepatitis",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-15CHQ-0926,Liver,GTEX-15CHQ,male,60-69,Slow death,"congestion, hemorrhage","2 pieces; moderate central congestion, hemorrhage and cellular degeneration consistent with heart failure",false,other,curated non-cirrhotic pathology,,True
+GTEX-15CHS-1426,Liver,GTEX-15CHS,male,50-59,Fast death - natural causes,steatosis,"2 pieces, ~10% macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-15D1Q-1426,Liver,GTEX-15D1Q,male,40-49,Fast death - natural causes,steatosis,2 pieces marked macrovesicular steatosis involves >90% of parenchyma,false,other,curated non-cirrhotic pathology,,True
+GTEX-15D79-2326,Liver,GTEX-15D79,male,50-59,Fast death - natural causes,"fibrosis, steatosis",2 pieces; moderate (40%) macrovesicular steatosis; bridging fibrosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-15DCD-0826,Liver,GTEX-15DCD,female,70-79,Fast death - natural causes,congestion,2 pieces; grade 1 to 2 autolysis; passive congestion,false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-15DCZ-1526,Liver,GTEX-15DCZ,female,20-29,Ventilator case,"congestion, steatosis","2 pieces, moderate congestions; macrovesicular steatosis in ~20% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-15DDE-1726,Liver,GTEX-15DDE,female,50-59,Intermediate death,congestion,"2 pieces, mild - moderate congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-15DYW-1326,Liver,GTEX-15DYW,female,60-69,Fast death - natural causes,"atrophy, congestion",2 pieces; moderate congestion; severe central atrophy,false,other,curated non-cirrhotic pathology,,True
+GTEX-15EO6-1626,Liver,GTEX-15EO6,male,50-59,Slow death,"cirrhosis, hepatitis","2 pieces, advanced cirrhosis/chronic hepatitis",false,cirrhosis,curated cirrhosis,,True
+GTEX-15EOM-1126,Liver,GTEX-15EOM,female,20-29,Ventilator case,"congestion, fibrosis, sclerotic","2 pieces; includes capsule (target is 1cm below capsule), bridging fibrosis with expanded portal tracks and lymphocytic infiltrate, history of sclerosis cholangitis, congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-15ER7-1826,Liver,GTEX-15ER7,female,20-29,Fast death - violent,congestion,"2 pieces; congestion, mild fatty change",false,other,curated non-cirrhotic pathology,,True
+GTEX-15G19-1226,Liver,GTEX-15G19,male,60-69,Fast death - natural causes,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-15RJ7-2026,Liver,GTEX-15RJ7,male,40-49,Ventilator case,steatosis,2 pieces; mild steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-15RJE-1126,Liver,GTEX-15RJE,male,40-49,Slow death,hemorrhage,2 pieces; several focal hemorrhages [outlined]; capsule sampled,false,other,curated non-cirrhotic pathology,,True
+GTEX-15SHU-1826,Liver,GTEX-15SHU,female,40-49,Fast death - natural causes,congestion,2 pieces; moderate central passive congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-15SHW-0826,Liver,GTEX-15SHW,male,60-69,Ventilator case,"congestion, fibrosis, inflammation","2 pieces; congestion, mild fibrosis and inflammation",false,other,curated non-cirrhotic pathology,,True
+GTEX-15SKB-2126,Liver,GTEX-15SKB,male,60-69,Ventilator case,congestion,"2 pieces, moderate congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-15SZO-1226,Liver,GTEX-15SZO,male,50-59,Fast death - natural causes,steatosis,"2 pieces, diffuse macrovesicular steatosis, ~90% parenchymal involvement",false,other,curated non-cirrhotic pathology,,True
+GTEX-15TU5-2126,Liver,GTEX-15TU5,male,60-69,Slow death,"atrophy, congestion",2 pieces; mild central congestion and atrophy,false,other,curated non-cirrhotic pathology,,True
+GTEX-15UF6-1326,Liver,GTEX-15UF6,female,70-79,Slow death,congestion,2 pieces; severe central passive congestion with liver cell degeneration,false,other,curated non-cirrhotic pathology,,True
+GTEX-15UF7-0426,Liver,GTEX-15UF7,male,40-49,Ventilator case,"congestion, inflammation, steatosis","2 pieces; includes portion of capsule (target is 1 cm below capsule), portal chronic inflammation, mild steatosis, centrally congested and mildly autolyzed",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-15UKP-1026,Liver,GTEX-15UKP,male,20-29,Ventilator case,,2 pieces; 1 piece includes capsule (target is 1 cm below capsule),false,healthy,"uncategorized, note reports no finding",,False
+GTEX-16GPK-1926,Liver,GTEX-16GPK,male,60-69,Fast death - natural causes,"congestion, steatosis",2 pieces; congestion and steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-16MT8-2126,Liver,GTEX-16MT8,female,60-69,Slow death,"congestion, fibrosis","2 pieces, liver, moderate chronic passive congnestion, early fibrosis noted",false,other,curated non-cirrhotic pathology,,True
+GTEX-16MT9-2126,Liver,GTEX-16MT9,female,60-69,Ventilator case,"congestion, steatosis",2 pieces; severe congestion; mild steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-16NPV-1726,Liver,GTEX-16NPV,female,50-59,Slow death,"cirrhosis, nodularity",2 pieces; nodular cirrhosis,false,cirrhosis,curated cirrhosis,,True
+GTEX-16NPX-1326,Liver,GTEX-16NPX,male,50-59,Ventilator case,congestion,"2 pieces, mild passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-16XZZ-1526,Liver,GTEX-16XZZ,male,60-69,Ventilator case,"cirrhosis, fibrosis, scarring",2 pieces; cirrhosis: fibrous scar makes up about 40% of area,false,cirrhosis,curated cirrhosis,,True
+GTEX-16YQH-1126,Liver,GTEX-16YQH,male,30-39,Fast death - violent,steatosis,"2 pieces, ~5-10% steatosis, macro and microvesicular",false,other,curated non-cirrhotic pathology,,True
+GTEX-16Z82-1426,Liver,GTEX-16Z82,male,60-69,Fast death - natural causes,congestion,2 pieces; moderate sinusoidal congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-17EVP-1026,Liver,GTEX-17EVP,male,40-49,Fast death - natural causes,"congestion, steatosis",2 pieces; moderate congestion and mild macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-17EVQ-0926,Liver,GTEX-17EVQ,male,70-79,Fast death - violent,congestion,"2 pieces, moderate chronic congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-17F96-1226,Liver,GTEX-17F96,male,70-79,Ventilator case,congestion,2 pieces; moderate central vein congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-17F97-2226,Liver,GTEX-17F97,male,50-59,Slow death,"atrophy, congestion",2 pieces; severe central congestion & atrophy,false,other,curated non-cirrhotic pathology,,True
+GTEX-17F9Y-0626,Liver,GTEX-17F9Y,female,70-79,Ventilator case,congestion,"2 pieces, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-17HG3-0526,Liver,GTEX-17HG3,female,30-39,Fast death - natural causes,congestion,2 pieces; congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-17HGU-1826,Liver,GTEX-17HGU,male,50-59,Ventilator case,"congestion, steatosis",2 pieces; mild congestion; <5% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-17HHE-0126,Liver,GTEX-17HHE,male,50-59,Ventilator case,steatosis,"2 pieces, mild microvesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-17HHY-2026,Liver,GTEX-17HHY,male,50-59,Fast death - natural causes,steatosis,2 pieces; prominent central macrovesicular steatosis: 20%,false,other,curated non-cirrhotic pathology,,True
+GTEX-17HII-1026,Liver,GTEX-17HII,male,50-59,Fast death - natural causes,congestion,2 pieces mild-moderate passive congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-17JCI-1926,Liver,GTEX-17JCI,female,60-69,Ventilator case,steatosis,2 pieces; severe central macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-17MF6-1126,Liver,GTEX-17MF6,male,40-49,Fast death - natural causes,congestion,2 pieces; moderate central congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-183WM-1226,Liver,GTEX-183WM,female,70-79,Slow death,"congestion, steatosis",2 pieces diffuse moderate macrovesicular steatosis and moderate passive congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-18464-2026,Liver,GTEX-18464,male,50-59,Slow death,,2 pieces; atypical lymphoid infiltrates,false,other,"uncategorized, finding in note",,True
+GTEX-18465-1626,Liver,GTEX-18465,male,50-59,Fast death - natural causes,fibrosis,2 pieces; large [4 mm] vein in 1 piece; 4 x 0.7 mm fibrous area in other piece,false,other,curated non-cirrhotic pathology,,True
+GTEX-18A66-2026,Liver,GTEX-18A66,male,60-69,Slow death,congestion,"2 pieces, mild passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-18A6Q-2026,Liver,GTEX-18A6Q,male,60-69,Fast death - natural causes,congestion,"2 pieces, mild congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-18A7A-1526,Liver,GTEX-18A7A,female,50-59,Fast death - natural causes,steatosis,2 pieces; <5% macrovesicular steatosis; no obvious iron accumulation [thalassemia history],false,other,curated non-cirrhotic pathology,,True
+GTEX-18A7B-1126,Liver,GTEX-18A7B,male,70-79,Intermediate death,congestion,2 pieces; central congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-18D9B-1526,Liver,GTEX-18D9B,male,60-69,Ventilator case,"atrophy, congestion",2 pieces; severe central vascular congestion and atrophy,false,other,curated non-cirrhotic pathology,,True
+GTEX-19HZE-1926,Liver,GTEX-19HZE,female,70-79,Intermediate death,steatosis,2 pieces; focal macrovesicular steatosis <5%,false,other,curated non-cirrhotic pathology,,True
+GTEX-1A32A-0826,Liver,GTEX-1A32A,female,50-59,Fast death - natural causes,steatosis,2 pieces; moderate [40%] macrovesicular steatosis mainly in central zones,false,other,curated non-cirrhotic pathology,,True
+GTEX-1A3MW-1826,Liver,GTEX-1A3MW,female,60-69,Slow death,"fibrosis, steatosis",2 pieces; severe macrovesicular steatosis (80%) & fibrosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1A3MX-0926,Liver,GTEX-1A3MX,male,60-69,Slow death,congestion,"2 pieces, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1A8FM-1226,Liver,GTEX-1A8FM,female,50-59,Fast death - natural causes,"atrophy, congestion",2 pieces; mild central congestion & atrophy,false,other,curated non-cirrhotic pathology,,True
+GTEX-1A8G6-0926,Liver,GTEX-1A8G6,male,60-69,Fast death - natural causes,congestion,"2 pieces, mild passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1A8G7-1126,Liver,GTEX-1A8G7,male,60-69,Fast death - natural causes,congestion,2 pieces; congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1AMFI-0826,Liver,GTEX-1AMFI,female,50-59,Ventilator case,steatosis,"2 pieces, diffuse moderate-severe macro and microvesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1AX8Y-0726,Liver,GTEX-1AX8Y,male,40-49,Ventilator case,,3 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1AX8Z-1026,Liver,GTEX-1AX8Z,male,60-69,Ventilator case,steatosis,2 pieces; mild microvesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1AX9I-1626,Liver,GTEX-1AX9I,male,60-69,Fast death - natural causes,steatosis,2 pieces; moderate macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1AYD5-1126,Liver,GTEX-1AYD5,male,50-59,Ventilator case,congestion,2 pieces; marked congestion; one piece includes capsule (outlined),false,other,curated non-cirrhotic pathology,,True
+GTEX-1B8L1-0726,Liver,GTEX-1B8L1,male,60-69,Fast death - natural causes,congestion,"2 pieces, prominent chronic passive congestion; 5x2mm hilar vessel/connective tissue, delineated",false,other,curated non-cirrhotic pathology,,True
+GTEX-1B8SF-1626,Liver,GTEX-1B8SF,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces; congestion, moderate steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1B8SG-1326,Liver,GTEX-1B8SG,male,50-59,Fast death - natural causes,congestion,"2 pieces; congested, includes portion of capsule (not target region)",false,other,curated non-cirrhotic pathology,,True
+GTEX-1B932-1426,Liver,GTEX-1B932,female,40-49,Ventilator case,"congestion, steatosis",2 pieces; mild steatosis and congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1B933-1226,Liver,GTEX-1B933,female,50-59,Fast death - natural causes,steatosis,"2 pieces, diffuse macrovesicular steatosis involves ~70% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-1B98T-1126,Liver,GTEX-1B98T,male,60-69,Fast death - natural causes,congestion,"2 pieces, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1B996-1426,Liver,GTEX-1B996,male,60-69,Fast death - natural causes,congestion,2 pieces; marked congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1BAJH-1526,Liver,GTEX-1BAJH,male,70-79,Fast death - natural causes,congestion,2 pieces;  congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1C64N-1426,Liver,GTEX-1C64N,male,50-59,Fast death - natural causes,"congestion, steatosis","2 pieces; congestion and mild steatosis, includes portion of capsule (not target)",false,other,curated non-cirrhotic pathology,,True
+GTEX-1C6VQ-1626,Liver,GTEX-1C6VQ,male,50-59,Fast death - natural causes,"congestion, fibrosis, steatosis","2 pieces; severe macrovesicular steatosis, centrilobular congestion, fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1C6VR-1026,Liver,GTEX-1C6VR,male,60-69,Fast death - natural causes,steatosis,"2 pieces, trace macrovesicular steatosis (~10% of parenchyma)",false,other,curated non-cirrhotic pathology,,True
+GTEX-1C6VS-1726,Liver,GTEX-1C6VS,male,60-69,Fast death - natural causes,"cirrhosis, steatosis",2 pieces; advanced portal cirrhosis and steatosis,false,cirrhosis,curated cirrhosis,,True
+GTEX-1C6WA-1226,Liver,GTEX-1C6WA,male,60-69,Fast death - natural causes,,2 pieces; periportal fragmentation of cord cells greater than central,false,other,"uncategorized, finding in note",,True
+GTEX-1CAMQ-1426,Liver,GTEX-1CAMQ,male,40-49,Fast death - natural causes,congestion,2 pieces; marked congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1CAV2-0926,Liver,GTEX-1CAV2,female,40-49,Fast death - natural causes,,2 pieces; no fat or significant lesions,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1CB4F-1726,Liver,GTEX-1CB4F,male,60-69,Ventilator case,congestion,2 pieces; congested,false,other,curated non-cirrhotic pathology,,True
+GTEX-1CB4G-1626,Liver,GTEX-1CB4G,male,60-69,Fast death - natural causes,congestion,"2 pieces, moderate chronic passsive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1CB4H-1326,Liver,GTEX-1CB4H,female,60-69,Slow death,steatosis,2 pieces; mild mainly periportal macrosteatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1CB4J-0726,Liver,GTEX-1CB4J,male,60-69,Intermediate death,congestion,"2 pieces, moderate chronic passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1E1VI-1926,Liver,GTEX-1E1VI,male,50-59,Fast death - natural causes,steatosis,2 pieces; diffuse macrovesicular and steatosis (80% fat),false,other,curated non-cirrhotic pathology,,True
+GTEX-1E2YA-1226,Liver,GTEX-1E2YA,male,50-59,Fast death - natural causes,"congestion, hemorrhage, infarction, steatosis","2 pieces, marked passive congestion, approaching hemorrhagic infarcts, rep delineated; macrovesicular steatosis involves ~20% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-1EH9U-1126,Liver,GTEX-1EH9U,male,60-69,Slow death,steatosis,2 pieces; 5% macrosteatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1EKGG-1226,Liver,GTEX-1EKGG,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces; congestion, mild steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1EMGI-1326,Liver,GTEX-1EMGI,male,60-69,Fast death - natural causes,fibrosis,"2 pieces, 10-20% hilar fibrous connective elements, rep delineated",false,other,curated non-cirrhotic pathology,,True
+GTEX-1EN7A-2026,Liver,GTEX-1EN7A,male,40-49,Fast death - natural causes,steatosis,2 pieces; severe centrilobular macrovesicular steatosis; 1 mm bile duct hamartoma (von Meyenberg complex) [labeled],false,other,curated non-cirrhotic pathology,,True
+GTEX-1EU9M-0826,Liver,GTEX-1EU9M,male,60-69,Fast death - natural causes,steatosis,"2 pieces, patchy macrovesicular steatosis involves ~20% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-1EWIQ-0726,Liver,GTEX-1EWIQ,female,70-79,Fast death - natural causes,steatosis,2 pieces; mild to moderate steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1EX96-0326,Liver,GTEX-1EX96,male,50-59,Fast death - natural causes,"cirrhosis, fibrosis","2 pieces, moderate fibrosis/cardiac cirrhosis pattern",false,cirrhosis,curated cirrhosis,,True
+GTEX-1F48J-1726,Liver,GTEX-1F48J,female,50-59,Slow death,steatosis,2 pieces; severe macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1F52S-1926,Liver,GTEX-1F52S,female,60-69,Slow death,"atrophy, congestion",2 pieces; severe central congestion and atrophy,false,other,curated non-cirrhotic pathology,,True
+GTEX-1F5PL-0626,Liver,GTEX-1F5PL,female,40-49,Ventilator case,"cirrhosis, steatosis",2 pieces established cirrhosis with diffuse marked macrovesicular steatosis,false,cirrhosis,curated cirrhosis,,True
+GTEX-1F6I4-1226,Liver,GTEX-1F6I4,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces; congestion, mild to moderate steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1F6IF-1926,Liver,GTEX-1F6IF,male,60-69,Fast death - natural causes,congestion,"2 pieces, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1F6RS-1326,Liver,GTEX-1F6RS,female,60-69,Slow death,,2 pieces; focally moderate autolysis,false,other,"uncategorized, preservation warning",preservation,False
+GTEX-1F75A-1626,Liver,GTEX-1F75A,male,50-59,Fast death - natural causes,"congestion, infarction","2 pieces, marked passive congestion, focal areas with early infarction",false,other,curated non-cirrhotic pathology,,True
+GTEX-1F75B-1326,Liver,GTEX-1F75B,male,50-59,Slow death,congestion,2 pieces; congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1F75W-1426,Liver,GTEX-1F75W,male,60-69,Fast death - natural causes,fibrosis,2 pieces; bridging periportal fibrosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1F7RK-0726,Liver,GTEX-1F7RK,female,20-29,Fast death - violent,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1F88E-1526,Liver,GTEX-1F88E,female,60-69,Slow death,congestion,"2 pieces, moderate diffuse passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1F88F-0626,Liver,GTEX-1F88F,female,60-69,Fast death - natural causes,steatosis,2 pieces; 5% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1GF9V-1226,Liver,GTEX-1GF9V,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, ~50% macrovesicular steatosis; moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1GF9W-0826,Liver,GTEX-1GF9W,male,60-69,Intermediate death,"hemorrhage, necrosis",2 pieces; extensive hemorrhagic central necrosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1GF9X-0426,Liver,GTEX-1GF9X,female,40-49,Ventilator case,steatosis,2 pieces; severe (>75%) macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1GMR3-1026,Liver,GTEX-1GMR3,male,40-49,Ventilator case,congestion,"2 pieces, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1GMR8-1526,Liver,GTEX-1GMR8,female,50-59,Intermediate death,"cirrhosis, nodularity",2 pieces; nodular cirrhosis; transplant 2011; hemochromatosis per history,false,cirrhosis,curated cirrhosis,,True
+GTEX-1GMRU-0926,Liver,GTEX-1GMRU,male,50-59,Fast death - natural causes,steatosis,"2 pieces, diffuse macrovesicular steatosis involves ~80% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-1GN1U-0926,Liver,GTEX-1GN1U,female,50-59,Slow death,congestion,"2 pieces, moderate/focally marked passive congestion, cardiac features",false,other,curated non-cirrhotic pathology,,True
+GTEX-1GN1V-1226,Liver,GTEX-1GN1V,male,60-69,Fast death - natural causes,steatosis,2 pieces; moderate steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1GN2E-0926,Liver,GTEX-1GN2E,male,60-69,Fast death - natural causes,steatosis,"2 pieces, centrilobular macrovesicular steatosis involves ~20-30% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-1GN73-1126,Liver,GTEX-1GN73,male,60-69,Fast death - natural causes,"hemorrhage, steatosis",2 pieces; <5% macrovesicular steatosis; focal hemorrhages,false,other,curated non-cirrhotic pathology,,True
+GTEX-1GPI6-1326,Liver,GTEX-1GPI6,male,60-69,Fast death - natural causes,congestion,"2 pieces, moderately advanced passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1GTWX-1126,Liver,GTEX-1GTWX,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, diffuse macrovesicular steatosis involves ~60% of parenchyma; moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1GZ2Q-1326,Liver,GTEX-1GZ2Q,male,40-49,Fast death - natural causes,"cirrhosis, fibrosis, inflammation","2 pieces; fatty degeneration, fibrosis consistent with cirrhosis, and inflammation",false,cirrhosis,curated cirrhosis,,True
+GTEX-1GZ4I-1526,Liver,GTEX-1GZ4I,male,50-59,Fast death - natural causes,"congestion, steatosis",2 pieces; minimal central congestion; 10% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1GZHY-1126,Liver,GTEX-1GZHY,female,50-59,Fast death - violent,congestion,"2 pieces, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1H11D-0826,Liver,GTEX-1H11D,male,40-49,Ventilator case,congestion,2 pieces; some congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1H1CY-1026,Liver,GTEX-1H1CY,female,60-69,Fast death - natural causes,,2 pieces; no sign of chronic passive congestion,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1H1DE-0526,Liver,GTEX-1H1DE,male,20-29,Ventilator case,no_abnormalities,"2 pieces, no abnormalities",false,healthy,curated no_abnormalities,,False
+GTEX-1H1DF-1326,Liver,GTEX-1H1DF,female,40-49,Fast death - natural causes,"congestion, steatosis",2 pieces; central congestion and moderate macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1H1DG-1726,Liver,GTEX-1H1DG,male,70-79,Ventilator case,"necrosis, steatosis","2 pieces; centrilobular necrosis, mild macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1H1ZS-2126,Liver,GTEX-1H1ZS,male,70-79,Slow death,cirrhosis,"2 pieces, advanced cirrhosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-1H23P-1826,Liver,GTEX-1H23P,male,60-69,Slow death,,2 pieces: 10% vascular content in 1; not congested,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1H2FU-2126,Liver,GTEX-1H2FU,female,60-69,Slow death,"cirrhosis, congestion","2 pieces; cirrhosis, congestion",false,cirrhosis,curated cirrhosis,,True
+GTEX-1H3NZ-1726,Liver,GTEX-1H3NZ,male,60-69,Slow death,"congestion, fibrosis, steatosis",2 pieces; bridging fibrosis; moderate venous & centrolobular congestion; 10% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1H3O1-1226,Liver,GTEX-1H3O1,male,60-69,Fast death - natural causes,congestion,"2 pieces, advanced passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1H3VE-1526,Liver,GTEX-1H3VE,male,40-49,Slow death,"cirrhosis, fibrosis, hyalinization, steatosis","2 pieces; consistent with advanced alcoholic cirrhosis: steatosis, Mallory's hyaline, extensive fibrosis, marked cholestasis (rep outlined)",false,cirrhosis,curated cirrhosis,,True
+GTEX-1H4P4-1326,Liver,GTEX-1H4P4,male,50-59,Fast death - natural causes,steatosis,"2 pieces; steatosis, moderate autolysis",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-1HB9E-0626,Liver,GTEX-1HB9E,male,50-59,Fast death - natural causes,"congestion, fibrosis, hepatitis","2 pieces, moderate fibrosis, cardiac congestion and chronic hepatitis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1HBPH-2626,Liver,GTEX-1HBPH,female,40-49,Slow death,,2 pieces; no active or chronic lesions,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1HBPI-1026,Liver,GTEX-1HBPI,male,50-59,Fast death - natural causes,,2 pieces; no active or chronic lesions,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1HBPM-1626,Liver,GTEX-1HBPM,female,60-69,Slow death,"cirrhosis, hyalinization, inflammation, necrosis, pigment","2 pieces; cirrhosis, chronic inflammation, Mallory's hyaline, bile pigment and hepatocyte degeneration/necrosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-1HBPN-2426,Liver,GTEX-1HBPN,male,50-59,Ventilator case,inflammation,"2 pieces, polymorphonuclear cells in sinuosoids and mild portal and lobular chronic  inflammation.  Reviewed by NIH consult panel.",false,other,curated non-cirrhotic pathology,,True
+GTEX-1HCU6-2026,Liver,GTEX-1HCU6,female,60-69,Fast death - natural causes,,2 pieces; no active or chronic lesions,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1HCU7-1726,Liver,GTEX-1HCU7,male,50-59,Ventilator case,,2 pieces; no active or chronic lesions,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1HCU8-1026,Liver,GTEX-1HCU8,female,60-69,Fast death - natural causes,congestion,"2 pieces, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1HCVE-1526,Liver,GTEX-1HCVE,male,50-59,Slow death,"congestion, steatosis","2 pieces, marked passive congestion; moderate macrovesicular steatosis ( 40-50% of parenchyma)",false,other,curated non-cirrhotic pathology,,True
+GTEX-1HFI6-1826,Liver,GTEX-1HFI6,male,40-49,Fast death - natural causes,congestion,"2 pieces, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1HGF4-1026,Liver,GTEX-1HGF4,male,60-69,Fast death - natural causes,congestion,2 pieces; moderate centrilobular congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1HR98-1626,Liver,GTEX-1HR98,male,60-69,Slow death,fibrosis,"2 pieces; moderate increase in periportal fibrous tissue, but little bridging and no nodules",false,other,curated non-cirrhotic pathology,,True
+GTEX-1HR9M-1526,Liver,GTEX-1HR9M,male,60-69,Slow death,"atrophy, congestion",2 pieces; severe central congestion and cord cell atrophy,false,other,curated non-cirrhotic pathology,,True
+GTEX-1HSKV-1426,Liver,GTEX-1HSKV,male,60-69,Fast death - natural causes,congestion,2 pieces; congested,false,other,curated non-cirrhotic pathology,,True
+GTEX-1HSMO-1626,Liver,GTEX-1HSMO,male,60-69,Intermediate death,congestion,2 pieces; moderate central congestion and cord cell degeneration,false,other,curated non-cirrhotic pathology,,True
+GTEX-1HT8W-0826,Liver,GTEX-1HT8W,male,30-39,Fast death - natural causes,"fibrosis, steatosis","2 pieces, moderate macrovesicular steatosis involving ~80% of parenchyma; severe bridging fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1HUB1-1326,Liver,GTEX-1HUB1,male,60-69,Ventilator case,"fibrosis, hepatitis, necrosis","2 pieces; expanded portal spaces with lymphocytic increase, fibrous bridging and piecemeal necrosis consistent with  low grade chronic hepatitis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1I19N-1226,Liver,GTEX-1I19N,male,70-79,Slow death,"congestion, hemorrhage",2 pieces; central congestion and hemorrhage,false,other,curated non-cirrhotic pathology,,True
+GTEX-1I1CD-1626,Liver,GTEX-1I1CD,female,60-69,Slow death,congestion,2 pieces; central congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1I1GP-1526,Liver,GTEX-1I1GP,male,50-59,Fast death - natural causes,"congestion, steatosis","2 pieces, macrovesicular steatosis in ~25% of parenchyma, mild/moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1I1GQ-0926,Liver,GTEX-1I1GQ,male,50-59,Fast death - natural causes,congestion,2 pieces; marked congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1I1GR-1526,Liver,GTEX-1I1GR,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, mild macrovesicular steatosis; moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1I1GS-0826,Liver,GTEX-1I1GS,male,60-69,Slow death,cirrhosis,"2 pieces, established cirrhosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-1I1GV-1026,Liver,GTEX-1I1GV,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, macrovesicular steatosis involves ~60-70% of parenchyma; moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1I1HK-1126,Liver,GTEX-1I1HK,male,60-69,Intermediate death,"cirrhosis, congestion, fibrosis, inflammation","2 pieces; congestion, bridging fibrosis/early cirrhosis, patchy mild chronic inflammation",false,cirrhosis,curated cirrhosis,,True
+GTEX-1ICG6-1026,Liver,GTEX-1ICG6,female,70-79,Ventilator case,sclerotic,"2 pieces; most small portal space arteries have prominent mural sclerosis, otherwise no significant changes; could represent localized amyloid or effect of hypertension",false,other,curated non-cirrhotic pathology,,True
+GTEX-1ICLY-1526,Liver,GTEX-1ICLY,male,50-59,Ventilator case,,"2 pieces, no  abnormalities",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1ICLZ-1526,Liver,GTEX-1ICLZ,male,60-69,Intermediate death,"cirrhosis, fibrosis, steatosis",2 pieces; severe (50%) perilobular fibrosis consistent with cardiac cirrhosis; moderate macrovesicular steatosis,false,cirrhosis,curated cirrhosis,,True
+GTEX-1IDFM-1026,Liver,GTEX-1IDFM,male,60-69,Slow death,"congestion, fibrosis","2 pieces; central congestion, some fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1IDJH-1526,Liver,GTEX-1IDJH,male,70-79,Fast death - violent,"congestion, steatosis","2 pieces, mild macrovesicular steatosis, passive chronic congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1IDJV-1626,Liver,GTEX-1IDJV,male,60-69,Intermediate death,"congestion, steatosis","2 pieces, macrovesicular steatosis invoves ~40% of parenchyma; moderate passive congestion.",false,other,curated non-cirrhotic pathology,,True
+GTEX-1IE54-1026,Liver,GTEX-1IE54,female,40-49,Ventilator case,congestion,2 pieces; central congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1IGQW-1126,Liver,GTEX-1IGQW,male,60-69,Slow death,"congestion, fibrosis, hepatitis","2 pieces, mild chronic steatohepatitis, mild early bridging fibrosis, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1IKJJ-1526,Liver,GTEX-1IKJJ,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces, macro and microvesicular steatosis involves ~50% of parenchyma. Mild passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1IKK5-0326,Liver,GTEX-1IKK5,male,60-69,Fast death - natural causes,,"2 pieces; slight to moderate increase of portal lymphocytes, but no necrosis",false,other,"uncategorized, finding in note",,True
+GTEX-1IKOH-1426,Liver,GTEX-1IKOH,female,60-69,Fast death - natural causes,congestion,"2 pieces, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1IL2U-2026,Liver,GTEX-1IL2U,male,60-69,Fast death - natural causes,"cirrhosis, congestion, fibrosis","2 pieces; expanded portal areas with bile duct proliferation, lymphocytic infiltration and fibrosis with bridging consistent with cirrhosis; congestion; one piece contains large  and thick walled vessels (outlined)",false,cirrhosis,curated cirrhosis,,True
+GTEX-1IL2V-0926,Liver,GTEX-1IL2V,male,70-79,Fast death - natural causes,"congestion, steatosis","2 pieces, minimal macrovesicular steatosis (~10% of parenchyma), moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1IOXB-1726,Liver,GTEX-1IOXB,male,50-59,Fast death - natural causes,steatosis,2 pieces; moderate macrovesicular steatosis; large blood vessel occupies 10% of 1 piece,false,other,curated non-cirrhotic pathology,,True
+GTEX-1IY9M-1426,Liver,GTEX-1IY9M,male,60-69,Fast death - violent,fibrosis,"2 pieces; marked central fatty degeneration, perivenular and periportal fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1J1OQ-0826,Liver,GTEX-1J1OQ,female,40-49,Slow death,"cirrhosis, steatosis","2 pieces, advanced cirrhosis and steatosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-1J8EW-1626,Liver,GTEX-1J8EW,female,60-69,Fast death - natural causes,congestion,2 pieces; mild vascular congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1J8JJ-1226,Liver,GTEX-1J8JJ,female,60-69,Fast death - natural causes,congestion,"2 pieces, moderate-marked passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1J8Q2-1426,Liver,GTEX-1J8Q2,male,60-69,Intermediate death,congestion,"2 pieces; includes portion of capsule (not target), central congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1JJ6O-0826,Liver,GTEX-1JJ6O,male,60-69,Slow death,,"1 pieces; liver, not skin",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1JJE9-2726,Liver,GTEX-1JJE9,male,70-79,Intermediate death,"atrophy, fibrosis",2 pieces; severe central atrophy and bridging fibrosis; cord cells largely dissociated; barely acceptable,false,other,curated non-cirrhotic pathology,,True
+GTEX-1JJEA-1526,Liver,GTEX-1JJEA,male,60-69,Fast death - natural causes,"hepatitis, steatosis","2 pieces, ~60-70% micro (predominately)/macrovesicular steatosis, mild chronic hepatitis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1JMI6-0826,Liver,GTEX-1JMI6,female,50-59,Intermediate death,,,false,other,"uncategorized, no note (unknown)",,False
+GTEX-1JMLX-1326,Liver,GTEX-1JMLX,male,50-59,Fast death - natural causes,congestion,2 pieces; minimal congestion; no inflammation,false,other,curated non-cirrhotic pathology,,True
+GTEX-1JMOU-0726,Liver,GTEX-1JMOU,female,60-69,Slow death,steatosis,"2 pieces, diffuse macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1JMPZ-0826,Liver,GTEX-1JMPZ,male,30-39,Slow death,"cirrhosis, congestion, fibrosis",2 pieces; severe vascular congestion and fibrosis consistent with cardiac cirrhosis,false,cirrhosis,curated cirrhosis,,True
+GTEX-1JMQI-0126,Liver,GTEX-1JMQI,male,50-59,Ventilator case,"congestion, steatosis","2 pieces; includes capsule (target is 1cm below capsule), mild steatosis and congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1JMQJ-1626,Liver,GTEX-1JMQJ,male,50-59,Fast death - natural causes,"congestion, steatosis","2 pieces; mild steatosis, congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1JMQK-1026,Liver,GTEX-1JMQK,male,60-69,Ventilator case,,2 pieces; no active or chronic lesions,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1JMQL-1226,Liver,GTEX-1JMQL,female,50-59,Ventilator case,"cirrhosis, congestion","2 pieces, advanced chronic congestion/'cardiac' cirrhosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-1JN1M-1226,Liver,GTEX-1JN1M,female,60-69,Ventilator case,congestion,"2 pieces, marked cardiac congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1JN6P-1226,Liver,GTEX-1JN6P,male,60-69,Ventilator case,congestion,2 pieces; congested; large vein on 1 edge [arrowed],false,other,curated non-cirrhotic pathology,,True
+GTEX-1JN76-0726,Liver,GTEX-1JN76,female,20-29,Ventilator case,necrosis,2 pieces; extensive central necrosis consistent with chemical/medication injury or prolonged hypotension,false,other,curated non-cirrhotic pathology,,True
+GTEX-1K2DU-0626,Liver,GTEX-1K2DU,male,20-29,Ventilator case,congestion,"2 pieces, moderate cardiac congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1K9T9-0726,Liver,GTEX-1K9T9,female,50-59,Ventilator case,congestion,"2 pieces, minimal congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1KAFJ-0726,Liver,GTEX-1KAFJ,male,50-59,Intermediate death,"congestion, steatosis",2 pieces; moderate centrilobular congestion with mild centrilobular macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1KANB-2226,Liver,GTEX-1KANB,male,50-59,Fast death - natural causes,congestion,"2 pieces, mild congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1KD4Q-1526,Liver,GTEX-1KD4Q,male,40-49,Fast death - natural causes,congestion,2 pieces; slight degree of congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1KD5A-1226,Liver,GTEX-1KD5A,male,50-59,Fast death - natural causes,steatosis,2 pieces; mild to moderate steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1KWVE-0326,Liver,GTEX-1KWVE,male,30-39,Fast death - violent,congestion,2 pieces; central vein congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1LB8K-1926,Liver,GTEX-1LB8K,male,50-59,Fast death - natural causes,"fibrosis, hepatitis, inflammation, steatosis","2 pieces; moderate macrovesicular steatosis, cord cell damage, chronic inflammation and bridging fibrosis consistent with steatohepatitis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1LC47-1326,Liver,GTEX-1LC47,male,60-69,Intermediate death,"cirrhosis, steatosis","2 pieces, establishc cirrhosis and diffuse macrovesicular steatosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-1LG7Y-0726,Liver,GTEX-1LG7Y,male,50-59,Fast death - natural causes,congestion,"2 pieces, mild passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1LGRB-0626,Liver,GTEX-1LGRB,female,50-59,Ventilator case,"hyalinization, inflammation, steatosis","2 pieces; severe steatosis with mild chronic inflammation, Mallory's hyaline, consistent with history of alcohol abuse",false,other,curated non-cirrhotic pathology,,True
+GTEX-1LH75-0926,Liver,GTEX-1LH75,female,50-59,Slow death,congestion,"2 pieces, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1LKK1-1026,Liver,GTEX-1LKK1,female,50-59,Slow death,cirrhosis,"2 pieces, advanced cirrhosis, advanced autolysis",false,cirrhosis,curated cirrhosis,preservation,True
+GTEX-1LSNL-2026,Liver,GTEX-1LSNL,male,50-59,Fast death - natural causes,"fibrosis, steatosis","2 pieces, moderate macrovesicular steatosis, ~30% of parenchyma; early bridging fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1LSVX-0926,Liver,GTEX-1LSVX,male,60-69,Slow death,congestion,2 pieces; extensive centrilobular sinusoidal congestion with cord cell loss,false,other,curated non-cirrhotic pathology,,True
+GTEX-1LVA9-1826,Liver,GTEX-1LVA9,male,50-59,Fast death - natural causes,congestion,"2 pieces; include capsule (target is 1cm below capsule), central congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1LVAO-1126,Liver,GTEX-1LVAO,male,60-69,Slow death,,2 pieces; several bile duct hamartomas occupy 5%,false,other,"uncategorized, finding in note",,True
+GTEX-1M4P7-0926,Liver,GTEX-1M4P7,male,60-69,Fast death - natural causes,steatosis,"2 pieces, macrovesicular steatosis in ~10% of parenchyma.  Focal areas approach autolysis score 2",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-1MA7X-0526,Liver,GTEX-1MA7X,male,60-69,Fast death - natural causes,,2 pieces; occasional portal lymphoid collections; no cirrhosis; poorly preserved and fragmented parenchyma,false,other,"uncategorized, preservation warning",preservation,True
+GTEX-1MCQQ-0526,Liver,GTEX-1MCQQ,male,60-69,Intermediate death,,"2 pieces; no fibrosis, inflammation or fat",false,other,"uncategorized, finding in note",,True
+GTEX-1MJIX-0726,Liver,GTEX-1MJIX,male,40-49,Ventilator case,steatosis,"2 pieces; 1 piece includes portion of capsule (target region is 1cm below), steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1MJK2-0626,Liver,GTEX-1MJK2,male,50-59,Fast death - natural causes,"congestion, steatosis",2 pieces; mild microvesicular steatosis; marked congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1N2DW-1326,Liver,GTEX-1N2DW,male,50-59,Fast death - natural causes,"cirrhosis, congestion, sclerotic","2 pieces; congestion and cardiac sclerosis (""cirrhosis"")",false,cirrhosis,curated cirrhosis,,True
+GTEX-1N2EE-1426,Liver,GTEX-1N2EE,male,60-69,Fast death - violent,steatosis,"2 pieces, approaching score '2': diffuse severe macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1N2EF-1026,Liver,GTEX-1N2EF,male,60-69,Intermediate death,"congestion, necrosis",2 pieces; severe central lobular vascular congestion and liver cell necrosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1N5O9-1626,Liver,GTEX-1N5O9,male,60-69,Fast death - natural causes,"congestion, steatosis",2 pieces; congestion; mild steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1N7R6-0826,Liver,GTEX-1N7R6,female,20-29,Slow death,"congestion, inflammation",2 pieces; congestion; focal predominantly portal chronic inflammation,false,other,curated non-cirrhotic pathology,,True
+GTEX-1NT2E-1226,Liver,GTEX-1NT2E,female,40-49,Ventilator case,,,false,other,"uncategorized, no note (unknown)",,False
+GTEX-1NV5F-0826,Liver,GTEX-1NV5F,female,60-69,Slow death,"cirrhosis, fibrosis, necrosis, nodularity",2 pieces; nodular cirrhosis; centers of nodules are necrotic; 30% fibrous content; no normal tissue,false,cirrhosis,curated cirrhosis,,True
+GTEX-1NV88-1326,Liver,GTEX-1NV88,male,50-59,Slow death,,,false,other,"uncategorized, no note (unknown)",,False
+GTEX-1NV8Z-1626,Liver,GTEX-1NV8Z,male,60-69,Fast death - natural causes,congestion,"2 pieces, mild passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1O97I-1326,Liver,GTEX-1O97I,male,60-69,Intermediate death,steatosis,2 pieces; 20% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1O9I2-2326,Liver,GTEX-1O9I2,male,50-59,Ventilator case,"cirrhosis, steatosis","2 pieces, advanced autolysis.  Established cirrhosis with diffuse macrovesicular steatosis",false,cirrhosis,curated cirrhosis,preservation,True
+GTEX-1OJC4-1126,Liver,GTEX-1OJC4,female,50-59,Fast death - natural causes,congestion,2 pieces; congested,false,other,curated non-cirrhotic pathology,,True
+GTEX-1OZHM-1126,Liver,GTEX-1OZHM,male,40-49,Slow death,"necrosis, steatosis","2 pieces, pronounced centrilobular necrosis, 40% of parenchyma, moderate macrovesciluar steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1P4AB-1326,Liver,GTEX-1P4AB,male,50-59,Slow death,"cirrhosis, fibrosis",2 pieces; extensive cirrhosis with >50% fibrous content,false,cirrhosis,curated cirrhosis,,True
+GTEX-1PBJI-1026,Liver,GTEX-1PBJI,female,20-29,Fast death - violent,steatosis,"2 pieces, macrovesciular steatosis, moderate/marked, involved up to ~80% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-1PBJJ-0626,Liver,GTEX-1PBJJ,male,30-39,Ventilator case,congestion,2 pieces; congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1PIIG-1326,Liver,GTEX-1PIIG,male,30-39,Ventilator case,,2 pieces; mild to moderate autolysis and marked central fatty degeneration,false,other,"uncategorized, preservation warning",preservation,True
+GTEX-1POEN-1526,Liver,GTEX-1POEN,female,30-39,Fast death - violent,steatosis,"2 pieces, diffuse microvesicular steatosis, granulomas noted, ensquared",false,other,curated non-cirrhotic pathology,,True
+GTEX-1PPGY-2226,Liver,GTEX-1PPGY,male,60-69,Fast death - natural causes,"congestion, steatosis",2 pieces; marked congestion; mild steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1PPH6-1326,Liver,GTEX-1PPH6,female,60-69,Fast death - natural causes,steatosis,2 pieces; mild macrovesicular steatosis no inflammation or fibrosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1PPH7-0626,Liver,GTEX-1PPH7,male,40-49,Ventilator case,,2 pieces; <2% macrovesicular fat; no fibrosis or inflammation,false,other,"uncategorized, finding in note",,True
+GTEX-1PWST-1326,Liver,GTEX-1PWST,male,70-79,Slow death,"cirrhosis, hepatitis, steatosis","2 pieces, advanced cirrhosis/steatosis, chronic hepatitis",false,cirrhosis,curated cirrhosis,,True
+GTEX-1QAET-1026,Liver,GTEX-1QAET,male,50-59,Ventilator case,,2 pieces; moderate increase in portal tract lymphocytes,false,other,"uncategorized, finding in note",,True
+GTEX-1QCLZ-1226,Liver,GTEX-1QCLZ,female,60-69,Ventilator case,fibrosis,2 pieces; diffuse fatty degeneration (large and small  fat droplets);one with bile ducts surrounded by dense fibrous tissue (outlined) and other covered by capsule at two sides (arrows),false,other,curated non-cirrhotic pathology,,True
+GTEX-1QEPI-1326,Liver,GTEX-1QEPI,female,60-69,Intermediate death,steatosis,2 pieces; moderate to severe centrilobular macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-1QMI2-1426,Liver,GTEX-1QMI2,male,60-69,Fast death - natural causes,"cirrhosis, fibrosis, steatosis","2 pieces, moderate macrovesicular steatosis and bridging fibrosis approaching early cirrhosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-1QP66-0226,Liver,GTEX-1QP66,male,50-59,Ventilator case,,2 pieces; capsule included (Arrows),false,healthy,"uncategorized, note reports no finding",,False
+GTEX-1QP6S-1326,Liver,GTEX-1QP6S,male,40-49,Fast death - natural causes,congestion,2 pieces; marked congestion; mild to moderate fatty degeneration,false,other,curated non-cirrhotic pathology,,True
+GTEX-1QPFJ-1126,Liver,GTEX-1QPFJ,female,30-39,Ventilator case,"fibrosis, steatosis",2 pieces; extensive panlobular macrovesicular steatosis; fibrous tissue on edge of 1 piece occupies 20% [outlined],false,other,curated non-cirrhotic pathology,,True
+GTEX-1R46S-1526,Liver,GTEX-1R46S,female,60-69,Slow death,steatosis,"2 pieces, mild macrovesicular steatosis ((<10%)",false,other,curated non-cirrhotic pathology,,True
+GTEX-1R9JW-0826,Liver,GTEX-1R9JW,female,30-39,Ventilator case,steatosis,"2 pieces, diffuse macrovesicular steatosis, severe, >90% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-1R9K4-1626,Liver,GTEX-1R9K4,male,60-69,Ventilator case,cirrhosis,3 pieces; capsule included (arrows); advanced cirrhosis,false,cirrhosis,curated cirrhosis,,True
+GTEX-1R9PM-0526,Liver,GTEX-1R9PM,male,20-29,Ventilator case,steatosis,"2 pieces, macrovesicular steatosis, moderate, ~30-40% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-1R9PO-0826,Liver,GTEX-1R9PO,female,60-69,Intermediate death,congestion,2 pieces; mild to moderate autolysis; marked congestion and fatty degeneration,false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-1RAZS-1126,Liver,GTEX-1RAZS,male,50-59,Intermediate death,congestion,2 pieces; marked congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-1RB15-0626,Liver,GTEX-1RB15,male,60-69,Ventilator case,steatosis,"2 pieces, mild microvesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-1RDX4-1426,Liver,GTEX-1RDX4,female,50-59,Intermediate death,"congestion, necrosis",2 pieces; severe centrilobular vascular congestion with central cord cell necrosis c/w heart failure,false,other,curated non-cirrhotic pathology,,True
+GTEX-1RLM8-1126,Liver,GTEX-1RLM8,male,50-59,Slow death,,,false,other,"uncategorized, no note (unknown)",,False
+GTEX-1RNSC-1426,Liver,GTEX-1RNSC,male,60-69,Slow death,necrosis,"2 pieces, autolysis/cellular necrosis",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-1RQEC-1126,Liver,GTEX-1RQEC,male,60-69,Fast death - natural causes,,,false,other,"uncategorized, no note (unknown)",,False
+GTEX-1RQED-0726,Liver,GTEX-1RQED,male,60-69,Intermediate death,congestion,"2 pieces, mild congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-1S3DN-1126,Liver,GTEX-1S3DN,male,50-59,Ventilator case,no_abnormalities,"2 pieces, no abnormalities",false,healthy,curated no_abnormalities,,False
+GTEX-1S5VW-1826,Liver,GTEX-1S5VW,male,60-69,Intermediate death,steatosis,"2 pieces, macrovesicular steatosis, moderate",false,other,curated non-cirrhotic pathology,,True
+GTEX-1S5ZU-1126,Liver,GTEX-1S5ZU,female,20-29,Ventilator case,,"2 pieces; no infiltrates, fibrosis, congestion or fat",false,other,"uncategorized, finding in note",,True
+GTEX-1S82Y-1026,Liver,GTEX-1S82Y,male,40-49,Ventilator case,,,false,other,"uncategorized, no note (unknown)",,False
+GTEX-N7MS-1825,Liver,GTEX-N7MS,male,60-69,Fast death - natural causes,steatosis,30-40% steatotic (macrovesicular),false,other,curated non-cirrhotic pathology,,True
+GTEX-N7MT-0426,Liver,GTEX-N7MT,female,60-69,Slow death,,9x9 mm,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-NL3G-0426,Liver,GTEX-NL3G,female,60-69,Fast death - natural causes,steatosis,"Mico/macrovesicular steatosis, 30—40%, confirmed by glass slide review",false,other,curated non-cirrhotic pathology,,True
+GTEX-NL3H-0526,Liver,GTEX-NL3H,male,60-69,Intermediate death,"congestion, necrosis",9x8 mm. Severe acute passive congestion with central necrosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-NL4W-1926,Liver,GTEX-NL4W,male,50-59,Slow death,congestion,Mild congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-NPJ7-2026,Liver,GTEX-NPJ7,female,60-69,Slow death,"congestion, steatosis",40-50% macrovesicular steatosis; mild chronic passive congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-NPJ8-0726,Liver,GTEX-NPJ8,male,40-49,Slow death,cirrhosis,"Established cirrhosis, diffuse.",false,cirrhosis,curated cirrhosis,,True
+GTEX-O5YT-0826,Liver,GTEX-O5YT,male,20-29,Ventilator case,,Mild central hypoxia,false,other,"uncategorized, finding in note",,True
+GTEX-O5YU-0326,Liver,GTEX-O5YU,male,60-69,Slow death,congestion,mild congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-O5YV-0726,Liver,GTEX-O5YV,female,60-69,Intermediate death,,12x7 mm; apsule present; should be 1 cm deeper,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-O5YW-0826,Liver,GTEX-O5YW,male,50-59,Ventilator case,steatosis,"10x7 mm; Mod.  macrovesicular steatosis; Central chatter, probably poor fixation ; refix-recut",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-OHPM-0826,Liver,GTEX-OHPM,male,50-59,Ventilator case,"cirrhosis, fibrosis, hepatitis, steatosis",Macovesicular steatosis (50%). Mild chronic hepatitis with severe bridging fibrosis/early cirrhosis,false,cirrhosis,curated cirrhosis,,True
+GTEX-OHPN-0726,Liver,GTEX-OHPN,female,60-69,Ventilator case,,Subcapsular aliquot (9 .5 x 7.5mm aqliquot),false,healthy,"uncategorized, note reports no finding",,False
+GTEX-OIZF-0826,Liver,GTEX-OIZF,male,60-69,Ventilator case,steatosis,50-60% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-OOBJ-0826,Liver,GTEX-OOBJ,male,60-69,Ventilator case,steatosis,11.2x 8.3mm.  About 10% macrovesicular steatosis.,false,other,curated non-cirrhotic pathology,,True
+GTEX-OXRK-1226,Liver,GTEX-OXRK,female,50-59,Ventilator case,steatosis,Mild macrovesicluarsteatosis. Aliquot contains liver capsule,false,other,curated non-cirrhotic pathology,,True
+GTEX-OXRN-0626,Liver,GTEX-OXRN,male,50-59,Ventilator case,"congestion, ischemic_changes",Centrilobular ischemia and congestion 9x8.3mm. Capsule present in aliquot,false,other,curated non-cirrhotic pathology,,True
+GTEX-OXRO-2226,Liver,GTEX-OXRO,female,60-69,Slow death,,"11.4x7.8. Central round hole, 1.3mm, corresponds to cassette’s central ‘domes’ on the base and lid.",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-OXRP-0826,Liver,GTEX-OXRP,female,60-69,Intermediate death,steatosis,"9.7x6.7mm.  Patchy macrovesicular steatosis, 3-40%.  Focal central areas appear under-fixed with tears/holes.",false,other,curated non-cirrhotic pathology,,True
+GTEX-P44G-1126,Liver,GTEX-P44G,male,30-39,Ventilator case,,"11 x 6.8mm.  Focal area poor fixation, hole/tears",false,other,"uncategorized, preservation warning",preservation,False
+GTEX-P44H-1226,Liver,GTEX-P44H,male,40-49,Slow death,cirrhosis,"~10x8mm. Appears cirrhotic, request trichrome",false,cirrhosis,curated cirrhosis,,True
+GTEX-P4QR-0926,Liver,GTEX-P4QR,male,60-69,Ventilator case,congestion,2  ~8x7.5mm pieces.  Pronounced centrilobular chronic passive congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-P78B-1326,Liver,GTEX-P78B,female,40-49,Ventilator case,steatosis,2 pieces ~8x7mm; mild steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-PLZ4-0426,Liver,GTEX-PLZ4,female,50-59,Ventilator case,,2   ~9x8mm pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-POYW-1926,Liver,GTEX-POYW,male,60-69,Ventilator case,"cirrhosis, hepatitis, nodularity, steatosis",2 pieces ~7.5x7.5mm. Established micronodular cirrhosis with micro and macrovesicular steatosis and chronic hepatitis,false,cirrhosis,curated cirrhosis,,True
+GTEX-PVOW-0926,Liver,GTEX-PVOW,male,40-49,Fast death - natural causes,congestion,"2 pieces,~7.5x5.5mm;6.5 mm sq. slightly congested",false,other,curated non-cirrhotic pathology,,True
+GTEX-PWO3-1826,Liver,GTEX-PWO3,female,60-69,Slow death,fibrosis,"2   ~ 8x8mm aliquots, ? fibrosis; request Masson",false,other,curated non-cirrhotic pathology,,True
+GTEX-PWOO-0826,Liver,GTEX-PWOO,female,40-49,Ventilator case,steatosis,"2   ~9X8mm aliquots, extensive patterned microvesicular steatosis ? drug/toxic effect",false,other,curated non-cirrhotic pathology,,True
+GTEX-PX3G-0826,Liver,GTEX-PX3G,female,20-29,Ventilator case,,"2 pieces,~ 6x8 mm; central sinusoidal dilatation; focal fragmentation",false,other,"uncategorized, finding in note",,True
+GTEX-Q2AG-1126,Liver,GTEX-Q2AG,female,40-49,Fast death - natural causes,steatosis,"2   ~9x7.5mm aliquots, patchy mixed micro-and macro-vesicular steatosis,  ~25%",false,other,curated non-cirrhotic pathology,,True
+GTEX-Q734-0326,Liver,GTEX-Q734,female,40-49,Ventilator case,"cirrhosis, fibrosis, hepatitis",2  ~7.5x7.5mm aliquots.  Severe bridging fibrosis/early cirrhosis with steatotis and chronic hepatitis.,false,cirrhosis,curated cirrhosis,,True
+GTEX-QDT8-1126,Liver,GTEX-QDT8,female,30-39,Slow death,"cirrhosis, hepatitis","2  ~9x7mm aliquots.  Established cirrhosis with steatohepatitis, diffuse",false,cirrhosis,curated cirrhosis,,True
+GTEX-QDVN-0826,Liver,GTEX-QDVN,male,50-59,Ventilator case,"cirrhosis, fibrosis, hepatitis, inflammation","2   ~9.5x8mm aliquots.  Macrovesicular steatohepatitis (~20% fat), bridging fibrosis focally approaching early cirrhosis; moderate chronic inflammation",false,cirrhosis,curated cirrhosis,,True
+GTEX-QEG4-1826,Liver,GTEX-QEG4,male,30-39,Fast death - violent,steatosis,2 ~8x7mm aliquots. Focal macrovesicular steatosis involves !0% of parenchyma,false,other,curated non-cirrhotic pathology,,True
+GTEX-QEG5-1526,Liver,GTEX-QEG5,male,20-29,Ventilator case,congestion,"2 pieces, 9x8 & 10x6mm; severe vascular congestion mainly centrolobular",false,other,curated non-cirrhotic pathology,,True
+GTEX-QEL4-1226,Liver,GTEX-QEL4,male,50-59,Intermediate death,"fibrosis, hepatitis, steatosis","2    ~7.5x7.5mm aliquots, diffuse macrovesicular steatosis and chronic hepatitis with bridging fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-QESD-2026,Liver,GTEX-QESD,male,20-29,Ventilator case,,2 pieces ~9x8mm; central pallor; no fibrosis or inflammation,false,other,"uncategorized, finding in note",,True
+GTEX-QMR6-0426,Liver,GTEX-QMR6,male,50-59,Slow death,"cirrhosis, steatosis",2   ~9x7mm aliquots.  End-stage cirrhosis with marked bile stasis + steatosis.,false,cirrhosis,curated cirrhosis,,True
+GTEX-QV44-0326,Liver,GTEX-QV44,male,50-59,Ventilator case,clean_specimens,"2 pieces 10x7&8x6.7 mm;   good preservation, no lesions",false,healthy,curated clean_specimens,,False
+GTEX-QVJO-0826,Liver,GTEX-QVJO,female,60-69,Slow death,congestion,"2   ~9x8mm aliquots, areas of chronic passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-QVUS-0526,Liver,GTEX-QVUS,female,60-69,Slow death,,2  ~ 9x7mm aliquots,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-QXCU-1826,Liver,GTEX-QXCU,male,50-59,Fast death - violent,congestion,"2  ~8x8mm aliquots, prominent congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-R3RS-1226,Liver,GTEX-R3RS,female,40-49,Slow death,congestion,2 pieces 9x8 & 8x7 mm; centrally congested and moderately autolyzed centrally,false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-R45C-1426,Liver,GTEX-R45C,female,60-69,Ventilator case,"cirrhosis, steatosis","2 pieces, 10x8 & 9x7 mm; cirrhosis, microsteatosis; capsule present",false,cirrhosis,curated cirrhosis,,True
+GTEX-R53T-0326,Liver,GTEX-R53T,female,50-59,Ventilator case,congestion,"2 aliquots,   ~8x7mm.  Moderate congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-R55E-1726,Liver,GTEX-R55E,male,20-29,Fast death - violent,clean_specimens,2 pieces ~9.5x7 mm; 1 broken apart; good morphology,false,healthy,curated clean_specimens,,False
+GTEX-R55F-2026,Liver,GTEX-R55F,male,50-59,Slow death,congestion,"2 pieces, 9x8 & 8x8 mm; severe central passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-REY6-1226,Liver,GTEX-REY6,male,60-69,Ventilator case,,"2 pieces, 8x7 & 7x6 mm; no congestion",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-RM2N-1926,Liver,GTEX-RM2N,male,50-59,Ventilator case,steatosis,"2 aliquots,  ~9x9mm, diffuse macrovesicular steatosis involves 80+% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-RN5K-0426,Liver,GTEX-RN5K,female,50-59,Slow death,,"2 alquots,   ~8x7mm, badly autolyzed",false,other,"uncategorized, preservation warning",preservation,False
+GTEX-RN64-1826,Liver,GTEX-RN64,male,50-59,Fast death - violent,congestion,"2 aliquots,  ~8x6mm, moderate congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-RNOR-1426,Liver,GTEX-RNOR,female,50-59,Fast death - violent,,"2 pieces, 9x7 & 7x7 mm;",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-RTLS-1326,Liver,GTEX-RTLS,female,60-69,Slow death,,"2 pieces, 7x6 & 7x6 mm; no lesions",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-RU72-1426,Liver,GTEX-RU72,female,50-59,Fast death - natural causes,"congestion, steatosis","2 aliquots,  ~7x6mm.  Moderate congestion, focal microvesicular steatosis involves  ~10-15% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-RVPU-0826,Liver,GTEX-RVPU,male,50-59,Fast death - natural causes,,"2 aliquots,  ~7x7mm.",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-RVPV-1926,Liver,GTEX-RVPV,male,60-69,Intermediate death,steatosis,"2 pieces, 8x7 & 8x7 mm;  focal macrosteatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-RWSA-1426,Liver,GTEX-RWSA,male,40-49,Fast death - violent,,"2 aliquots,  ~7x6mm.  Fairly well preserved, minimal fat",false,other,"uncategorized, finding in note",,True
+GTEX-S32W-1926,Liver,GTEX-S32W,female,50-59,Ventilator case,hemorrhage,2 pieces 10x7 & 8x7 mm; large area of hemorrhage in each: 10 and 25% of specimen,false,other,curated non-cirrhotic pathology,,True
+GTEX-S33H-1626,Liver,GTEX-S33H,male,30-39,Fast death - natural causes,,2 pieces 8x5 & 7x7 mm; not congested,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-S3LF-1326,Liver,GTEX-S3LF,male,70-79,Fast death - natural causes,steatosis,"2 aliquots, ~8x7.5mm.  Diffuse macrovesicular steatosis, ~50% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-S4Z8-0526,Liver,GTEX-S4Z8,male,60-69,Ventilator case,steatosis,2 pieces 11x8 & 10x8 mm; moderate macrovesicular steatosis; mild microvesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-S7PM-1126,Liver,GTEX-S7PM,male,60-69,Ventilator case,"hepatitis, steatosis","2 aliquots,  ~7.5x5mm, diffuse microvesicular steatosis, possible mild chronic hepatitis, but portal tracts badly autolyzed, compromising assessment.",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-S7SE-1326,Liver,GTEX-S7SE,male,50-59,Fast death - natural causes,steatosis,"2 aliquots,  ~8x6mm.  Diffuse macrovesicular steatosis involves  ~70% of specimen",false,other,curated non-cirrhotic pathology,,True
+GTEX-SIU8-1226,Liver,GTEX-SIU8,male,50-59,Fast death - natural causes,steatosis,"2 pieces  ~8x7mm, diffuse macro and micro vesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-SJXC-1226,Liver,GTEX-SJXC,male,60-69,Fast death - natural causes,congestion,"2 pieces  ~10x8mm.  Moderate congestion, moderately autolyzed",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-SN8G-1026,Liver,GTEX-SN8G,female,50-59,Fast death - natural causes,,"2 pieces,  ~7x7mm",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-T2IS-1226,Liver,GTEX-T2IS,female,20-29,Fast death - violent,,"2 pieces ~6x6mm, no steatosis",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-T2YK-1926,Liver,GTEX-T2YK,male,50-59,Slow death,congestion,2 pieces 8x7 & 8x6 mm; moderate central congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-T5JC-0926,Liver,GTEX-T5JC,male,20-29,Fast death - natural causes,congestion,2 pieces 7x6 & 6x6 mm; centrally congested,false,other,curated non-cirrhotic pathology,,True
+GTEX-T6MN-1226,Liver,GTEX-T6MN,male,50-59,Fast death - natural causes,congestion,2 pieces 8x7 & 8x7 mm; large vessel runs through one piece; central congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-TKQ2-1726,Liver,GTEX-TKQ2,male,50-59,Ventilator case,steatosis,2 pieces   ~8x7mm.  Minimal steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-TSE9-1126,Liver,GTEX-TSE9,female,60-69,Ventilator case,congestion,2 pieces 8x7 & 7x7 mm; moderate sinusoidal congestion; fibrovascular area 4.7x1.8 mm at center of one piece,false,other,curated non-cirrhotic pathology,,True
+GTEX-U3ZN-0226,Liver,GTEX-U3ZN,female,30-39,Ventilator case,steatosis,"2 pieces, 9x7 & 8x7 mm;  moderate macrovesicular steatosis; no fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-U412-1426,Liver,GTEX-U412,male,60-69,Intermediate death,,"2 pieces,  ~8x6mm",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-U8T8-0826,Liver,GTEX-U8T8,male,60-69,Ventilator case,steatosis,"2 pieces, 5.5x8 & 6x8mm; mild macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-U8XE-1526,Liver,GTEX-U8XE,male,30-39,Slow death,"fibrosis, steatosis","2 pieces  ~7x6mm.  Diffuse macrovesicular steatosis involves 50-60% of parenchyma,  with focal early bridging fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-UPIC-0926,Liver,GTEX-UPIC,female,20-29,Ventilator case,,"2 pieces, 8x8 & 8x7mm; no steatosis, no fibrosis",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-UPJH-1626,Liver,GTEX-UPJH,male,50-59,Fast death - natural causes,steatosis,2 pieces  ~7x6mm.  Diffuse macrovesicular steatosis involves  ~30% of parenchyma,false,other,curated non-cirrhotic pathology,,True
+GTEX-UPK5-1426,Liver,GTEX-UPK5,male,40-49,Ventilator case,,"2 pieces, 8x7 & 6x6mm; no fat, fibrosis  or excess congestion",false,other,"uncategorized, finding in note",,True
+GTEX-UTHO-2426,Liver,GTEX-UTHO,male,60-69,Intermediate death,"congestion, fibrosis","2 pieces, 8x7.5 & 7x7mm; moderate congestion; some portal fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-VJWN-1526,Liver,GTEX-VJWN,female,50-59,Fast death - natural causes,"congestion, steatosis","2 pieces, 8x8 & 9x7mm; moderately congested centrally associated with macrovesicular steatosis;",false,other,curated non-cirrhotic pathology,,True
+GTEX-VUSG-0126,Liver,GTEX-VUSG,male,50-59,Ventilator case,steatosis,2 pieces   ~9x8mm.  10% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-W5X1-0126,Liver,GTEX-W5X1,female,40-49,Ventilator case,"atrophy, congestion","2 pieces, 10x7 & 9x7mm. Central vein congestion and central lobular atrophy.",false,other,curated non-cirrhotic pathology,,True
+GTEX-WFON-1726,Liver,GTEX-WFON,male,40-49,Ventilator case,steatosis,"2 pieces,  ~9x9mm. Diffuse macrovesicular steatosis involves 90+ % of specimens, which are well - preserved",false,other,curated non-cirrhotic pathology,,True
+GTEX-WHSE-1826,Liver,GTEX-WHSE,male,20-29,Intermediate death,,"2 pieces  ~7x5mm.  No steatosis, moderately autolyzed",false,other,"uncategorized, preservation warning",preservation,False
+GTEX-WI4N-1626,Liver,GTEX-WI4N,female,40-49,Ventilator case,,"2 pieces~8x7mm.  Reasonably well- preserved, no steatosis noted",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-WK11-1326,Liver,GTEX-WK11,male,50-59,Fast death - violent,steatosis,"2 pieces, 7x7 & 8x8mm; 60% macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-WL46-1726,Liver,GTEX-WL46,male,50-59,Fast death - natural causes,,pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-WOFL-1526,Liver,GTEX-WOFL,male,60-69,Ventilator case,"atrophy, cirrhosis, fibrosis","2 pieces, 9x6.5 & 10x8mm; cardiac cirrhosis:central atrophy and fibrosis with early bridging; large vessels on 2 edges of 1 piece (~20% of piece)",false,cirrhosis,curated cirrhosis,,True
+GTEX-WQUQ-1926,Liver,GTEX-WQUQ,male,60-69,Ventilator case,"congestion, steatosis","2 pieces  ~7x7mm, 30% macrovesicular steatosis, moderate passive congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-WRHU-0126,Liver,GTEX-WRHU,female,50-59,Fast death - violent,steatosis,2 pieces  ~7x7mm.  Minimal steatosis.,false,other,curated non-cirrhotic pathology,,True
+GTEX-WVJS-1426,Liver,GTEX-WVJS,male,50-59,Ventilator case,,"2 pieces, 8x8 & 7x7mm; no lesions",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-WVLH-2126,Liver,GTEX-WVLH,male,50-59,Fast death - natural causes,"congestion, steatosis","2 pieces ~  ~8x8mm.  Chronic passive congestion, mild-moderate, minimal (<10%) macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-WWTW-1426,Liver,GTEX-WWTW,male,50-59,Ventilator case,,2 pieces badly autolyzed.  ? cirrhosis but so necrotic impossible for definitive assessment,false,other,"uncategorized, preservation warning",preservation,True
+GTEX-WWYW-1026,Liver,GTEX-WWYW,female,50-59,Intermediate death,,"2 pieces ~7x7mm, moderately-badly autolyzed, prominent fibrous areas delineated",false,other,"uncategorized, preservation warning",preservation,True
+GTEX-WY7C-0726,Liver,GTEX-WY7C,male,50-59,Ventilator case,steatosis,"2 pieces  ~9x7mm, 90% macrovesicular steatosis but reasonably well preserved",false,other,curated non-cirrhotic pathology,,True
+GTEX-WYBS-0726,Liver,GTEX-WYBS,female,60-69,Ventilator case,congestion,"2 pieces, 8x6 & 9x7.5mm; congested and autolyzed",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-WYVS-1926,Liver,GTEX-WYVS,female,40-49,Ventilator case,congestion,"2 pieces, 9x8 & 10x9mm; minimal fat/congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-WZTO-0626,Liver,GTEX-WZTO,male,40-49,Fast death - violent,,"2 pieces, 8x7 & 7.5x7mm; no significant fat",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-X261-1726,Liver,GTEX-X261,male,50-59,Slow death,,"2 pieces, 6.5x6 & 6x6mm; no lesions",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-X3Y1-2726,Liver,GTEX-X3Y1,male,40-49,Ventilator case,,"2 pieces, 11x9 & 12x9mm; giant cell granulomas (history of sarcoid); capsule present up to 0.4mm thick, specimen should be sampled below capsule",false,other,"uncategorized, finding in note",,True
+GTEX-X4EO-1126,Liver,GTEX-X4EO,female,60-69,Intermediate death,,"2 pieces, 7x7 & 8x8mm; no lesions",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-X4EP-1026,Liver,GTEX-X4EP,female,60-69,Slow death,"cirrhosis, steatosis","2 pieces, 9x8 & 8.5x8mm; diffuse macrovesicular steatosis with early cirrohsis; rep steatotic areas delineated",false,cirrhosis,curated cirrhosis,,True
+GTEX-X4XX-1926,Liver,GTEX-X4XX,male,60-69,Slow death,"congestion, steatosis","2 pieces, 8x7 & 8x7mm;  30% macrovesicular steatosis. Moderate congestion.",false,other,curated non-cirrhotic pathology,,True
+GTEX-X4XY-1626,Liver,GTEX-X4XY,male,60-69,Ventilator case,steatosis,"2 pieces, 8x7 & 8x8mm; 20% macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-X585-1726,Liver,GTEX-X585,male,50-59,Slow death,,"2 pieces, up to 8x7 & 7x7mm; No fat.",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-X62O-1326,Liver,GTEX-X62O,male,50-59,Ventilator case,steatosis,"2 pieces, 9x8 & 8x7mm;  ~20% macrovesciular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-X8HC-1726,Liver,GTEX-X8HC,female,50-59,Ventilator case,congestion,"2 pieces, 8x6 & 8x7mm; Moderate to severe central congestion.",false,other,curated non-cirrhotic pathology,,True
+GTEX-XBEC-1526,Liver,GTEX-XBEC,male,50-59,Fast death - natural causes,"fibrosis, steatosis","2 pieces, 9x7 & 8x8mm; 70-80% macrovesicular steatosis with patchy bridging fibrosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-XK95-1626,Liver,GTEX-XK95,male,40-49,Ventilator case,congestion,"2 pieces. 8x7 & 8x8mm; Moderate central congestion. No cirrhosis, no fat.",false,other,curated non-cirrhotic pathology,,True
+GTEX-XLM4-0826,Liver,GTEX-XLM4,male,60-69,Intermediate death,steatosis,"2 pieces, 9x7 & 9x6mm; mimimal steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-XMD1-1826,Liver,GTEX-XMD1,male,60-69,Slow death,steatosis,2 pieces 8x6 & 7x7mm; minimal steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-XMD2-1626,Liver,GTEX-XMD2,female,60-69,Ventilator case,"atrophy, congestion","2 pieces, 8x7 & 7.5x7mm; moderate central congestion and atrophy; no fibrosis or fat",false,other,curated non-cirrhotic pathology,,True
+GTEX-XMD3-1626,Liver,GTEX-XMD3,female,50-59,Ventilator case,congestion,2 pieces. 8x8 & 8x7mm; moderate central congestion,false,other,curated non-cirrhotic pathology,,True
+GTEX-XOT4-0926,Liver,GTEX-XOT4,female,60-69,Fast death - natural causes,steatosis,2 pieces. 8x7 & 7x7mm; <5% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-XOTO-0826,Liver,GTEX-XOTO,male,50-59,Fast death - natural causes,steatosis,2 pieces. 9x8 & 10x8mm; minimal steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-XPVG-1126,Liver,GTEX-XPVG,male,50-59,Ventilator case,steatosis,"2 pieces, 12.5x8 & 13x5mm; severe macrovesicular steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-XQ3S-2126,Liver,GTEX-XQ3S,male,20-29,Fast death - violent,,"2 pieces, 9x7 & 9x9mm; no steatosis",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-XV7Q-1926,Liver,GTEX-XV7Q,female,40-49,Ventilator case,necrosis,"2 pieces, 9x8 & 17.5x8mm;  Marked midzonal necrosis, rep. areas delineated",false,other,curated non-cirrhotic pathology,,True
+GTEX-XXEK-1126,Liver,GTEX-XXEK,male,50-59,Ventilator case,steatosis,"2 pieces, 8x8 & 8x7mm; mild mixed micro/macrovesicular steatosis, diffuse",false,other,curated non-cirrhotic pathology,,True
+GTEX-XYKS-0326,Liver,GTEX-XYKS,female,60-69,Ventilator case,"cirrhosis, steatosis","2 pieces, 8x7.5 & 9.5x9mm; cirrhosis with severe macrovesicular steatosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-Y111-0726,Liver,GTEX-Y111,male,50-59,Fast death - violent,,"2 pieces, 9x8 & 10x8mm; 1 piece contains capsule",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-Y3IK-0326,Liver,GTEX-Y3IK,female,50-59,Ventilator case,hepatitis,"2 pieces, 11x10 & 10x9mm. Moderate portal lymphoid infiltrates consistent with chronic hepatitis or chronic biliary tract disease. No steatosis.",false,other,curated non-cirrhotic pathology,,True
+GTEX-Y5LM-0426,Liver,GTEX-Y5LM,female,40-49,Ventilator case,steatosis,2 pieces. 13x9 & 13x10mm; 70% small droplet variant of macrovesicular steatosis.,false,other,curated non-cirrhotic pathology,,True
+GTEX-Y5V5-0926,Liver,GTEX-Y5V5,female,60-69,Ventilator case,steatosis,"2 pieces, 10x10 & 11x10mm; mild-moderate macrovesicular steatosis involving ~30-40% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-YB5E-0326,Liver,GTEX-YB5E,male,40-49,Ventilator case,necrosis,"2 pieces, 12x10 & 11x11mm; marked central and mid-zonal  coagulative necrosis necrosis, shock vs toxic damage by drugs",false,other,curated non-cirrhotic pathology,,True
+GTEX-YEC4-0826,Liver,GTEX-YEC4,male,40-49,Ventilator case,steatosis,"2 pieces, 12x5 and 10x8mm; diffuse macrovesciular steatosis involves ~80% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-YECK-1926,Liver,GTEX-YECK,male,60-69,Intermediate death,,"2 pieces, 8x8 and 8x7mm;",false,healthy,"uncategorized, note reports no finding",,False
+GTEX-YFC4-1526,Liver,GTEX-YFC4,female,40-49,Fast death - violent,steatosis,"2 pieces, minimal steatosis, moderate autolysis",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-YJ89-1426,Liver,GTEX-YJ89,male,60-69,Fast death - natural causes,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-YJ8O-1726,Liver,GTEX-YJ8O,female,40-49,Fast death - violent,steatosis,"2 pieces, minimal steatosis, reasonably well-preserved",false,other,curated non-cirrhotic pathology,,True
+GTEX-Z93S-0726,Liver,GTEX-Z93S,male,50-59,Fast death - natural causes,steatosis,"2 pieces, diffuse macrovesicular steatosis involving ~60% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-Z9EW-0426,Liver,GTEX-Z9EW,male,40-49,Ventilator case,steatosis,"2 pieces, diffuse macrovesicular steatosis involves ~ 50% of parenchyma",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZAB4-0826,Liver,GTEX-ZAB4,male,40-49,Slow death,"congestion, hemorrhage",2 pieces. Extensive central passive  congestion and hemorrhage. Large vessels and stroma occupy 10% and 20%.,false,other,curated non-cirrhotic pathology,,True
+GTEX-ZAB5-0426,Liver,GTEX-ZAB5,male,50-59,Ventilator case,steatosis,"2 pieces; diffuse macrovesicular steatosis involving about %60 of the liver parenchyma, few collections of chronic inflammatory cells",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZAJG-1726,Liver,GTEX-ZAJG,female,50-59,Intermediate death,,"2 pieces, badlyautolyzed",false,other,"uncategorized, preservation warning",preservation,False
+GTEX-ZAK1-1726,Liver,GTEX-ZAK1,female,50-59,Fast death - natural causes,steatosis,"2 pieces, some foci more autolyzed, approach score 2; minimal steatosis",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-ZC5H-0726,Liver,GTEX-ZC5H,female,40-49,Ventilator case,"congestion, steatosis","2 pieces, well preserved, moderate congestion, minimal steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZDTS-1726,Liver,GTEX-ZDTS,male,60-69,Fast death - natural causes,,2 pieces; no fat or inflammation,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-ZDXO-2226,Liver,GTEX-ZDXO,male,60-69,Fast death - natural causes,steatosis,"2 pieces, minimal steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZE7O-1226,Liver,GTEX-ZE7O,female,50-59,Fast death - natural causes,steatosis,2 pieces; 50% macrovesicular steatosis,false,other,curated non-cirrhotic pathology,,True
+GTEX-ZE9C-1626,Liver,GTEX-ZE9C,male,60-69,Fast death - natural causes,"congestion, steatosis","2 pieces,  moderate congestion; minimal steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZEX8-0826,Liver,GTEX-ZEX8,male,50-59,Ventilator case,steatosis,2 pieces. 10% macrovesicular steatosis.,false,other,curated non-cirrhotic pathology,,True
+GTEX-ZF28-1726,Liver,GTEX-ZF28,male,60-69,Slow death,congestion,2 pieces. Central congestion and degeneration.,false,other,curated non-cirrhotic pathology,,True
+GTEX-ZF29-2026,Liver,GTEX-ZF29,female,60-69,Ventilator case,steatosis,2 pieces; diffuse severe microvesicular and macrovesicular steatosis (~80%).,false,other,curated non-cirrhotic pathology,,True
+GTEX-ZF2S-3026,Liver,GTEX-ZF2S,female,50-59,Ventilator case,,2 pieces.,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-ZF3C-1826,Liver,GTEX-ZF3C,female,50-59,Ventilator case,congestion,"2 pieces, centrilobular congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZPU1-0826,Liver,GTEX-ZPU1,male,40-49,Ventilator case,"inflammation, steatosis","2 pieces, mild steatosis and focal mild portal chronic inflammation",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZTPG-1426,Liver,GTEX-ZTPG,female,20-29,Ventilator case,"congestion, necrosis","2 pieces, extensive congestion, necrosis, 25% of parenchyma preserved",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZTTD-1526,Liver,GTEX-ZTTD,male,50-59,Intermediate death,"cirrhosis, hepatitis","2 pieces, established cirrhosis, chronic steatohepatitis, macro- and microvesicular",false,cirrhosis,curated cirrhosis,,True
+GTEX-ZU9S-0926,Liver,GTEX-ZU9S,male,30-39,Fast death - natural causes,"congestion, steatosis",2 pieces. moderate vascular congestion.. 10% macrovesicular steatosis.,false,other,curated non-cirrhotic pathology,,True
+GTEX-ZUA1-1626,Liver,GTEX-ZUA1,male,40-49,Fast death - natural causes,congestion,2 pieces. central congestion.,false,other,curated non-cirrhotic pathology,,True
+GTEX-ZV68-1526,Liver,GTEX-ZV68,female,50-59,Fast death - natural causes,congestion,"2 pieces, moderately autolyzed; no discernable steatosis, moderate-marked passive congestion",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-ZVE1-1826,Liver,GTEX-ZVE1,female,50-59,Ventilator case,congestion,"2 pieces, congested",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZVE2-1926,Liver,GTEX-ZVE2,male,50-59,Ventilator case,"cirrhosis, inflammation, steatosis","2 pieces; severe cirrhosis, some residual chronic inflammation and steatosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-ZVP2-0626,Liver,GTEX-ZVP2,male,50-59,Ventilator case,"cirrhosis, fibrosis, hepatitis","2 pieces, steatohepatitis with bridging fibrosis and incomplete cirrhosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-ZVT3-1626,Liver,GTEX-ZVT3,female,60-69,Fast death - natural causes,steatosis,"2 pieces, mild macrovesicular steatosis (~10-20%)",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZVT4-0626,Liver,GTEX-ZVT4,female,50-59,Intermediate death,"congestion, steatosis","2 pieces, moderate congestion, minimal steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZVZQ-2026,Liver,GTEX-ZVZQ,female,60-69,Fast death - violent,steatosis,"2 pieces. Diffuse macrovesicular steatosis, moderately autolyzed",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-ZWKS-1726,Liver,GTEX-ZWKS,male,30-39,Slow death,steatosis,2 pieces diffuse mild macrovesciular steatosis involves ~20% of parenchyma,false,other,curated non-cirrhotic pathology,,True
+GTEX-ZXG5-1126,Liver,GTEX-ZXG5,male,60-69,Intermediate death,steatosis,2 pieces; 30% macrovesicular steatosis. CAPSULE present on both pieces (Sample should be below capsule).,false,other,curated non-cirrhotic pathology,,True
+GTEX-ZYFC-1526,Liver,GTEX-ZYFC,male,50-59,Fast death - natural causes,"congestion, steatosis","2 pieces, steatosis, congestion",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZYFD-1126,Liver,GTEX-ZYFD,male,50-59,Intermediate death,,2 pieces,false,healthy,"uncategorized, note reports no finding",,False
+GTEX-ZYT6-0626,Liver,GTEX-ZYT6,male,30-39,Fast death - violent,congestion,"2 pieces, mild congestion, moderate autolysis.  No significant steatosis",false,other,curated non-cirrhotic pathology,preservation,True
+GTEX-ZYVF-1226,Liver,GTEX-ZYVF,female,50-59,Ventilator case,steatosis,"2 pieces, minimal steatosis",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZYW4-1926,Liver,GTEX-ZYW4,male,60-69,Intermediate death,fibrosis,"2 pieces; moderate fibrosis, but no nodular cirrhosis; each has focal 5 and 8 sqmm large vessels [annotated]",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZYWO-1226,Liver,GTEX-ZYWO,female,40-49,Ventilator case,,"2 pieces, few collections of lymphocytes",false,other,"uncategorized, finding in note",,True
+GTEX-ZYY3-0626,Liver,GTEX-ZYY3,female,60-69,Slow death,"congestion, steatosis","2 pieces, severe passive congestion, mild steatosis (~10%)",false,other,curated non-cirrhotic pathology,,True
+GTEX-ZZPT-1726,Liver,GTEX-ZZPT,male,50-59,Slow death,"cirrhosis, nodularity","2 pieces, established macronodular cirrhosis",false,cirrhosis,curated cirrhosis,,True
+GTEX-ZZPU-0426,Liver,GTEX-ZZPU,female,50-59,Ventilator case,steatosis,"2 pieces, steatosis, sections include capsule (should be 1cm below capsule)",false,other,curated non-cirrhotic pathology,,True
