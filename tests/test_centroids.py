@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 
-from gtex_meta import centroids
+from gtex_liver_cells import centroids
 
 SQUARE = [[0, 0], [2, 0], [2, 2], [0, 2], [0, 0]]
 TRIANGLE = [[0, 0], [2, 0], [0, 2], [0, 0]]

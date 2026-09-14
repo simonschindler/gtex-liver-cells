@@ -2,7 +2,7 @@ import unittest
 
 import pandas as pd
 
-from gtex_meta import cohort
+from gtex_liver_cells import cohort
 
 
 def slide(slide_id="GTEX-AAAA-0126", categories="", notes=""):

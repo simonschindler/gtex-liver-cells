@@ -1,0 +1,34 @@
+Data license: Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+
+This license applies to the data files produced by this repository, not to the
+source code, which is covered by the MIT License in LICENSE.
+
+Applies to:
+
+- data/liver_slides.csv — the liver subset of the GTEx Portal histology table
+- data/liver_cohort.csv — the same slides with cohort labels and reasons
+- any AnnData (.h5ad) or centroid (.npz) files built by this pipeline
+
+You are free to share and adapt these files for any purpose, provided you give
+appropriate credit, link to the license, and indicate if changes were made.
+
+Attribution
+-----------
+
+These files are derived from the GTEx Consortium's open-access annotations:
+
+- GTEx Analysis V8 sample attributes and subject phenotypes
+  (dbGaP study phs000424.v8.p2, open-access release).
+- The GTEx Portal histology image table, retrieved through the public API at
+  https://gtexportal.org/api/v2/histology/image.
+
+Citation for GTEx: The GTEx Consortium, "The GTEx Consortium atlas of genetic
+regulatory effects across human tissues", Science 369:1318-1330 (2020),
+doi:10.1126/science.aaz1776.
+
+The cell-class labels and per-cell coordinates are NOT curated ground truth.
+They come from the HistoPlus model applied to GTEx whole-slide images upstream
+of this repository, and carry a per-cell confidence value (`prob`).
+
+Please also cite this repository and the dataset DOI when you use these files.

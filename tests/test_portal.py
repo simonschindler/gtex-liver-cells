@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from unittest import mock
 
-from gtex_meta import portal
+from gtex_liver_cells import portal
 
 
 def record(slide_id, tissue="Liver", hidden=False, notes=None, categories=None):

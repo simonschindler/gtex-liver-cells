@@ -207,7 +207,7 @@ regenerable from the API), centroid npz files, and `.h5ad` outputs.
 ## Repository layout
 
 ```
-gtex_meta/
+gtex_liver_cells/
 ├── README.md
 ├── pyproject.toml
 ├── uv.lock
@@ -218,7 +218,7 @@ gtex_meta/
 ├── sbatch/
 │   ├── extract_centroids.sbatch
 │   └── consolidate_anndata.sbatch
-├── src/gtex_meta/
+├── src/gtex_liver_cells/
 │   ├── __init__.py
 │   ├── portal.py
 │   ├── cohort.py
@@ -234,7 +234,7 @@ Dependencies: `numpy`, `pandas`, `scipy`, `anndata`, `geopandas`, `shapely`,
 `tqdm`. Removed: `idc-index`, `lazyslide`, `marimo`, `matplotlib`, `seaborn`,
 `pydicom`. Python stays at 3.14 per `.python-version`.
 
-Modules are run as `uv run --no-sync python -m gtex_meta.<stage>` from the
+Modules are run as `uv run --no-sync python -m gtex_liver_cells.<stage>` from the
 repository root, or `.venv/bin/python -m ...` with `PYTHONPATH=src`. Using the
 existing environment matters on the cluster: job 5802838 failed because
 `uv run` re-synced and could not resolve the optional `../cpyrcolate` path
@@ -245,8 +245,8 @@ dependency.
 ### portal.py — fetch the public slide table
 
 ```
-python -m gtex_meta.portal --out data/gtex_portal_slides.csv     # all 25,713 slides
-python -m gtex_meta.portal --tissue Liver --out data/liver_slides.csv
+python -m gtex_liver_cells.portal --out data/gtex_portal_slides.csv     # all 25,713 slides
+python -m gtex_liver_cells.portal --tissue Liver --out data/liver_slides.csv
 ```
 
 Pages `https://gtexportal.org/api/v2/histology/image` at 1000 items per page
@@ -260,7 +260,7 @@ of the pipeline consumes.
 ### cohort.py — label the cohort
 
 ```
-python -m gtex_meta.cohort --slides data/liver_slides.csv --out data/liver_cohort.csv
+python -m gtex_liver_cells.cohort --slides data/liver_slides.csv --out data/liver_cohort.csv
 ```
 
 Applies D3 and writes the nine Portal columns plus `label`, `label_reason`,
@@ -271,7 +271,7 @@ silently labeling another organ.
 ### centroids.py — HistoPlus GeoJSON to per-slide npz
 
 ```
-python -m gtex_meta.centroids --histoplus-dir DIR --out-dir DIR \
+python -m gtex_liver_cells.centroids --histoplus-dir DIR --out-dir DIR \
     [--slides data/liver_cohort.csv] [--workers N] [--overwrite]
 ```
 
@@ -295,7 +295,7 @@ continues and exits non-zero if any file failed.
 ### consolidate.py — npz to a single AnnData
 
 ```
-python -m gtex_meta.consolidate --centroids-dir DIR --cohort data/liver_cohort.csv \
+python -m gtex_liver_cells.consolidate --centroids-dir DIR --cohort data/liver_cohort.csv \
     --out data/liver_cohort.h5ad [--filter-to-cohort]
 ```
 
@@ -387,8 +387,8 @@ Deleted once the new stages pass their tests:
 | `__pycache__/`, `.superpowers/` | build cruft |
 
 Kept and rewritten: `README.md`, `pyproject.toml`, `uv.lock`, `.gitignore`,
-`.python-version`. `fetch_gtex_histology.py` becomes `src/gtex_meta/portal.py`;
-`build_liver_cohort.py` becomes `src/gtex_meta/cohort.py` with the matched-pair
+`.python-version`. `fetch_gtex_histology.py` becomes `src/gtex_liver_cells/portal.py`;
+`build_liver_cohort.py` becomes `src/gtex_liver_cells/cohort.py` with the matched-pair
 logic removed.
 
 Deletion happens after the new code is in place and tested, so the repository
@@ -405,6 +405,8 @@ is never left without a working path.
 5. AnnData layout decisions with the measured size table.
 6. How to run each stage, on a laptop and on the cluster.
 7. What was removed from the repository and why.
+8. Licensing: MIT for the code, CC BY 4.0 for the produced data files, with
+   GTEx attribution and the model-output caveat on cell-class labels.
 
 ## Risks
 

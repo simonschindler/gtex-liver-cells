@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import scipy.sparse as sp
 
-from gtex_meta import consolidate
+from gtex_liver_cells import consolidate
 
 COHORT_COLUMNS = ["Tissue Sample ID", "Subject ID", "Age Bracket", "Sex", "Hardy Scale", "label"]
 

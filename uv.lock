@@ -108,7 +108,7 @@ wheels = [
 ]
 
 [[package]]
-name = "gtex-meta"
+name = "gtex-liver-cells"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

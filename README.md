@@ -1,7 +1,12 @@
-# GTEx Liver Cohort Pipeline
+# gtex-liver-cells
 
-A self-contained pipeline that builds a labeled GTEx liver slide cohort from
-public data and turns HistoPlus cell polygons into a single AnnData object.
+A self-contained pipeline that builds a cell-resolved GTEx liver
+histopathology dataset: a labeled liver slide cohort plus cell centroids,
+cell-class labels, and coordinates consolidated into one AnnData object.
+
+The resulting object is what downstream analyses consume — for example the
+spatial-topology workflows in [topocyte](https://github.com/rendeirolab/topocyte),
+which loads it through the sibling `topocyte_data` repository.
 
 ## What this does
 
@@ -16,11 +21,11 @@ Four stages, each a standalone command reading and writing explicit paths.
 4. **`consolidate`** merges every `.npz` into one gzipped AnnData object.
 
 ```bash
-uv run --no-sync python -m gtex_meta.portal --tissue Liver --out data/liver_slides.csv
-uv run --no-sync python -m gtex_meta.cohort --slides data/liver_slides.csv --out data/liver_cohort.csv
-uv run --no-sync python -m gtex_meta.centroids --histoplus-dir /path/to/histoplus \
+uv run --no-sync python -m gtex_liver_cells.portal --tissue Liver --out data/liver_slides.csv
+uv run --no-sync python -m gtex_liver_cells.cohort --slides data/liver_slides.csv --out data/liver_cohort.csv
+uv run --no-sync python -m gtex_liver_cells.centroids --histoplus-dir /path/to/histoplus \
     --out-dir data/centroids --slides data/liver_cohort.csv --workers 16
-uv run --no-sync python -m gtex_meta.consolidate --centroids-dir data/centroids \
+uv run --no-sync python -m gtex_liver_cells.consolidate --centroids-dir data/centroids \
     --cohort data/liver_cohort.csv --out data/liver_cohort.h5ad
 ```
 
@@ -136,8 +141,8 @@ On a laptop:
 ```bash
 uv sync
 uv run --no-sync python -m unittest discover -s tests -v
-uv run --no-sync python -m gtex_meta.portal --tissue Liver --out data/liver_slides.csv
-uv run --no-sync python -m gtex_meta.cohort --slides data/liver_slides.csv --out data/liver_cohort.csv
+uv run --no-sync python -m gtex_liver_cells.portal --tissue Liver --out data/liver_slides.csv
+uv run --no-sync python -m gtex_liver_cells.cohort --slides data/liver_slides.csv --out data/liver_cohort.csv
 ```
 
 On the cluster, two sbatch wrappers read their paths from the environment:
@@ -167,6 +172,14 @@ in under a second.
 |---|---|
 | `liver.py` | rsync downloader; HistoPlus files are now a given input |
 | `downloader.py` | IDC whole-slide-image download, out of scope |
-| `cohorts.py`, `cohorts_notebook.py`, `__marimo__/` | superseded by `gtex_meta.cohort` |
+| `cohorts.py`, `cohorts_notebook.py`, `__marimo__/` | superseded by `gtex_liver_cells.cohort` |
 | `meta.py`, `path.py`, `vocab.py`, `main.py` | scratch exploration |
 | `path_terms.txt`, `liver_wsis.csv` | intermediates of the earlier 242-slide approach |
+
+## License
+
+The code is MIT-licensed (`LICENSE`). The data files this pipeline produces —
+`data/liver_slides.csv`, `data/liver_cohort.csv`, and any AnnData or centroid
+files — are CC BY 4.0 (`LICENSE-DATA`), with the GTEx Consortium to be credited
+as the source of the underlying annotations. Note that the cell-class labels
+are model output with per-cell confidences in `prob`, not curated ground truth.

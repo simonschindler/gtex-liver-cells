@@ -1,7 +1,7 @@
 [project]
-name = "gtex-meta"
+name = "gtex-liver-cells"
 version = "0.1.0"
-description = "Self-contained GTEx liver cohort and cell-centroid pipeline"
+description = "Build a cell-resolved GTEx liver histopathology dataset from public data"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [

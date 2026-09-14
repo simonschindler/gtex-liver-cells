@@ -37,7 +37,7 @@ echo "workers:    ${SLURM_CPUS_PER_TASK:-16}"
 
 # The project venv is used directly on purpose: `uv run` re-syncs the
 # environment and fails on the optional ../cpyrcolate path dependency.
-"$REPO_DIR/.venv/bin/python" -m gtex_meta.centroids \
+"$REPO_DIR/.venv/bin/python" -m gtex_liver_cells.centroids \
     --histoplus-dir "$HISTOPLUS_DIR" \
     --out-dir "$CENTROIDS_DIR" \
     --slides "$COHORT_CSV" \

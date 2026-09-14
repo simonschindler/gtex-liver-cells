@@ -4,7 +4,7 @@
 
 **Goal:** Rebuild this repository as a self-contained pipeline that fetches public GTEx histology metadata, labels a 610-slide liver cohort to CSV, extracts cell centroids from HistoPlus GeoJSON files, and consolidates them into a single AnnData object.
 
-**Architecture:** A `src/gtex_meta` package with one module per stage — `portal` (public API to slide table), `cohort` (slide table to labeled CSV), `centroids` (HistoPlus GeoJSON to per-slide npz), `consolidate` (npz directory to one `.h5ad`). Each stage is a standalone `python -m` entry point reading and writing explicit paths, so stages can run on a laptop or as SLURM jobs. Two sbatch wrappers live in `sbatch/`.
+**Architecture:** A `src/gtex_liver_cells` package with one module per stage — `portal` (public API to slide table), `cohort` (slide table to labeled CSV), `centroids` (HistoPlus GeoJSON to per-slide npz), `consolidate` (npz directory to one `.h5ad`). Each stage is a standalone `python -m` entry point reading and writing explicit paths, so stages can run on a laptop or as SLURM jobs. Two sbatch wrappers live in `sbatch/`.
 
 **Tech Stack:** Python 3.14, uv 0.9.10, pandas, numpy, scipy, anndata, geopandas + pyogrio (no fiona), shapely, tqdm, standard-library unittest.
 
@@ -15,14 +15,14 @@
 - Python `>=3.14` per `.python-version`; do not change it.
 - Dependencies limited to: `anndata`, `geopandas`, `numpy`, `pandas`, `scipy`, `shapely`, `tqdm`. Do not add others.
 - Tests use the standard library `unittest` only; run with `uv run --no-sync python -m unittest discover -s tests -v`.
-- Modules are invoked as `uv run --no-sync python -m gtex_meta.<stage>` from the repository root.
+- Modules are invoked as `uv run --no-sync python -m gtex_liver_cells.<stage>` from the repository root.
 - Never import from the LISC `tissuegeometry` repository. This repository is self-contained.
 - HistoPlus GeoJSON files are a given input. Missing files produce warnings, never hard failures.
 - HistoPlus files are gzipped GeoJSON and must be read with a GDAL `/vsigzip/` path prefix. Verified: `gpd.read_file(path)` raises `DataSourceError`; `gpd.read_file(f"/vsigzip/{path}")` works in 0.9 s for 35,076 features.
 - Centroid coordinates are stored as float32. Verified against the LISC output for `GTEX-1JJ6O-0826`: identical class sequence, maximum coordinate difference 0.000973 px.
 - `prob` is one scalar per cell (confidence in the assigned class). It is stored, never filtered by default.
 - The consolidated AnnData uses: `X` = CSR one-hot float32, `var` = sorted union of class names, `obs` carries `cell_type`, `obsm["spatial"]` = float32 coords, no per-cell identifiers, gzip compression.
-- Every command in this plan runs from `/Users/simon/Desktop/gtex_meta`.
+- Every command in this plan runs from `/Users/simon/Desktop/gtex_liver_cells`.
 
 ---
 
@@ -31,12 +31,12 @@
 **Files:**
 - Modify: `pyproject.toml` (full replacement)
 - Modify: `.gitignore` (full replacement)
-- Create: `src/gtex_meta/__init__.py`
+- Create: `src/gtex_liver_cells/__init__.py`
 - Test: `tests/test_package.py`
 
 **Interfaces:**
 - Consumes: nothing
-- Produces: importable package `gtex_meta` with `gtex_meta.__version__ == "0.1.0"`; an editable install in `.venv` so `python -m gtex_meta.*` resolves
+- Produces: importable package `gtex_liver_cells` with `gtex_liver_cells.__version__ == "0.1.0"`; an editable install in `.venv` so `python -m gtex_liver_cells.*` resolves
 
 - [x] **Step 1: Write the failing test**
 
@@ -48,22 +48,22 @@ import unittest
 
 class PackageTests(unittest.TestCase):
     def test_package_imports_and_exposes_version(self):
-        import gtex_meta
+        import gtex_liver_cells
 
-        self.assertEqual(gtex_meta.__version__, "0.1.0")
+        self.assertEqual(gtex_liver_cells.__version__, "0.1.0")
 ```
 
 - [x] **Step 2: Run the test to verify it fails**
 
 Run: `uv run --no-sync python -m unittest tests.test_package -v`
 
-Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_meta'`.
+Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_liver_cells'`.
 
 - [x] **Step 3: Replace `pyproject.toml`**
 
 ```toml
 [project]
-name = "gtex-meta"
+name = "gtex-liver-cells"
 version = "0.1.0"
 description = "Self-contained GTEx liver cohort and cell-centroid pipeline"
 readme = "README.md"
@@ -95,7 +95,7 @@ line-length = 100
 
 - [x] **Step 4: Create the package and replace `.gitignore`**
 
-Create `src/gtex_meta/__init__.py`:
+Create `src/gtex_liver_cells/__init__.py`:
 
 ```python
 """Self-contained GTEx liver cohort and cell-centroid pipeline."""
@@ -150,8 +150,8 @@ Expected: `OK` (1 test).
 - [x] **Step 8: Commit**
 
 ```bash
-git add pyproject.toml uv.lock .gitignore src/gtex_meta/__init__.py tests/test_package.py
-git commit -m "chore: scaffold gtex_meta package, trim dependencies, drop legacy modules"
+git add pyproject.toml uv.lock .gitignore src/gtex_liver_cells/__init__.py tests/test_package.py
+git commit -m "chore: scaffold gtex_liver_cells package, trim dependencies, drop legacy modules"
 ```
 
 ---
@@ -159,7 +159,7 @@ git commit -m "chore: scaffold gtex_meta package, trim dependencies, drop legacy
 ### Task 2: `portal.py` — fetch the public slide table
 
 **Files:**
-- Create: `src/gtex_meta/portal.py`
+- Create: `src/gtex_liver_cells/portal.py`
 - Test: `tests/test_portal.py`
 
 **Interfaces:**
@@ -184,7 +184,7 @@ import tempfile
 import unittest
 from unittest import mock
 
-from gtex_meta import portal
+from gtex_liver_cells import portal
 
 
 def record(slide_id, tissue="Liver", hidden=False, notes=None, categories=None):
@@ -291,11 +291,11 @@ class WriteCsvTests(unittest.TestCase):
 
 Run: `uv run --no-sync python -m unittest tests.test_portal -v`
 
-Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_meta.portal'`.
+Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_liver_cells.portal'`.
 
 - [x] **Step 3: Write the implementation**
 
-Create `src/gtex_meta/portal.py`:
+Create `src/gtex_liver_cells/portal.py`:
 
 ```python
 """Fetch the public GTEx Portal histology slide table.
@@ -417,7 +417,7 @@ Expected: `OK` (7 tests).
 - [x] **Step 5: Commit**
 
 ```bash
-git add src/gtex_meta/portal.py tests/test_portal.py
+git add src/gtex_liver_cells/portal.py tests/test_portal.py
 git commit -m "feat: fetch GTEx Portal histology slide table"
 ```
 
@@ -426,12 +426,12 @@ git commit -m "feat: fetch GTEx Portal histology slide table"
 ### Task 3: `cohort.py` — label the liver cohort and write the tracked CSVs
 
 **Files:**
-- Create: `src/gtex_meta/cohort.py`
+- Create: `src/gtex_liver_cells/cohort.py`
 - Test: `tests/test_cohort.py`
 - Create (generated, tracked): `data/liver_slides.csv`, `data/liver_cohort.csv`
 
 **Interfaces:**
-- Consumes: the slide table CSV written by `gtex_meta.portal`
+- Consumes: the slide table CSV written by `gtex_liver_cells.portal`
 - Produces:
   - `CLEAN_CATEGORIES: set[str]`
   - `split_categories(value) -> set[str]`
@@ -449,7 +449,7 @@ import unittest
 
 import pandas as pd
 
-from gtex_meta import cohort
+from gtex_liver_cells import cohort
 
 
 def slide(slide_id="GTEX-AAAA-0126", categories="", notes=""):
@@ -551,11 +551,11 @@ class BuildCohortTests(unittest.TestCase):
 
 Run: `uv run --no-sync python -m unittest tests.test_cohort -v`
 
-Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_meta.cohort'`.
+Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_liver_cells.cohort'`.
 
 - [x] **Step 3: Write the implementation**
 
-Create `src/gtex_meta/cohort.py`:
+Create `src/gtex_liver_cells/cohort.py`:
 
 ```python
 """Label the GTEx liver cohort from the Portal histology table.
@@ -698,8 +698,8 @@ Expected: `OK` (12 tests).
 Run:
 
 ```bash
-uv run --no-sync python -m gtex_meta.portal --tissue Liver --out data/liver_slides.csv
-uv run --no-sync python -m gtex_meta.cohort --slides data/liver_slides.csv --out data/liver_cohort.csv
+uv run --no-sync python -m gtex_liver_cells.portal --tissue Liver --out data/liver_slides.csv
+uv run --no-sync python -m gtex_liver_cells.cohort --slides data/liver_slides.csv --out data/liver_cohort.csv
 ```
 
 Expected:
@@ -753,7 +753,7 @@ empty notes 7
 - [x] **Step 7: Commit**
 
 ```bash
-git add src/gtex_meta/cohort.py tests/test_cohort.py data/liver_slides.csv data/liver_cohort.csv
+git add src/gtex_liver_cells/cohort.py tests/test_cohort.py data/liver_slides.csv data/liver_cohort.csv
 git commit -m "feat: label the GTEx liver cohort from the public slide table"
 ```
 
@@ -762,7 +762,7 @@ git commit -m "feat: label the GTEx liver cohort from the public slide table"
 ### Task 4: `centroids.py` — HistoPlus GeoJSON to per-slide npz
 
 **Files:**
-- Create: `src/gtex_meta/centroids.py`
+- Create: `src/gtex_liver_cells/centroids.py`
 - Test: `tests/test_centroids.py`
 
 **Interfaces:**
@@ -790,7 +790,7 @@ import unittest
 
 import numpy as np
 
-from gtex_meta import centroids
+from gtex_liver_cells import centroids
 
 SQUARE = [[0, 0], [2, 0], [2, 2], [0, 2], [0, 0]]
 TRIANGLE = [[0, 0], [2, 0], [0, 2], [0, 0]]
@@ -953,11 +953,11 @@ class MainTests(unittest.TestCase):
 
 Run: `uv run --no-sync python -m unittest tests.test_centroids -v`
 
-Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_meta.centroids'`.
+Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_liver_cells.centroids'`.
 
 - [x] **Step 3: Write the implementation**
 
-Create `src/gtex_meta/centroids.py`:
+Create `src/gtex_liver_cells/centroids.py`:
 
 ```python
 """Extract cell centroids and class labels from HistoPlus GeoJSON files.
@@ -1149,7 +1149,7 @@ Run:
 ```bash
 uv run --no-sync python -c "
 import numpy as np, geopandas as gpd, os
-from gtex_meta.centroids import gdal_path
+from gtex_liver_cells.centroids import gdal_path
 sid = 'GTEX-1JJ6O-0826'
 src = os.path.expanduser(f'~/data/GTEX/histoplus/{sid}.histoplus.geojson.gz')
 ref = os.path.expanduser(f'~/data/GTEX/pc/{sid}.npz')
@@ -1177,7 +1177,7 @@ cells: 35076 | classes: 12
 - [x] **Step 6: Commit**
 
 ```bash
-git add src/gtex_meta/centroids.py tests/test_centroids.py
+git add src/gtex_liver_cells/centroids.py tests/test_centroids.py
 git commit -m "feat: extract cell centroids and labels from HistoPlus files"
 ```
 
@@ -1186,11 +1186,11 @@ git commit -m "feat: extract cell centroids and labels from HistoPlus files"
 ### Task 5: `consolidate.py` — npz directory to one AnnData
 
 **Files:**
-- Create: `src/gtex_meta/consolidate.py`
+- Create: `src/gtex_liver_cells/consolidate.py`
 - Test: `tests/test_consolidate.py`
 
 **Interfaces:**
-- Consumes: npz files written by `gtex_meta.centroids` (keys `coords`, `labels`, `prob`, `class_names`, `provenance`) and the cohort CSV written by `gtex_meta.cohort`
+- Consumes: npz files written by `gtex_liver_cells.centroids` (keys `coords`, `labels`, `prob`, `class_names`, `provenance`) and the cohort CSV written by `gtex_liver_cells.cohort`
 - Produces:
   - `META_COLUMNS: list[str]`
   - `load_centroids(path: str) -> dict` with keys `path`, `slide_id`, `coords`, `labels`, `class_names`, `prob`, `has_provenance`
@@ -1212,7 +1212,7 @@ import numpy as np
 import pandas as pd
 import scipy.sparse as sp
 
-from gtex_meta import consolidate
+from gtex_liver_cells import consolidate
 
 COHORT_COLUMNS = ["Tissue Sample ID", "Subject ID", "Age Bracket", "Sex", "Hardy Scale", "label"]
 
@@ -1402,11 +1402,11 @@ class MainTests(unittest.TestCase):
 
 Run: `uv run --no-sync python -m unittest tests.test_consolidate -v`
 
-Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_meta.consolidate'`.
+Expected: FAIL with `ModuleNotFoundError: No module named 'gtex_liver_cells.consolidate'`.
 
 - [x] **Step 3: Write the implementation**
 
-Create `src/gtex_meta/consolidate.py`:
+Create `src/gtex_liver_cells/consolidate.py`:
 
 ```python
 """Consolidate per-slide centroid npz files into one AnnData object.
@@ -1592,7 +1592,7 @@ Expected: `OK` (38 tests: 1 package + 7 portal + 12 cohort + 10 centroids + 8 co
 - [x] **Step 6: Commit**
 
 ```bash
-git add src/gtex_meta/consolidate.py tests/test_consolidate.py
+git add src/gtex_liver_cells/consolidate.py tests/test_consolidate.py
 git commit -m "feat: consolidate centroid files into a single AnnData"
 ```
 
@@ -1605,7 +1605,7 @@ git commit -m "feat: consolidate centroid files into a single AnnData"
 - Create: `sbatch/consolidate_anndata.sbatch`
 
 **Interfaces:**
-- Consumes: the `gtex_meta.centroids` and `gtex_meta.consolidate` entry points
+- Consumes: the `gtex_liver_cells.centroids` and `gtex_liver_cells.consolidate` entry points
 - Produces: two job scripts reading `REPO_DIR`, `HISTOPLUS_DIR`, `CENTROIDS_DIR`, `COHORT_CSV`, `OUT_H5AD`, and `FILTER_TO_COHORT` from the environment
 
 - [x] **Step 1: Create `sbatch/extract_centroids.sbatch`**
@@ -1650,7 +1650,7 @@ echo "workers:    ${SLURM_CPUS_PER_TASK:-16}"
 
 # The project venv is used directly on purpose: `uv run` re-syncs the
 # environment and fails on the optional ../cpyrcolate path dependency.
-"$REPO_DIR/.venv/bin/python" -m gtex_meta.centroids \
+"$REPO_DIR/.venv/bin/python" -m gtex_liver_cells.centroids \
     --histoplus-dir "$HISTOPLUS_DIR" \
     --out-dir "$CENTROIDS_DIR" \
     --slides "$COHORT_CSV" \
@@ -1704,7 +1704,7 @@ echo "centroids:  $CENTROIDS_DIR"
 echo "cohort csv: $COHORT_CSV"
 echo "output:     $OUT_H5AD"
 
-"$REPO_DIR/.venv/bin/python" -m gtex_meta.consolidate \
+"$REPO_DIR/.venv/bin/python" -m gtex_liver_cells.consolidate \
     --centroids-dir "$CENTROIDS_DIR" \
     --cohort "$COHORT_CSV" \
     --out "$OUT_H5AD" \
@@ -1766,6 +1766,7 @@ Use exactly these six level-two headings, in this order:
 4. `## About prob` — one scalar per cell, argmax confidence, no per-class breakdown, measured distribution (median 0.607, 34% below 0.5), and why no default threshold is applied.
 5. `## AnnData layout` — sparse one-hot `X`, `cell_type` in `obs`, no per-cell identifiers (`obs_names` are anndata's default sequential strings, which compress to almost nothing), gzip, with the measured table: 34.5 B/cell gzipped, 1.17 GB for 34M cells, 5.52 GB for 160M cells, and the note that 16 B/cell is the in-memory CSR cost, not the file size.
 6. `## Running it` — laptop commands, the sbatch commands with their environment variables, and the `uv run` re-sync caveat on the cluster.
+7. `## License` — MIT for the code, CC BY 4.0 for the produced data files, with GTEx attribution and the model-output caveat on cell-class labels.
 
 Add a `### Removed from this repository` subsection under "Running it" listing `liver.py`, `downloader.py`, `cohorts.py`, `cohorts_notebook.py`, `meta.py`, `path.py`, `vocab.py`, `main.py`, `path_terms.txt`, `liver_wsis.csv`, and `__marimo__/`, each with a one-line reason.
 
@@ -1778,7 +1779,7 @@ grep -c "^## " README.md
 grep -n "^## " README.md
 ```
 
-Expected: `6`, listing the six headings above in order.
+Expected: `7`, listing the seven headings above in order.
 
 - [x] **Step 3: Verify the key facts appear**
 

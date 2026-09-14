@@ -38,7 +38,7 @@ echo "centroids:  $CENTROIDS_DIR"
 echo "cohort csv: $COHORT_CSV"
 echo "output:     $OUT_H5AD"
 
-"$REPO_DIR/.venv/bin/python" -m gtex_meta.consolidate \
+"$REPO_DIR/.venv/bin/python" -m gtex_liver_cells.consolidate \
     --centroids-dir "$CENTROIDS_DIR" \
     --cohort "$COHORT_CSV" \
     --out "$OUT_H5AD" \
