@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[oc]
+build/
+dist/
+*.egg-info
+
+# Environments
+.venv/
+
+# Editor / agent scratch
+.superpowers/
+__marimo__/
+
+# Pipeline outputs (regenerable, large, or machine-specific)
+data/gtex_portal_slides.csv
+data/centroids/
+*.npz
+*.h5ad
