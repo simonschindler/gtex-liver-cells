@@ -1138,7 +1138,7 @@ if __name__ == "__main__":
 
 Run: `uv run --no-sync python -m unittest tests.test_centroids -v`
 
-Expected: `OK` (9 tests).
+Expected: `OK` (10 tests).
 
 - [ ] **Step 5: Verify against an existing LISC npz**
 
@@ -1583,7 +1583,7 @@ Expected: `OK` (8 tests).
 
 Run: `uv run --no-sync python -m unittest discover -s tests -v`
 
-Expected: `OK` (37 tests: 1 package + 7 portal + 12 cohort + 9 centroids + 8 consolidate).
+Expected: `OK` (38 tests: 1 package + 7 portal + 12 cohort + 10 centroids + 8 consolidate).
 
 - [ ] **Step 6: Commit**
 
@@ -1839,7 +1839,7 @@ rm -rf __marimo__ wsi_slides .superpowers __pycache__
 
 Run: `uv run --no-sync python -m unittest discover -s tests -v`
 
-Expected: `OK` (37 tests), with only `test_cohort`, `test_centroids`, `test_consolidate`, and `test_package` present.
+Expected: `OK` (38 tests), with only `test_cohort`, `test_centroids`, `test_consolidate`, and `test_package` present.
 
 - [ ] **Step 5: Verify the final repository layout**
 
