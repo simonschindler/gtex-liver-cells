@@ -1,7 +1,11 @@
-"""Extract cell centroids and class labels from HistoPlus GeoJSON files.
+"""Extract cell centroids and class labels from the Parquet cell-type source.
 
-HistoPlus files are a given input. Slides whose file is missing are reported as
-warnings and skipped; they never abort the run.
+Per slide the source is one file ``<parquet_dir>/<TISSUE_ID>/cell_types.gpd`` —
+Parquet despite the extension — with ``geometry`` (binary WKB under the Arrow
+extension ``geoarrow.wkb``), ``class``, ``prob`` and ``cell_id`` columns. Only
+geometry, class and confidence are read; the sibling
+``cell_types_features.h5ad`` embeddings are deliberately not used. Slides whose
+file is missing are reported as warnings and skipped; they never abort the run.
 """
 
 import argparse
@@ -10,20 +14,34 @@ import os
 import sys
 from concurrent.futures import ProcessPoolExecutor
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
+import pyarrow as pa
+import pyarrow.parquet as pq
+import shapely
+from shapely import GeometryType
 from tqdm import tqdm
 
-METHOD_VERSION = "1.0"
-SUFFIX = ".histoplus.geojson.gz"
+METHOD_VERSION = "2.0"
+SOURCE_FILENAME = "cell_types.gpd"
+GEOMETRY_COLUMN = "geometry"
+CLASS_COLUMN = "class"
+PROB_COLUMN = "prob"
+
+# Cell outlines arrive as Polygon or MultiPolygon and shapely's centroid handles
+# both, so the reader must not assume simple polygons. Anything else — a Point,
+# a LineString, a null geometry — fails that slide with the type named.
+SUPPORTED_GEOMETRY_IDS = {int(GeometryType.POLYGON), int(GeometryType.MULTIPOLYGON)}
 
 
-def gdal_path(path: str) -> str:
-    """Return a GDAL-readable path, decompressing .gz through /vsigzip/."""
-    if path.endswith(".gz"):
-        return f"/vsigzip/{path}"
-    return path
+def source_path(parquet_dir: str, slide_id: str) -> str:
+    """Return the cell_types.gpd path for one slide."""
+    return os.path.join(parquet_dir, slide_id, SOURCE_FILENAME)
+
+
+def slide_id_from_source(source: str) -> str:
+    """Return the slide ID of a `<parquet_dir>/<TISSUE_ID>/cell_types.gpd` path."""
+    return os.path.basename(os.path.dirname(os.path.abspath(source)))
 
 
 def read_slide_ids(csv_path: str) -> list[str]:
@@ -33,29 +51,56 @@ def read_slide_ids(csv_path: str) -> list[str]:
     return [value for value in frame[column].fillna("") if value]
 
 
-def extract_one(source_path: str, out_path: str) -> dict:
-    """Extract centroids from one HistoPlus file and write a compressed npz."""
-    slide_id = os.path.basename(source_path).split(".histoplus")[0]
-    frame = gpd.read_file(gdal_path(source_path))
-    if frame.empty:
-        raise ValueError(f"no features in {os.path.basename(source_path)}")
+def wkb_bytes(column: pa.ChunkedArray) -> np.ndarray:
+    """Return the raw WKB bytes held by a Parquet geometry column.
 
-    coords = np.array(
-        [(geometry.centroid.x, geometry.centroid.y) for geometry in frame.geometry],
-        dtype=np.float32,
-    )
-    classes = frame["classification"].astype(str)
-    class_names = np.array(sorted(classes.unique()))
+    Parquet files written by geopandas store the column as the Arrow extension
+    type ``geoarrow.wkb``. With no geoarrow extension package installed pyarrow
+    downgrades that to its storage type (``binary``), which is what we read;
+    when an extension package *is* installed pyarrow returns the extension
+    array instead, so unwrap it. ``large_binary`` storage is normalised too.
+    """
+    array = column.combine_chunks()
+    if isinstance(array.type, pa.ExtensionType):
+        array = array.storage
+    if pa.types.is_large_binary(array.type):
+        array = array.cast(pa.binary())
+    if not pa.types.is_binary(array.type):
+        raise ValueError(f"geometry column has type {array.type}, expected binary WKB")
+    return array.to_numpy(zero_copy_only=False)
+
+
+def centroids_from_wkb(wkb: np.ndarray, source: str) -> np.ndarray:
+    """Parse WKB polygons and return their float32 (N, 2) centroids."""
+    geometries = shapely.from_wkb(wkb)
+    type_ids = np.unique(shapely.get_type_id(geometries))
+    unsupported = [
+        GeometryType(int(type_id)).name
+        for type_id in type_ids
+        if int(type_id) not in SUPPORTED_GEOMETRY_IDS
+    ]
+    if unsupported:
+        raise ValueError(f"{source}: unsupported geometry types: {', '.join(unsupported)}")
+    points = shapely.centroid(geometries)
+    return np.column_stack([shapely.get_x(points), shapely.get_y(points)]).astype(np.float32)
+
+
+def extract_one(source: str, out_path: str) -> dict:
+    """Extract centroids from one cell_types.gpd file and write a compressed npz."""
+    slide_id = slide_id_from_source(source)
+    table = pq.read_table(source, columns=[GEOMETRY_COLUMN, CLASS_COLUMN, PROB_COLUMN])
+    if table.num_rows == 0:
+        raise ValueError(f"no cells in {source}")
+
+    coords = centroids_from_wkb(wkb_bytes(table.column(GEOMETRY_COLUMN)), source)
+    classes = table.column(CLASS_COLUMN).to_pylist()
+    prob = table.column(PROB_COLUMN).to_numpy(zero_copy_only=False).astype(np.float32)
+    class_names = np.array(sorted(set(classes)))
     lookup = {name: index for index, name in enumerate(class_names)}
-    labels = classes.map(lookup).to_numpy(dtype=np.int16)
-    prob = (
-        frame["prob"].to_numpy(dtype=np.float32)
-        if "prob" in frame.columns
-        else np.full(len(frame), np.nan, dtype=np.float32)
-    )
+    labels = np.array([lookup[name] for name in classes], dtype=np.int16)
     provenance = json.dumps(
         {
-            "source_file": os.path.basename(source_path),
+            "source_file": f"{slide_id}/{SOURCE_FILENAME}",
             "method_version": METHOD_VERSION,
             "n_cells": int(coords.shape[0]),
             "n_classes": int(class_names.size),
@@ -75,21 +120,21 @@ def extract_one(source_path: str, out_path: str) -> dict:
 
 
 def select_slides(
-    histoplus_dir: str, slide_ids: list[str] | None
+    parquet_dir: str, slide_ids: list[str] | None
 ) -> tuple[list[tuple[str, str]], list[str]]:
     """Return (sources, missing) where sources are (slide_id, path) pairs."""
     if slide_ids is None:
         sources = [
-            (name.split(".histoplus")[0], os.path.join(histoplus_dir, name))
-            for name in sorted(os.listdir(histoplus_dir))
-            if name.endswith(SUFFIX)
+            (name, source_path(parquet_dir, name))
+            for name in sorted(os.listdir(parquet_dir))
+            if os.path.isfile(source_path(parquet_dir, name))
         ]
         return sources, []
 
     sources: list[tuple[str, str]] = []
     missing: list[str] = []
     for slide_id in slide_ids:
-        path = os.path.join(histoplus_dir, f"{slide_id}{SUFFIX}")
+        path = source_path(parquet_dir, slide_id)
         if os.path.exists(path):
             sources.append((slide_id, path))
         else:
@@ -132,27 +177,31 @@ def extract_many(
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--histoplus-dir", required=True, help="HistoPlus input directory")
+    parser.add_argument(
+        "--parquet-dir",
+        required=True,
+        help="Directory holding <TISSUE_ID>/cell_types.gpd per slide",
+    )
     parser.add_argument("--out-dir", required=True, help="Directory for .npz outputs")
     parser.add_argument(
         "--slides",
         default=None,
-        help="Optional CSV of slides to process (default: every HistoPlus file)",
+        help="Optional CSV of slides to process (default: every cell_types.gpd)",
     )
     parser.add_argument("--workers", type=int, default=os.cpu_count())
     parser.add_argument("--overwrite", action="store_true", help="Redo existing .npz files")
     args = parser.parse_args(argv)
 
-    if not os.path.isdir(args.histoplus_dir):
-        print(f"ERROR: no such directory: {args.histoplus_dir}", file=sys.stderr)
+    if not os.path.isdir(args.parquet_dir):
+        print(f"ERROR: no such directory: {args.parquet_dir}", file=sys.stderr)
         return 1
 
     slide_ids = read_slide_ids(args.slides) if args.slides else None
-    sources, missing = select_slides(args.histoplus_dir, slide_ids)
+    sources, missing = select_slides(args.parquet_dir, slide_ids)
 
     if missing:
         print(
-            f"WARNING: {len(missing)} requested slides have no HistoPlus file; skipping",
+            f"WARNING: {len(missing)} requested slides have no {SOURCE_FILENAME}; skipping",
             file=sys.stderr,
         )
         for slide_id in missing[:10]:
