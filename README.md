@@ -224,8 +224,11 @@ sbatch --export=ALL,CENTROIDS_DIR=$CENTROIDS_DIR,COHORT_CSV=$COHORT_CSV,OUT_DIR=
     "$REPO_DIR/sbatch/consolidate_anndata.sbatch"
 ```
 
-`FILTER_TO_COHORT=1` keeps only slides listed in the cohort CSV, which is how
-all 603 available slides narrow to the 124-slide healthy/cirrhotic subset. Both
+`FILTER_TO_COHORT=1` keeps only slides listed in the cohort CSV. The shipped
+`data/liver_cohort.csv` holds all 610 labeled slides, so with it the object
+keeps the 603 slides that have a `cell_types.gpd`; to build the 124-slide
+healthy/cirrhotic subset, point `COHORT_CSV` at a CSV containing only the
+`healthy` and `cirrhosis` rows. Both
 wrappers take their paths from the environment, so `REPO_DIR`, `PARQUET_DIR`,
 `CENTROIDS_DIR`, `COHORT_CSV` and `OUT_DIR` have to be exported in the
 submitting shell; the wrappers default only `REPO_DIR`, to
