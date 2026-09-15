@@ -16,14 +16,15 @@ Four stages, each a standalone command reading and writing explicit paths.
    across all tissues.
 2. **`cohort`** labels the 610 liver slides `healthy`, `cirrhosis`, or `other`
    and writes `data/liver_cohort.csv`.
-3. **`centroids`** extracts cell centroids and class labels from HistoPlus
-   GeoJSON files into one `.npz` per slide. Those files are a given input.
+3. **`centroids`** extracts cell centroids and class labels from the lab's
+   Parquet cell-type source — one `<TISSUE_ID>/cell_types.gpd` file per slide —
+   into one `.npz` per slide. Those files are a given input.
 4. **`consolidate`** merges every `.npz` into one gzipped AnnData object.
 
 ```bash
 uv run --no-sync python -m gtex_liver_cells.portal --tissue Liver --out data/liver_slides.csv
 uv run --no-sync python -m gtex_liver_cells.cohort --slides data/liver_slides.csv --out data/liver_cohort.csv
-uv run --no-sync python -m gtex_liver_cells.centroids --histoplus-dir /path/to/histoplus \
+uv run --no-sync python -m gtex_liver_cells.centroids --parquet-dir /path/to/datasets_pq_h5ad \
     --out-dir data/centroids --slides data/liver_cohort.csv --workers 16
 uv run --no-sync python -m gtex_liver_cells.consolidate --centroids-dir data/centroids \
     --cohort data/liver_cohort.csv --out data/liver_cohort.h5ad
@@ -58,10 +59,53 @@ contains only the annotation files, and the Portal file catalog lists no
 histology entries — which is why this repository ships a fetcher instead of a
 download link.
 
-Two details worth knowing: 7 of the 610 liver slides have no pathology note,
-and those same 7 are the only ones with no HistoPlus file; 31 slides are
+Two details worth knowing: 7 of the 610 liver slides have no pathology note and
+no HistoPlus file in the older source; extraction now warns about any requested
+slide whose `cell_types.gpd` is absent and counts it as missing. 31 slides are
 flagged `Hidden` in the Portal, exactly one of which is liver
 (`GTEX-1269W-1826`), and it falls in `other` regardless.
+
+### The cell-type source
+
+Cell segmentation and cell-type labels come from the lab's Parquet cell-type
+source on CEMM, not from the public Portal. Per slide there is one directory
+`<TISSUE_ID>/` holding `cell_types.gpd` — Parquet despite the extension (file
+magic `PAR1`) — with four columns:
+
+| Column | Type | Meaning |
+|---|---|---|
+| `geometry` | binary | WKB cell polygon, Arrow extension `geoarrow.wkb` |
+| `class` | string | CellViT cell-type label |
+| `prob` | double | Confidence for the predicted class |
+| `cell_id` | int64 | Per-cell identifier |
+
+Only `geometry`, `class` and `prob` are read. The sibling
+`cell_types_features.h5ad` (768-d CellViT embeddings) is deliberately **not**
+used: embeddings are unnecessary for the tutorial and would dominate the object
+size. `cell_id` matches the h5ad row order exactly on the one slide where both
+were read, so it is available as a join key if embeddings are ever added, while
+`library_id` (constant `"cell_types"`) and `tile_id` (0…n-1 per slide) carry no
+information and are never stored.
+
+The class vocabulary varies per slide — both measured liver slides carry 12
+classes, while a skin slide carried 13 (adding `Minor Stromal Cell`) — so
+consolidation unions the per-slide vocabularies instead of assuming a fixed
+taxonomy.
+
+Two caveats belong with any downstream claim:
+
+- **The labels are model output on a mismatched taxonomy.** The CellViT
+  taxonomy is pan-cancer and has no hepatocyte or Kupffer-cell class, so liver
+  cells are necessarily mapped onto generic epithelial and stromal labels;
+  `Epithelial` reaching 70% of `GTEX-14AS3-0126` is most plausibly hepatocytes
+  under a label that does not fit them. `Cancer cell` is reported for 6.6-12.6%
+  of these GTEx livers although the donors have no cancer diagnosis.
+- **Cell counts are smaller than the older HistoPlus source.** Paired over 8
+  liver slides, CellViT finds 0.651-0.906x as many cells (median 0.818; 293,691
+  versus 361,514 cells per slide on average), so the earlier "10x fewer cells"
+  estimate was wrong — it compared a skin slide against a liver slide. Expect
+  roughly 36M cells for the 124-slide healthy/cirrhotic subset and 179M for all
+  610 labeled slides.
 
 ## Cohort definition
 
@@ -97,24 +141,24 @@ Known limitations:
 
 ## About prob
 
-Each HistoPlus feature carries exactly three properties: `cell_id`,
-`classification`, and `prob`. `prob` is a **single scalar per cell** — the
-confidence for the predicted class, consistent with an argmax softmax. There is
-no per-class breakdown and no companion file carrying one, so full
-probabilities, soft labels, or prediction entropy cannot be recovered without
-re-exporting from the upstream model.
+Each cell carries a `class` label and a single scalar `prob` — the confidence
+for the predicted class, consistent with an argmax softmax. There is no
+per-class breakdown and no companion file carrying one, so full probabilities,
+soft labels, or prediction entropy cannot be recovered without re-exporting
+from the upstream model.
 
-Measured over real slides: min 0.139, median 0.607, max 0.995; 34% of calls
-fall below 0.5 and only 11% clear 0.9. Extraction stores `prob` as a float32
-`obs` column and **applies no threshold by default**, because silently dropping
-a third of the cells would be a hidden analysis decision. Filter downstream if
-you want one.
+Measured over real slides: min 0.148, median 0.782, max 0.993 with 15.8% of
+cells below 0.5 on `GTEX-14AS3-0126`; median 0.696 with 25.7% below 0.5 on
+`GTEX-13OVJ-1026`. Extraction stores `prob` as a float32 `obs` column and
+**applies no threshold by default**, because silently dropping a quarter of the
+cells would be a hidden analysis decision. Filter downstream if you want one.
 
 ## AnnData layout
 
-The consolidated object uses a sparse one-hot `X` over the 14-class union,
-`cell_type` in `obs`, float32 centroids in `obsm["spatial"]`, no per-cell
-identifier, and gzip compression.
+The consolidated object uses a sparse one-hot `X` over the union of the
+per-slide class vocabularies (12 classes on each measured liver slide; the
+union is what lands in `var`), `cell_type` in `obs`, float32 centroids in
+`obsm["spatial"]`, no per-cell identifier, and gzip compression.
 
 Measured by building real objects from three slides (1,107,515 cells) and
 writing them to disk:
@@ -136,7 +180,8 @@ and cell identity is recoverable as `(slide_id, row offset)`.
 
 ## Running it
 
-On a laptop:
+On a laptop, the portal and cohort stages and the full test suite run without a
+cluster:
 
 ```bash
 uv sync
@@ -145,22 +190,67 @@ uv run --no-sync python -m gtex_liver_cells.portal --tissue Liver --out data/liv
 uv run --no-sync python -m gtex_liver_cells.cohort --slides data/liver_slides.csv --out data/liver_cohort.csv
 ```
 
-On the cluster, two sbatch wrappers read their paths from the environment:
+### CEMM
+
+CEMM has no conda, no `uv` in its EasyBuild module set, and a system `python3`
+of 3.6.8, but its login node reaches PyPI. Install uv into `~/.local/bin` once
+and let `uv sync` build `.venv` in the checkout from `uv.lock`, which keeps the
+lockfile the single source of environment truth on both laptop and cluster:
 
 ```bash
-sbatch --export=ALL,HISTOPLUS_DIR=/path/to/histoplus,CENTROIDS_DIR=/path/to/centroids,COHORT_CSV=$PWD/data/liver_cohort.csv \
-    sbatch/extract_centroids.sbatch
+export PATH="$HOME/.local/bin:$PATH"
+curl -LsSf https://astral.sh/uv/install.sh | sh   # once
+cd "$REPO_DIR" && uv sync
+```
 
-sbatch --export=ALL,CENTROIDS_DIR=/path/to/centroids,COHORT_CSV=$PWD/data/liver_cohort.csv,OUT_H5AD=/path/to/liver.h5ad,FILTER_TO_COHORT=1 \
-    sbatch/consolidate_anndata.sbatch
+Everything runs in place: the Parquet source is read on CEMM, so no data is
+transferred between clusters and nothing passes through a local machine. Set
+the paths once, then submit both wrappers from the output directory so SLURM
+writes its logs into `logs/`:
+
+```bash
+export REPO_DIR="$HOME/rep/gtex-liver-cells"
+export OUT_DIR=/nobackup/lab_rendeiro/projects/topocyte/topocyte_data/gtex_liver_cells
+export PARQUET_DIR=/path/to/datasets_pq_h5ad      # one <TISSUE_ID>/cell_types.gpd per slide
+export CENTROIDS_DIR="$OUT_DIR/centroids"
+export COHORT_CSV="$REPO_DIR/data/liver_cohort.csv"
+
+mkdir -p "$OUT_DIR/centroids" "$OUT_DIR/logs" && cd "$OUT_DIR"
+
+sbatch --export=ALL,PARQUET_DIR=$PARQUET_DIR,CENTROIDS_DIR=$CENTROIDS_DIR,COHORT_CSV=$COHORT_CSV \
+    "$REPO_DIR/sbatch/extract_centroids.sbatch"
+
+sbatch --export=ALL,CENTROIDS_DIR=$CENTROIDS_DIR,COHORT_CSV=$COHORT_CSV,OUT_DIR=$OUT_DIR,FILTER_TO_COHORT=1 \
+    "$REPO_DIR/sbatch/consolidate_anndata.sbatch"
 ```
 
 `FILTER_TO_COHORT=1` keeps only slides listed in the cohort CSV, which is how
-all 603 available slides narrow to the 124-slide healthy/cirrhotic subset.
+all 603 available slides narrow to the 124-slide healthy/cirrhotic subset. Both
+wrappers take their paths from the environment, so `REPO_DIR`, `PARQUET_DIR`,
+`CENTROIDS_DIR`, `COHORT_CSV` and `OUT_DIR` have to be exported in the
+submitting shell; the wrappers default only `REPO_DIR`, to
+`/home/sschindler/rep/gtex-liver-cells`.
 
 The wrappers call the project venv directly rather than `uv run`, on purpose:
-`uv run` re-syncs the environment and fails on this project's optional
-`../cpyrcolate` path dependency — the failure that killed job 5802838.
+`uv run` re-syncs the environment on every invocation, which is not what a
+batch job should spend its time on.
+
+### Outputs
+
+Everything lands in `$OUT_DIR`:
+
+```
+gtex_liver_cells/
+├── centroids/<TISSUE_ID>.npz     # per-slide intermediate, ~14 B/cell (~4 MB per slide)
+├── gtex_liver_cells.h5ad         # the consolidated object, ~1.3 GB for 36M cells
+├── liver_cohort.csv              # the cohort actually used
+├── provenance.json               # commit, UTC time, inputs, slide counts, classes, cells
+└── logs/                         # SLURM stdout/stderr
+```
+
+`provenance.json` is written by the consolidation job, which also copies the
+cohort CSV next to the object, so the directory is self-describing without
+duplicating the repository.
 
 ### Removed from this repository
 
