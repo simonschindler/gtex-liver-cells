@@ -54,7 +54,7 @@ def read_slide_ids(csv_path: str) -> list[str]:
 def wkb_bytes(column: pa.ChunkedArray) -> np.ndarray:
     """Return the raw WKB bytes held by a Parquet geometry column.
 
-    Parquet files written by geopandas store the column as the Arrow extension
+    Parquet files with a WKB geometry column store it as the Arrow extension
     type ``geoarrow.wkb``. With no geoarrow extension package installed pyarrow
     downgrades that to its storage type (``binary``), which is what we read;
     when an extension package *is* installed pyarrow returns the extension

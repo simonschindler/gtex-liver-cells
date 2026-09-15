@@ -162,10 +162,6 @@ The wrappers call the project venv directly rather than `uv run`, on purpose:
 `uv run` re-syncs the environment and fails on this project's optional
 `../cpyrcolate` path dependency — the failure that killed job 5802838.
 
-Gzipped HistoPlus files are read through GDAL's `/vsigzip/` prefix. Plain
-`geopandas.read_file(path)` rejects them; `/vsigzip/` reads a 35,076-cell slide
-in under a second.
-
 ### Removed from this repository
 
 | Removed | Why |
