@@ -114,6 +114,41 @@ class ConsolidateTests(unittest.TestCase):
             consolidate.consolidate([], self.cohort(["GTEX-AAAA-0126"]))
 
 
+class RepositoryCommitTests(unittest.TestCase):
+    def test_returns_unknown_outside_a_checkout(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertEqual(consolidate.repository_commit(tmp), "unknown")
+
+    def test_returns_the_checkout_commit(self):
+        commit = consolidate.repository_commit(consolidate.REPO_DIR)
+        self.assertRegex(commit, r"^([0-9a-f]{40}|unknown)$")
+
+
+class BuildProvenanceTests(unittest.TestCase):
+    def test_records_inputs_and_counts(self):
+        provenance = consolidate.build_provenance(
+            centroids_dir="/tmp/centroids",
+            cohort_csv="/tmp/liver_cohort.csv",
+            requested=610,
+            extracted=603,
+            used=124,
+            missing=["GTEX-BBBB-0126", "GTEX-CCCC-0126"],
+            class_names=["Apoptotic Body", "Epithelial"],
+            n_cells=1234,
+            repo_dir=consolidate.REPO_DIR,
+        )
+        self.assertEqual(provenance["slides_requested"], 610)
+        self.assertEqual(provenance["slides_extracted"], 603)
+        self.assertEqual(provenance["slides_used"], 124)
+        self.assertEqual(provenance["slides_missing"], 2)
+        self.assertEqual(provenance["n_cells"], 1234)
+        self.assertEqual(provenance["class_names"], ["Apoptotic Body", "Epithelial"])
+        self.assertEqual(provenance["centroids_dir"], "/tmp/centroids")
+        self.assertEqual(provenance["cohort_csv"], "/tmp/liver_cohort.csv")
+        self.assertRegex(provenance["repository_commit"], r"^([0-9a-f]{40}|unknown)$")
+        self.assertRegex(provenance["created"], r"^\d{4}-\d{2}-\d{2}T")
+
+
 class MainTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -192,3 +227,61 @@ class MainTests(unittest.TestCase):
             ]
         )
         self.assertEqual(exit_code, 1)
+
+    def test_writes_provenance_json_when_asked(self):
+        self.add_npz("GTEX-AAAA-0126")
+        write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126")])
+        out = os.path.join(self.tmp.name, "cohort.h5ad")
+        provenance_path = os.path.join(self.tmp.name, "provenance.json")
+
+        exit_code = consolidate.main(
+            [
+                "--centroids-dir",
+                self.centroid_dir,
+                "--cohort",
+                self.cohort_csv,
+                "--out",
+                out,
+                "--provenance-out",
+                provenance_path,
+            ]
+        )
+        with open(provenance_path, encoding="utf-8") as handle:
+            provenance = json.load(handle)
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(provenance["slides_requested"], 1)
+        self.assertEqual(provenance["slides_extracted"], 1)
+        self.assertEqual(provenance["slides_used"], 1)
+        self.assertEqual(provenance["slides_missing"], 0)
+        self.assertEqual(provenance["n_cells"], 1)
+        self.assertEqual(provenance["class_names"], ["Fibroblasts"])
+        self.assertEqual(provenance["centroids_dir"], os.path.abspath(self.centroid_dir))
+
+    def test_provenance_separates_extracted_from_used(self):
+        self.add_npz("GTEX-AAAA-0126")
+        self.add_npz("GTEX-BBBB-0126")
+        write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126")])
+        out = os.path.join(self.tmp.name, "cohort.h5ad")
+        provenance_path = os.path.join(self.tmp.name, "provenance.json")
+
+        consolidate.main(
+            [
+                "--centroids-dir",
+                self.centroid_dir,
+                "--cohort",
+                self.cohort_csv,
+                "--out",
+                out,
+                "--provenance-out",
+                provenance_path,
+                "--filter-to-cohort",
+            ]
+        )
+        with open(provenance_path, encoding="utf-8") as handle:
+            provenance = json.load(handle)
+
+        self.assertEqual(provenance["slides_requested"], 1)
+        self.assertEqual(provenance["slides_extracted"], 2)
+        self.assertEqual(provenance["slides_used"], 1)
+        self.assertEqual(provenance["slides_missing"], 0)

@@ -8,7 +8,9 @@ centroids, the index is a RangeIndex, and the file is gzip-compressed.
 
 import argparse
 import datetime
+import json
 import os
+import subprocess
 import sys
 
 import anndata as ad
@@ -17,6 +19,9 @@ import pandas as pd
 import scipy.sparse as sp
 
 META_COLUMNS = ["Subject ID", "Age Bracket", "Sex", "Hardy Scale", "label"]
+
+# Repository root: this file lives at <repo>/src/gtex_liver_cells/consolidate.py.
+REPO_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 def load_centroids(path: str) -> dict:
@@ -38,6 +43,49 @@ def load_centroids(path: str) -> dict:
             "has_provenance": "provenance" in keys,
         }
     return entry
+
+
+def repository_commit(repo_dir: str) -> str:
+    """Return the HEAD commit of repo_dir, or "unknown" if it is not a checkout."""
+    if not os.path.exists(os.path.join(repo_dir, ".git")):
+        return "unknown"
+    try:
+        completed = subprocess.run(
+            ["git", "-C", repo_dir, "rev-parse", "HEAD"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown"
+    return completed.stdout.strip()
+
+
+def build_provenance(
+    *,
+    centroids_dir: str,
+    cohort_csv: str,
+    requested: int,
+    extracted: int,
+    used: int,
+    missing: list[str],
+    class_names: list[str],
+    n_cells: int,
+    repo_dir: str,
+) -> dict:
+    """Describe one consolidation run, for provenance.json beside the h5ad."""
+    return {
+        "created": datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds"),
+        "repository_commit": repository_commit(repo_dir),
+        "centroids_dir": os.path.abspath(centroids_dir),
+        "cohort_csv": os.path.abspath(cohort_csv),
+        "slides_requested": requested,
+        "slides_extracted": extracted,
+        "slides_used": used,
+        "slides_missing": len(missing),
+        "n_cells": n_cells,
+        "class_names": list(class_names),
+    }
 
 
 def consolidate(entries: list[dict], cohort: pd.DataFrame) -> ad.AnnData:
@@ -102,6 +150,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--cohort", required=True, help="Cohort CSV to join metadata from")
     parser.add_argument("--out", required=True, help="Output .h5ad path")
     parser.add_argument(
+        "--provenance-out",
+        default=None,
+        help="Optional path for a provenance.json describing this run",
+    )
+    parser.add_argument(
         "--filter-to-cohort",
         action="store_true",
         help="Exclude npz files whose slide is not in the cohort CSV",
@@ -121,6 +174,8 @@ def main(argv: list[str] | None = None) -> int:
     if not paths:
         print(f"ERROR: no .npz files in {args.centroids_dir}", file=sys.stderr)
         return 1
+
+    n_extracted = len(paths)
 
     entries = [load_centroids(path) for path in paths]
     known = set(cohort.index)
@@ -154,6 +209,24 @@ def main(argv: list[str] | None = None) -> int:
 
     adata = consolidate(entries, cohort)
     adata.write_h5ad(args.out, compression="gzip")
+
+    if args.provenance_out:
+        provenance = build_provenance(
+            centroids_dir=args.centroids_dir,
+            cohort_csv=args.cohort,
+            requested=len(cohort),
+            extracted=n_extracted,
+            used=len(entries),
+            missing=missing_npz,
+            class_names=list(adata.var_names),
+            n_cells=int(adata.n_obs),
+            repo_dir=REPO_DIR,
+        )
+        os.makedirs(os.path.dirname(os.path.abspath(args.provenance_out)), exist_ok=True)
+        with open(args.provenance_out, "w", encoding="utf-8") as handle:
+            json.dump(provenance, handle, indent=2, sort_keys=True)
+            handle.write("\n")
+        print(f"wrote provenance to {args.provenance_out}")
 
     print(f"wrote {adata.n_obs} cells from {adata.uns['n_slides']} slides to {args.out}")
     print(f"  classes: {adata.n_vars} | shape: {adata.shape}")
