@@ -113,6 +113,84 @@ class ConsolidateTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             consolidate.consolidate([], self.cohort(["GTEX-AAAA-0126"]))
 
+    def test_orders_slides_ascending_in_contiguous_blocks(self):
+        later = self.entry("GTEX-BBBB-0126", [[3, 3], [4, 4]], [0, 0], ["Fibroblasts"])
+        earlier = self.entry("GTEX-AAAA-0126", [[1, 1]], [0], ["Fibroblasts"])
+
+        adata = consolidate.consolidate(
+            [later, earlier], self.cohort(["GTEX-AAAA-0126", "GTEX-BBBB-0126"])
+        )
+
+        self.assertEqual(
+            list(adata.obs["slide_id"].cat.categories), ["GTEX-AAAA-0126", "GTEX-BBBB-0126"]
+        )
+        self.assertEqual(list(adata.obs["slide_id"].cat.codes), [0, 1, 1])
+        np.testing.assert_allclose(adata.obsm["spatial"], [[1, 1], [3, 3], [4, 4]])
+        self.assertEqual(list(adata.uns["slide_ids"]), ["GTEX-AAAA-0126", "GTEX-BBBB-0126"])
+
+    def test_joins_the_requested_metadata_columns(self):
+        first = self.entry("GTEX-AAAA-0126", [[1, 1]], [0], ["Fibroblasts"])
+        second = self.entry("GTEX-BBBB-0126", [[2, 2]], [0], ["Fibroblasts"])
+        cohort = pd.DataFrame(
+            {
+                "Tissue Sample ID": ["GTEX-AAAA-0126", "GTEX-BBBB-0126"],
+                "Tissue": ["Liver", "Liver"],
+                "Pathology Categories": ["", "fibrosis"],
+            }
+        ).set_index("Tissue Sample ID")
+
+        adata = consolidate.consolidate(
+            [first, second], cohort, metadata_columns=["Tissue", "Pathology Categories"]
+        )
+
+        self.assertEqual(
+            list(adata.obs.columns),
+            ["slide_id", "cell_type", "prob", "Tissue", "Pathology Categories"],
+        )
+        self.assertEqual(list(adata.obs["Pathology Categories"].astype(str)), ["", "fibrosis"])
+        self.assertEqual(
+            list(adata.obs["Pathology Categories"].cat.categories), ["", "fibrosis"]
+        )
+        self.assertEqual(list(adata.uns["metadata_columns"]), ["Tissue", "Pathology Categories"])
+
+    def test_categories_match_pandas_factorization(self):
+        first = self.entry(
+            "GTEX-BBBB-0126", [[1, 1], [2, 2]], [1, 0], ["Fibroblasts", "Macrophages"]
+        )
+        second = self.entry("GTEX-AAAA-0126", [[3, 3]], [0], ["Epithelial"])
+
+        adata = consolidate.consolidate(
+            [first, second], self.cohort(["GTEX-BBBB-0126", "GTEX-AAAA-0126"])
+        )
+
+        for column in ("slide_id", "cell_type", "label", "Sex"):
+            values = adata.obs[column].astype(str).to_numpy()
+            self.assertEqual(
+                list(adata.obs[column].cat.categories), list(pd.Categorical(values).categories)
+            )
+
+    def test_a_missing_metadata_column_is_one_empty_category(self):
+        entry = self.entry("GTEX-AAAA-0126", [[1, 1]], [0], ["Fibroblasts"])
+
+        adata = consolidate.consolidate(
+            [entry], self.cohort(["GTEX-AAAA-0126"]), metadata_columns=["Pathology Notes"]
+        )
+
+        self.assertEqual(list(adata.obs["Pathology Notes"].cat.categories), [""])
+
+    def test_x_is_a_one_hot_csr_with_int32_indices(self):
+        entry = self.entry(
+            "GTEX-AAAA-0126", [[1, 1], [2, 2]], [0, 1], ["Fibroblasts", "Macrophages"]
+        )
+
+        adata = consolidate.consolidate([entry], self.cohort(["GTEX-AAAA-0126"]))
+
+        self.assertEqual(adata.X.format, "csr")
+        self.assertEqual(adata.X.dtype, np.float32)
+        self.assertEqual(adata.X.indices.dtype, np.int32)
+        self.assertEqual(adata.X.indptr.dtype, np.int32)
+        np.testing.assert_array_equal(adata.X.toarray(), [[1, 0], [0, 1]])
+
 
 class RepositoryCommitTests(unittest.TestCase):
     def test_returns_unknown_outside_a_checkout(self):

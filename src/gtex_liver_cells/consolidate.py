@@ -1,9 +1,12 @@
 """Consolidate per-slide centroid npz files into one AnnData object.
 
-Layout decisions (see the design spec for the measurements behind them):
+Layout decisions (see the design specs for the measurements behind them):
 ``X`` is a sparse one-hot indicator of ``cell_type``, ``var`` is the sorted
 union of the per-slide class vocabularies, ``obsm["spatial"]`` holds float32
-centroids, the index is a RangeIndex, and the file is gzip-compressed.
+centroids, the index is a RangeIndex, and the file is gzip-compressed. Slides
+are stored in ascending ID order, each as one contiguous block of rows, and
+every ``obs`` column is built from integer codes rather than per-cell Python
+objects, which keeps the build's memory near what anndata itself needs.
 """
 
 import argparse
@@ -12,6 +15,7 @@ import json
 import os
 import subprocess
 import sys
+from collections.abc import Sequence
 
 import anndata as ad
 import numpy as np
@@ -88,58 +92,92 @@ def build_provenance(
     }
 
 
-def consolidate(entries: list[dict], cohort: pd.DataFrame) -> ad.AnnData:
-    """Build one AnnData from loaded centroid entries."""
+def _smallest_int(n_values: int) -> type[np.signedinteger]:
+    """The narrowest signed integer type that holds codes 0..n_values-1."""
+    for dtype in (np.int8, np.int16, np.int32):
+        if n_values <= np.iinfo(dtype).max:
+            return dtype
+    return np.int64
+
+
+def _per_slide_categorical(values: list[str], slide_codes: np.ndarray) -> pd.Categorical:
+    """Spread one value per slide to every cell of that slide, as a categorical.
+
+    The categories are the sorted distinct values, which is the order
+    ``pd.Categorical(values)`` would give, so the stored object does not change.
+    """
+    categories = sorted(set(values))
+    lookup = {value: code for code, value in enumerate(categories)}
+    dtype = _smallest_int(len(categories))
+    slide_level = np.array([lookup[value] for value in values], dtype=dtype)
+    return pd.Categorical.from_codes(slide_level[slide_codes], categories=categories)
+
+
+def consolidate(
+    entries: list[dict], cohort: pd.DataFrame, metadata_columns: Sequence[str] = META_COLUMNS
+) -> ad.AnnData:
+    """Build one AnnData from loaded centroid entries.
+
+    Every column is assembled from integer codes, never from one Python object
+    per cell: slides are ordered by ID (so each slide is one contiguous block of
+    rows and the ``slide_id`` categories ascend), each slide's labels are
+    remapped into the union vocabulary, and each metadata column is looked up
+    once per slide. ``cohort`` is indexed by ``Tissue Sample ID``; a column it
+    lacks, or a slide it lacks, becomes ``""``.
+    """
     if not entries:
         raise ValueError("no centroid entries to consolidate")
 
-    class_names = sorted({name for entry in entries for name in entry["class_names"]})
+    entries = sorted(entries, key=lambda entry: entry["slide_id"])
+    slide_ids = [entry["slide_id"] for entry in entries]
+    class_names = sorted({str(name) for entry in entries for name in entry["class_names"]})
     lookup = {name: index for index, name in enumerate(class_names)}
-    total = sum(len(entry["coords"]) for entry in entries)
+    counts = np.array([len(entry["coords"]) for entry in entries], dtype=np.int64)
+    total = int(counts.sum())
 
     coords = np.empty((total, 2), dtype=np.float32)
     prob = np.empty(total, dtype=np.float32)
-    codes = np.empty(total, dtype=np.int64)
-    cell_types = np.empty(total, dtype=object)
-    slide_ids = np.empty(total, dtype=object)
-
+    type_codes = np.empty(total, dtype=np.int32)
     offset = 0
-    for entry in entries:
-        n_cells = len(entry["coords"])
-        window = slice(offset, offset + n_cells)
-        names = entry["class_names"][entry["labels"]]
+    for entry, n_cells in zip(entries, counts):
+        window = slice(offset, offset + int(n_cells))
+        remap = np.array([lookup[str(name)] for name in entry["class_names"]], dtype=np.int32)
         coords[window] = entry["coords"]
         prob[window] = entry["prob"]
-        cell_types[window] = names
-        codes[window] = [lookup[name] for name in names]
-        slide_ids[window] = entry["slide_id"]
-        offset += n_cells
+        type_codes[window] = remap[entry["labels"]]
+        offset += int(n_cells)
 
+    slide_codes = np.repeat(np.arange(len(entries), dtype=_smallest_int(len(entries))), counts)
     obs = pd.DataFrame(
         {
-            "slide_id": pd.Categorical(slide_ids),
-            "cell_type": pd.Categorical(cell_types, categories=class_names),
+            "slide_id": pd.Categorical.from_codes(slide_codes, categories=slide_ids),
+            "cell_type": pd.Categorical.from_codes(type_codes, categories=class_names),
             "prob": prob,
         }
     )
-    metadata = cohort.reindex(pd.Index(slide_ids, name="Tissue Sample ID"))
-    for column in META_COLUMNS:
-        if column in metadata.columns:
-            obs[column] = pd.Categorical(metadata[column].fillna("").to_numpy())
+    for column in metadata_columns:
+        if column in cohort.columns:
+            values = [str(value) for value in cohort[column].reindex(slide_ids).fillna("")]
         else:
-            obs[column] = pd.Categorical(np.full(total, ""))
+            values = [""] * len(slide_ids)
+        obs[column] = _per_slide_categorical(values, slide_codes)
 
+    index_dtype = np.int32 if total < np.iinfo(np.int32).max else np.int64
     data = sp.csr_matrix(
-        (np.ones(total, dtype=np.float32), (np.arange(total), codes)),
+        (
+            np.ones(total, dtype=np.float32),
+            type_codes.astype(index_dtype, copy=False),
+            np.arange(total + 1, dtype=index_dtype),
+        ),
         shape=(total, len(class_names)),
     )
     adata = ad.AnnData(X=data, obs=obs, var=pd.DataFrame(index=pd.Index(class_names)))
     adata.obsm["spatial"] = coords
     adata.uns["n_slides"] = len(entries)
-    adata.uns["n_cells"] = int(total)
+    adata.uns["n_cells"] = total
     adata.uns["class_names"] = class_names
-    adata.uns["slide_ids"] = sorted(entry["slide_id"] for entry in entries)
-    adata.uns["metadata_columns"] = META_COLUMNS
+    adata.uns["slide_ids"] = slide_ids
+    adata.uns["metadata_columns"] = list(metadata_columns)
     adata.uns["created"] = datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds")
     return adata
 
