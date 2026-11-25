@@ -3,7 +3,8 @@
 A self-contained pipeline that builds a cell-resolved GTEx liver
 histopathology dataset: cell centroids, cell-class labels, and coordinates for
 the liver slides of the GTEx Portal histology cohort, consolidated into one
-AnnData object.
+AnnData object. The same pipeline also builds one such object for each of the
+40 GTEx tissue sites (see [Build every tissue](#build-every-tissue)).
 
 The resulting object is what downstream analyses consume — for example the
 spatial-topology workflows in
@@ -87,6 +88,55 @@ That subset is **123 slides and 30,836,186 cells** (66 healthy, 57 cirrhosis).
 The labeled cohort has 124 healthy/cirrhotic slides, but one of them
 (`GTEX-1I1HK-1126`, cirrhosis) has no `cell_types.gpd` in the Parquet source.
 
+### Build every tissue
+
+`scripts/all_tissues.sh` builds one object per GTEx tissue site (all 40, liver
+included) under `/nobackup/lab_rendeiro/projects/topocyte/topocyte_data/gtex_tissues`
+(override with `ROOT`):
+
+```bash
+bash scripts/all_tissues.sh
+```
+
+It does four things:
+
+1. **Fetch.** It fetches the Portal slide table into
+   `$ROOT/gtex_portal_slides.csv` once, on the login node. Delete the file to
+   fetch a fresh table.
+2. **Split.** `python -m gtex_liver_cells.tissues prepare` splits the table by
+   tissue. The three `"Esophagus - Mucosa "` slides, whose name has a trailing
+   space, are folded into Esophagus - Mucosa.
+3. **Report coverage.** It prints how many of each tissue's slides have a
+   `cell_types.gpd` under the Parquet root.
+4. **Submit.** It submits `sbatch/build_tissues.sbatch` as one array task per
+   tissue that has any, at most 8 at a time. Each task extracts its tissue's
+   centroids and consolidates them (8 CPUs, 256G, 12 h on `mediumq`).
+
+To rerun chosen tissues, give their index from `$ROOT/tissues.csv`:
+
+```bash
+ARRAY=17 bash scripts/all_tissues.sh
+```
+
+`MAX_PARALLEL` changes the cap of 8.
+
+A task exits 1 in two cases:
+
+- **A slide failed to extract.** The object is still built from the other
+  slides.
+- **The tissue has no cell data at all.**
+
+Each tissue's `provenance.json` lists the slides with no source
+(`no_source_slide_ids`) and the slides that failed (`failed_slide_ids`). A
+tissue that is only partly covered still exits 0, so check the coverage table
+and `provenance.json`, not just the job status. At liver's density the 40
+objects come to roughly 200 GB of h5ad and 75 GB of npz.
+
+These objects carry the Portal metadata in `obs` (`Tissue`, `Subject ID`,
+`Sex`, `Age Bracket`, `Hardy Scale`, `Pathology Categories`, `Pathology Notes`,
+`Hidden`) and no `label`. The labeled liver object from steps 1–3 is separate
+and unchanged. The liver cell viewer in topocyte-analyses reads this layout.
+
 ### Run stages on a laptop
 
 The portal and cohort stages and the full test suite run without a cluster:
@@ -112,6 +162,27 @@ gtex_liver_cells/
 `provenance.json` is written by the consolidation job, which also copies the
 cohort CSV next to the object, so the output directory is self-describing
 without duplicating the repository.
+
+The per-tissue run writes one folder per tissue:
+
+```
+gtex_tissues/
+├── gtex_portal_slides.csv        # the Portal table the run used
+├── tissues.csv                   # index (= array task), slug, tissue, n_slides, n_with_source
+├── logs/                         # SLURM stdout/stderr
+└── <slug>/                       # e.g. liver, skin_sun_exposed_lower_leg
+    ├── portal_slides.csv         # every Portal row of the tissue
+    ├── gtex_<slug>_cells.h5ad    # the object, in the liver object's layout
+    ├── slides.csv                # one row per slide in the object, with its row range
+    ├── provenance.json           # commit, inputs, counts, missing and failed slide IDs
+    └── centroids/<TISSUE_ID>.npz # per-slide intermediate
+```
+
+`slides.csv` has the nine Portal columns, then `n_cells`, `row_start` and
+`row_end`. A slide's cells are rows `row_start` to `row_end - 1` of the object,
+so a reader can take one slide without scanning `obs`. Slides are stored in
+ascending ID order. The integer width of `obs/slide_id/codes` depends on the
+slide count: int8 for up to 126 slides, int16 above.
 
 ## The data
 
