@@ -4,6 +4,7 @@ import tempfile
 import unittest
 
 import anndata as ad
+import h5py
 import numpy as np
 import pandas as pd
 import scipy.sparse as sp
@@ -225,6 +226,7 @@ class BuildProvenanceTests(unittest.TestCase):
         self.assertEqual(provenance["cohort_csv"], "/tmp/liver_cohort.csv")
         self.assertRegex(provenance["repository_commit"], r"^([0-9a-f]{40}|unknown)$")
         self.assertRegex(provenance["created"], r"^\d{4}-\d{2}-\d{2}T")
+        self.assertEqual(provenance["missing_slide_ids"], ["GTEX-BBBB-0126", "GTEX-CCCC-0126"])
 
 
 class MainTests(unittest.TestCase):
@@ -363,3 +365,121 @@ class MainTests(unittest.TestCase):
         self.assertEqual(provenance["slides_extracted"], 2)
         self.assertEqual(provenance["slides_used"], 1)
         self.assertEqual(provenance["slides_missing"], 0)
+
+    def run_main(self, out, *extra):
+        return consolidate.main(
+            ["--centroids-dir", self.centroid_dir, "--cohort", self.cohort_csv, "--out", out, *extra]
+        )
+
+    def test_slides_out_lists_row_ranges_per_slide(self):
+        write_npz(
+            os.path.join(self.centroid_dir, "GTEX-BBBB-0126.npz"),
+            [[1, 1], [2, 2]],
+            [0, 0],
+            ["Fibroblasts"],
+        )
+        self.add_npz("GTEX-AAAA-0126")
+        write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126"), cohort_row("GTEX-BBBB-0126")])
+        out = os.path.join(self.tmp.name, "cohort.h5ad")
+        slides = os.path.join(self.tmp.name, "slides.csv")
+
+        exit_code = self.run_main(out, "--slides-out", slides)
+        table = pd.read_csv(slides, dtype=str, keep_default_na=False)
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(list(table.columns), COHORT_COLUMNS + ["n_cells", "row_start", "row_end"])
+        self.assertEqual(list(table["Tissue Sample ID"]), ["GTEX-AAAA-0126", "GTEX-BBBB-0126"])
+        self.assertEqual(list(table["n_cells"]), ["1", "2"])
+        self.assertEqual(list(table["row_start"]), ["0", "1"])
+        self.assertEqual(list(table["row_end"]), ["1", "3"])
+
+    def test_small_objects_get_int8_slide_codes_and_matching_ranges(self):
+        slide_ids = ["GTEX-AAAA-0126", "GTEX-BBBB-0126", "GTEX-CCCC-0126"]
+        for slide_id in slide_ids:
+            self.add_npz(slide_id)
+        write_cohort(self.cohort_csv, [cohort_row(slide_id) for slide_id in slide_ids])
+        out = os.path.join(self.tmp.name, "cohort.h5ad")
+        slides = os.path.join(self.tmp.name, "slides.csv")
+
+        self.run_main(out, "--slides-out", slides)
+        table = pd.read_csv(slides)
+        with h5py.File(out, "r") as handle:
+            codes = handle["obs/slide_id/codes"][:]
+
+        self.assertEqual(codes.dtype, np.int8)
+        for position, row in table.iterrows():
+            self.assertTrue((codes[row["row_start"] : row["row_end"]] == position).all())
+        self.assertEqual(table["row_end"].iloc[-1], len(codes))
+
+    def test_metadata_columns_flag_replaces_the_default(self):
+        self.add_npz("GTEX-AAAA-0126")
+        write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126")])
+        out = os.path.join(self.tmp.name, "cohort.h5ad")
+
+        self.run_main(out, "--metadata-columns", "Subject ID", "Sex")
+        adata = ad.read_h5ad(out)
+
+        self.assertEqual(
+            list(adata.obs.columns), ["slide_id", "cell_type", "prob", "Subject ID", "Sex"]
+        )
+
+    def test_writes_through_a_temporary_file(self):
+        self.add_npz("GTEX-AAAA-0126")
+        write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126")])
+        out = os.path.join(self.tmp.name, "cohort.h5ad")
+        with open(f"{out}.tmp", "wb") as handle:
+            handle.write(b"left over by a killed task")
+
+        exit_code = self.run_main(out)
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(ad.read_h5ad(out).n_obs, 1)
+        self.assertFalse(os.path.exists(f"{out}.tmp"))
+
+    def test_provenance_lists_missing_slide_ids(self):
+        self.add_npz("GTEX-AAAA-0126")
+        write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126"), cohort_row("GTEX-CCCC-0126")])
+        out = os.path.join(self.tmp.name, "cohort.h5ad")
+        provenance_path = os.path.join(self.tmp.name, "provenance.json")
+
+        self.run_main(out, "--provenance-out", provenance_path)
+        with open(provenance_path, encoding="utf-8") as handle:
+            provenance = json.load(handle)
+
+        self.assertEqual(provenance["missing_slide_ids"], ["GTEX-CCCC-0126"])
+
+
+class RunTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.centroid_dir = os.path.join(self.tmp.name, "centroids")
+        os.makedirs(self.centroid_dir)
+        self.cohort_csv = os.path.join(self.tmp.name, "cohort.csv")
+
+    def test_merges_extra_provenance_and_returns_a_summary(self):
+        write_npz(
+            os.path.join(self.centroid_dir, "GTEX-AAAA-0126.npz"), [[1, 1]], [0], ["Fibroblasts"]
+        )
+        write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126")])
+        provenance_path = os.path.join(self.tmp.name, "provenance.json")
+
+        summary = consolidate.run(
+            self.centroid_dir,
+            self.cohort_csv,
+            os.path.join(self.tmp.name, "cohort.h5ad"),
+            provenance_out=provenance_path,
+            extra_provenance={"tissue": "Liver"},
+        )
+        with open(provenance_path, encoding="utf-8") as handle:
+            provenance = json.load(handle)
+
+        self.assertEqual(summary, {"n_obs": 1, "n_slides": 1, "missing_slide_ids": []})
+        self.assertEqual(provenance["tissue"], "Liver")
+
+    def test_raises_when_no_npz_exist(self):
+        write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126")])
+        with self.assertRaises(consolidate.ConsolidateError):
+            consolidate.run(
+                self.centroid_dir, self.cohort_csv, os.path.join(self.tmp.name, "x.h5ad")
+            )

@@ -23,9 +23,14 @@ import pandas as pd
 import scipy.sparse as sp
 
 META_COLUMNS = ["Subject ID", "Age Bracket", "Sex", "Hardy Scale", "label"]
+SLIDE_RANGE_COLUMNS = ["n_cells", "row_start", "row_end"]
 
 # Repository root: this file lives at <repo>/src/gtex_liver_cells/consolidate.py.
 REPO_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+class ConsolidateError(Exception):
+    """An input problem that leaves nothing to consolidate."""
 
 
 def load_centroids(path: str) -> dict:
@@ -87,6 +92,7 @@ def build_provenance(
         "slides_extracted": extracted,
         "slides_used": used,
         "slides_missing": len(missing),
+        "missing_slide_ids": sorted(missing),
         "n_cells": n_cells,
         "class_names": list(class_names),
     }
@@ -182,36 +188,62 @@ def consolidate(
     return adata
 
 
-def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--centroids-dir", required=True, help="Directory of .npz files")
-    parser.add_argument("--cohort", required=True, help="Cohort CSV to join metadata from")
-    parser.add_argument("--out", required=True, help="Output .h5ad path")
-    parser.add_argument(
-        "--provenance-out",
-        default=None,
-        help="Optional path for a provenance.json describing this run",
-    )
-    parser.add_argument(
-        "--filter-to-cohort",
-        action="store_true",
-        help="Exclude npz files whose slide is not in the cohort CSV",
-    )
-    args = parser.parse_args(argv)
+def slide_table(adata: ad.AnnData, cohort: pd.DataFrame) -> pd.DataFrame:
+    """One row per slide of ``adata``, in row order, with its cohort row and row range.
 
-    if not os.path.isdir(args.centroids_dir):
-        print(f"ERROR: no such directory: {args.centroids_dir}", file=sys.stderr)
-        return 1
+    The columns are ``Tissue Sample ID`` and every ``cohort`` column (``""``
+    where the cohort has no row for the slide), then ``n_cells``, ``row_start``
+    and ``row_end`` (end exclusive). The ranges rely on each slide being one
+    contiguous block of rows in category order, which ``consolidate`` ensures.
+    """
+    slide_ids = list(adata.obs["slide_id"].cat.categories)
+    codes = adata.obs["slide_id"].cat.codes.to_numpy()
+    counts = np.bincount(codes, minlength=len(slide_ids))
+    ends = np.cumsum(counts)
+    table = cohort.reindex(pd.Index(slide_ids, name="Tissue Sample ID")).fillna("").reset_index()
+    table["n_cells"] = counts
+    table["row_start"] = ends - counts
+    table["row_end"] = ends
+    return table
 
-    cohort = pd.read_csv(args.cohort, dtype=str).fillna("").set_index("Tissue Sample ID")
+
+def write_h5ad_atomic(adata: ad.AnnData, path: str) -> None:
+    """Write ``path`` gzip-compressed through ``<path>.tmp``, so it is never left partial."""
+    partial = f"{path}.tmp"
+    adata.write_h5ad(partial, compression="gzip")
+    os.replace(partial, path)
+
+
+def run(
+    centroids_dir: str,
+    cohort_csv: str,
+    out: str,
+    *,
+    provenance_out: str | None = None,
+    filter_to_cohort: bool = False,
+    metadata_columns: Sequence[str] = META_COLUMNS,
+    slides_out: str | None = None,
+    extra_provenance: dict | None = None,
+) -> dict:
+    """Consolidate every npz in ``centroids_dir`` into ``out`` and its side files.
+
+    Writes the h5ad first (atomically), then ``slides_out``, then
+    ``provenance_out`` with ``extra_provenance`` merged in, so a present side
+    file means its h5ad is complete. Raises ``ConsolidateError`` when the
+    directory is missing, holds no npz, or nothing is left after filtering.
+    Returns the cell and slide counts and the cohort slides that had no npz.
+    """
+    if not os.path.isdir(centroids_dir):
+        raise ConsolidateError(f"no such directory: {centroids_dir}")
+
+    cohort = pd.read_csv(cohort_csv, dtype=str).fillna("").set_index("Tissue Sample ID")
     paths = sorted(
-        os.path.join(args.centroids_dir, name)
-        for name in os.listdir(args.centroids_dir)
+        os.path.join(centroids_dir, name)
+        for name in os.listdir(centroids_dir)
         if name.endswith(".npz")
     )
     if not paths:
-        print(f"ERROR: no .npz files in {args.centroids_dir}", file=sys.stderr)
-        return 1
+        raise ConsolidateError(f"no .npz files in {centroids_dir}")
 
     n_extracted = len(paths)
 
@@ -219,7 +251,7 @@ def main(argv: list[str] | None = None) -> int:
     known = set(cohort.index)
     warnings: list[str] = []
 
-    if args.filter_to_cohort:
+    if filter_to_cohort:
         dropped = [entry["slide_id"] for entry in entries if entry["slide_id"] not in known]
         entries = [entry for entry in entries if entry["slide_id"] in known]
         if dropped:
@@ -242,16 +274,20 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     if not entries:
-        print("ERROR: no entries left after filtering", file=sys.stderr)
-        return 1
+        raise ConsolidateError("no entries left after filtering")
 
-    adata = consolidate(entries, cohort)
-    adata.write_h5ad(args.out, compression="gzip")
+    adata = consolidate(entries, cohort, metadata_columns)
+    write_h5ad_atomic(adata, out)
 
-    if args.provenance_out:
+    if slides_out:
+        os.makedirs(os.path.dirname(os.path.abspath(slides_out)), exist_ok=True)
+        slide_table(adata, cohort).to_csv(slides_out, index=False)
+        print(f"wrote the slide table to {slides_out}")
+
+    if provenance_out:
         provenance = build_provenance(
-            centroids_dir=args.centroids_dir,
-            cohort_csv=args.cohort,
+            centroids_dir=centroids_dir,
+            cohort_csv=cohort_csv,
             requested=len(cohort),
             extracted=n_extracted,
             used=len(entries),
@@ -260,16 +296,66 @@ def main(argv: list[str] | None = None) -> int:
             n_cells=int(adata.n_obs),
             repo_dir=REPO_DIR,
         )
-        os.makedirs(os.path.dirname(os.path.abspath(args.provenance_out)), exist_ok=True)
-        with open(args.provenance_out, "w", encoding="utf-8") as handle:
+        provenance.update(extra_provenance or {})
+        os.makedirs(os.path.dirname(os.path.abspath(provenance_out)), exist_ok=True)
+        with open(provenance_out, "w", encoding="utf-8") as handle:
             json.dump(provenance, handle, indent=2, sort_keys=True)
             handle.write("\n")
-        print(f"wrote provenance to {args.provenance_out}")
+        print(f"wrote provenance to {provenance_out}")
 
-    print(f"wrote {adata.n_obs} cells from {adata.uns['n_slides']} slides to {args.out}")
+    print(f"wrote {adata.n_obs} cells from {adata.uns['n_slides']} slides to {out}")
     print(f"  classes: {adata.n_vars} | shape: {adata.shape}")
     for warning in warnings:
         print(f"WARNING: {warning}", file=sys.stderr)
+    return {
+        "n_obs": int(adata.n_obs),
+        "n_slides": int(adata.uns["n_slides"]),
+        "missing_slide_ids": missing_npz,
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--centroids-dir", required=True, help="Directory of .npz files")
+    parser.add_argument("--cohort", required=True, help="Cohort CSV to join metadata from")
+    parser.add_argument("--out", required=True, help="Output .h5ad path")
+    parser.add_argument(
+        "--provenance-out",
+        default=None,
+        help="Optional path for a provenance.json describing this run",
+    )
+    parser.add_argument(
+        "--filter-to-cohort",
+        action="store_true",
+        help="Exclude npz files whose slide is not in the cohort CSV",
+    )
+    parser.add_argument(
+        "--metadata-columns",
+        nargs="+",
+        default=META_COLUMNS,
+        metavar="COLUMN",
+        help="Cohort columns to join into obs (default: %(default)s)",
+    )
+    parser.add_argument(
+        "--slides-out",
+        default=None,
+        help="Optional path for a per-slide table with each slide's row range",
+    )
+    args = parser.parse_args(argv)
+
+    try:
+        run(
+            args.centroids_dir,
+            args.cohort,
+            args.out,
+            provenance_out=args.provenance_out,
+            filter_to_cohort=args.filter_to_cohort,
+            metadata_columns=args.metadata_columns,
+            slides_out=args.slides_out,
+        )
+    except ConsolidateError as error:
+        print(f"ERROR: {error}", file=sys.stderr)
+        return 1
     return 0
 
 
