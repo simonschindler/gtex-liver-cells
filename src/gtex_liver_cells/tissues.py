@@ -16,8 +16,14 @@ by tissue site (``Tissue``, whitespace-stripped) under one output root:
 
 ``prepare`` writes the per-tissue tables and the manifest and reports how many
 of each tissue's slides have a ``cell_types.gpd``; ``array`` prints the SLURM
-array of the tissues that have any. A tissue's ``index`` in ``tissues.csv`` is
-its SLURM array index.
+array of the tissues that have any; ``build`` runs one tissue, extraction and
+then consolidation. A tissue's ``index`` in ``tissues.csv`` is its SLURM array
+index.
+
+``build`` exits 0 only when the object was written and no slide failed. A slide
+whose source fails to extract is left out of the object, listed in
+``provenance.json``, and makes the exit status 1; a slide with no
+``cell_types.gpd`` is listed but is not a failure.
 """
 
 import argparse
@@ -28,7 +34,7 @@ from collections.abc import Iterable
 
 import pandas as pd
 
-from gtex_liver_cells import centroids, portal
+from gtex_liver_cells import centroids, consolidate, portal
 
 PORTAL_COLUMNS = list(portal.COLUMNS)
 METADATA_COLUMNS = PORTAL_COLUMNS[1:]
@@ -152,6 +158,98 @@ def array_spec(manifest: pd.DataFrame) -> str:
     return ",".join(str(index) for index in manifest.loc[manifest["n_with_source"] > 0, "index"])
 
 
+def find_tissue(
+    manifest: pd.DataFrame, *, index: int | None = None, slug: str | None = None
+) -> pd.Series:
+    """The manifest row with this ``index`` or this ``slug``; ``ValueError`` if absent."""
+    if (index is None) == (slug is None):
+        raise ValueError("give exactly one of index and slug")
+    if index is not None:
+        rows = manifest[manifest["index"] == index]
+        wanted = f"index {index}"
+    else:
+        rows = manifest[manifest["slug"] == slug]
+        wanted = f"slug {slug!r}"
+    if rows.empty:
+        raise ValueError(f"no tissue with {wanted} in {MANIFEST}")
+    return rows.iloc[0]
+
+
+def build_tissue(
+    root: str, slug: str, tissue: str, parquet_dir: str, workers: int, overwrite: bool = False
+) -> int:
+    """Extract one tissue's slides and consolidate them into its object.
+
+    Writes ``<root>/<slug>/centroids/``, the h5ad, ``slides.csv`` and
+    ``provenance.json``. Returns the exit status described in the module
+    docstring.
+    """
+    organ = os.path.join(root, slug)
+    portal_csv = os.path.join(organ, PORTAL_SLIDES)
+    centroids_dir = os.path.join(organ, CENTROIDS)
+
+    slide_ids = centroids.read_slide_ids(portal_csv)
+    sources, no_source = centroids.select_slides(parquet_dir, slide_ids)
+    print(f"tissue:     {tissue} ({slug})")
+    print(f"slides:     {len(slide_ids)} in the Portal, {len(sources)} with a cell_types.gpd")
+    if not sources:
+        print(
+            f"ERROR: none of the {len(slide_ids)} slides has a cell_types.gpd under {parquet_dir}",
+            file=sys.stderr,
+        )
+        return 1
+
+    counts = centroids.extract_many(sources, centroids_dir, workers, overwrite)
+    print(
+        "extraction: extracted={extracted} skipped={skipped} failed={failed} "
+        "missing={missing}".format(**counts)
+    )
+    failed = sorted(
+        slide_id
+        for slide_id, _ in sources
+        if not os.path.exists(os.path.join(centroids_dir, f"{slide_id}.npz"))
+    )
+
+    try:
+        consolidate.run(
+            centroids_dir,
+            portal_csv,
+            os.path.join(organ, object_filename(slug)),
+            provenance_out=os.path.join(organ, PROVENANCE),
+            filter_to_cohort=True,
+            metadata_columns=METADATA_COLUMNS,
+            slides_out=os.path.join(organ, SLIDES),
+            extra_provenance={
+                "tissue": tissue,
+                "slug": slug,
+                "parquet_dir": os.path.abspath(parquet_dir),
+                "no_source_slide_ids": sorted(no_source),
+                "failed_slide_ids": failed,
+            },
+        )
+    except consolidate.ConsolidateError as error:
+        print(f"ERROR: {error}", file=sys.stderr)
+        return 1
+
+    if failed:
+        print(
+            f"ERROR: {len(failed)} slides failed to extract and are not in the object: "
+            f"{failed[:5]}",
+            file=sys.stderr,
+        )
+        return 1
+    return 0
+
+
+def _load_manifest(root: str) -> pd.DataFrame | None:
+    """The manifest under ``root``, or None after printing why it is missing."""
+    path = os.path.join(root, MANIFEST)
+    if not os.path.isfile(path):
+        print(f"ERROR: no manifest at {path}; run prepare first", file=sys.stderr)
+        return None
+    return read_manifest(root)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -174,6 +272,17 @@ def main(argv: list[str] | None = None) -> int:
     )
     array_parser.add_argument("--root", required=True, help="Output root holding tissues.csv")
 
+    build_parser = commands.add_parser("build", help="Extract and consolidate one tissue")
+    build_parser.add_argument("--root", required=True, help="Output root holding tissues.csv")
+    which = build_parser.add_mutually_exclusive_group(required=True)
+    which.add_argument("--index", type=int, help="The tissue's index in tissues.csv")
+    which.add_argument("--slug", help="The tissue's slug in tissues.csv")
+    build_parser.add_argument(
+        "--parquet-dir", required=True, help="Directory holding <TISSUE_ID>/cell_types.gpd"
+    )
+    build_parser.add_argument("--workers", type=int, default=os.cpu_count())
+    build_parser.add_argument("--overwrite", action="store_true", help="Redo existing .npz files")
+
     args = parser.parse_args(argv)
 
     if args.command == "prepare":
@@ -190,12 +299,26 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         return 0
 
-    manifest_path = os.path.join(args.root, MANIFEST)
-    if not os.path.isfile(manifest_path):
-        print(f"ERROR: no manifest at {manifest_path}; run prepare first", file=sys.stderr)
+    if args.command == "build" and not os.path.isdir(args.parquet_dir):
+        print(f"ERROR: no such directory: {args.parquet_dir}", file=sys.stderr)
         return 1
-    print(array_spec(read_manifest(args.root)))
-    return 0
+
+    manifest = _load_manifest(args.root)
+    if manifest is None:
+        return 1
+
+    if args.command == "array":
+        print(array_spec(manifest))
+        return 0
+
+    try:
+        row = find_tissue(manifest, index=args.index, slug=args.slug)
+    except ValueError as error:
+        print(f"ERROR: {error}", file=sys.stderr)
+        return 1
+    return build_tissue(
+        args.root, row["slug"], row["tissue"], args.parquet_dir, args.workers, args.overwrite
+    )
 
 
 if __name__ == "__main__":

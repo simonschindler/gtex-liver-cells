@@ -1,10 +1,14 @@
 import contextlib
 import io
+import json
 import os
 import tempfile
 import unittest
 
+import anndata as ad
+import h5py
 import pandas as pd
+from shapely.geometry import Point
 from test_centroids import SQUARE, TWO_SQUARES, slide_source, write_source
 
 from gtex_liver_cells import portal, tissues
@@ -213,6 +217,134 @@ class PrepareTests(unittest.TestCase):
             ["prepare", "--slides", missing, "--root", self.root, "--parquet-dir", self.parquet_dir],
         )
         self.assertEqual(exit_code, 1)
+
+
+class BuildTests(unittest.TestCase):
+    """Liver: A and B extract, BBBC's Point fails, DDDD has no source.
+
+    Esophagus: C extracts, CCCD has no source. Skin: no source at all.
+    """
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        extra = [
+            ("GTEX-BBBC-0126", "Liver", [(Point(0, 0), "Fibroblasts", 0.5)]),
+            ("GTEX-DDDD-0126", "Liver", None),
+        ]
+        portal_csv, self.parquet_dir = make_fixture(self.tmp.name, extra)
+        self.root = os.path.join(self.tmp.name, "gtex_tissues")
+        quietly(tissues.prepare, portal_csv, self.root, self.parquet_dir)
+
+    def organ(self, slug, name):
+        return os.path.join(self.root, slug, name)
+
+    def build(self, slug, tissue):
+        exit_code, _ = quietly(
+            tissues.build_tissue, self.root, slug, tissue, self.parquet_dir, workers=1
+        )
+        return exit_code
+
+    def provenance(self, slug):
+        with open(self.organ(slug, "provenance.json"), encoding="utf-8") as handle:
+            return json.load(handle)
+
+    def test_builds_the_object_slides_table_and_provenance(self):
+        exit_code, _ = quietly(
+            tissues.main,
+            [
+                "build",
+                "--root",
+                self.root,
+                "--slug",
+                "esophagus_mucosa",
+                "--parquet-dir",
+                self.parquet_dir,
+                "--workers",
+                "1",
+            ],
+        )
+
+        self.assertEqual(exit_code, 0)
+        adata = ad.read_h5ad(self.organ("esophagus_mucosa", "gtex_esophagus_mucosa_cells.h5ad"))
+        self.assertEqual(
+            list(adata.obs.columns), ["slide_id", "cell_type", "prob"] + tissues.METADATA_COLUMNS
+        )
+        self.assertEqual(set(adata.obs["Tissue"].astype(str)), {"Esophagus - Mucosa"})
+        table = pd.read_csv(
+            self.organ("esophagus_mucosa", "slides.csv"), dtype=str, keep_default_na=False
+        )
+        self.assertEqual(
+            list(table.columns), tissues.PORTAL_COLUMNS + ["n_cells", "row_start", "row_end"]
+        )
+        self.assertEqual(list(table["Tissue Sample ID"]), ["GTEX-CCCC-0126"])
+        provenance = self.provenance("esophagus_mucosa")
+        self.assertEqual(
+            (provenance["tissue"], provenance["slug"]), ("Esophagus - Mucosa", "esophagus_mucosa")
+        )
+        self.assertEqual(provenance["parquet_dir"], os.path.abspath(self.parquet_dir))
+        self.assertEqual(provenance["no_source_slide_ids"], ["GTEX-CCCD-0126"])
+        self.assertEqual(provenance["failed_slide_ids"], [])
+
+    def test_records_missing_and_failed_slides_and_exits_one(self):
+        self.assertEqual(self.build("liver", "Liver"), 1)
+
+        adata = ad.read_h5ad(self.organ("liver", "gtex_liver_cells.h5ad"))
+        self.assertEqual(
+            list(adata.obs["slide_id"].cat.categories), ["GTEX-AAAA-0126", "GTEX-BBBB-0126"]
+        )
+        provenance = self.provenance("liver")
+        self.assertEqual(provenance["failed_slide_ids"], ["GTEX-BBBC-0126"])
+        self.assertEqual(provenance["no_source_slide_ids"], ["GTEX-DDDD-0126"])
+        self.assertEqual(provenance["missing_slide_ids"], ["GTEX-BBBC-0126", "GTEX-DDDD-0126"])
+        table = pd.read_csv(self.organ("liver", "slides.csv"), dtype=str)
+        self.assertEqual(list(table["Tissue Sample ID"]), ["GTEX-AAAA-0126", "GTEX-BBBB-0126"])
+
+    def test_row_ranges_match_the_codes_the_viewer_reads(self):
+        self.build("liver", "Liver")
+
+        table = pd.read_csv(self.organ("liver", "slides.csv"))
+        with h5py.File(self.organ("liver", "gtex_liver_cells.h5ad"), "r") as handle:
+            codes = handle["obs/slide_id/codes"][:]
+            categories = [value.decode() for value in handle["obs/slide_id/categories"][:]]
+
+        for position, row in table.iterrows():
+            self.assertEqual(categories[position], row["Tissue Sample ID"])
+            self.assertTrue((codes[row["row_start"] : row["row_end"]] == position).all())
+        self.assertEqual(table["n_cells"].tolist(), [2, 1])
+        self.assertEqual(table["row_end"].iloc[-1], len(codes))
+
+    def test_index_and_slug_select_the_same_tissue(self):
+        manifest = tissues.read_manifest(self.root)
+
+        self.assertEqual(tissues.find_tissue(manifest, index=1)["slug"], "liver")
+        self.assertEqual(tissues.find_tissue(manifest, slug="liver")["index"], 1)
+        with self.assertRaises(ValueError):
+            tissues.find_tissue(manifest, slug="nope")
+
+    def test_rerun_skips_existing_npz(self):
+        npz = self.organ("esophagus_mucosa", os.path.join("centroids", "GTEX-CCCC-0126.npz"))
+        self.build("esophagus_mucosa", "Esophagus - Mucosa")
+        first = os.stat(npz).st_mtime_ns
+
+        self.assertEqual(self.build("esophagus_mucosa", "Esophagus - Mucosa"), 0)
+
+        self.assertEqual(os.stat(npz).st_mtime_ns, first)
+
+    def test_a_tissue_without_sources_exits_one_without_an_object(self):
+        slug = "skin_sun_exposed_lower_leg"
+
+        self.assertEqual(self.build(slug, "Skin - Sun Exposed (Lower leg)"), 1)
+
+        self.assertFalse(os.path.exists(self.organ(slug, tissues.object_filename(slug))))
+
+    def test_unknown_slug_or_index_exits_one(self):
+        for selector in (["--slug", "nope"], ["--index", "99"]):
+            exit_code, _ = quietly(
+                tissues.main,
+                ["build", "--root", self.root, *selector, "--parquet-dir", self.parquet_dir],
+            )
+            self.assertEqual(exit_code, 1, selector)
 
 
 if __name__ == "__main__":
