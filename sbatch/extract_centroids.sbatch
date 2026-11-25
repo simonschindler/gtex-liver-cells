@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=gtex_extract_centroids
 #SBATCH --account=lab_rendeiro
-#SBATCH --partition=mediumq
+#SBATCH --partition=longq
 #SBATCH --time=12:00:00
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=128G
@@ -40,10 +40,10 @@ echo "workers:    ${SLURM_CPUS_PER_TASK:-16}"
 # The project venv is used directly on purpose: `uv run` re-syncs the
 # environment on every invocation, which is not what a batch job should pay.
 "$REPO_DIR/.venv/bin/python" -m gtex_liver_cells.centroids \
-    --parquet-dir "$PARQUET_DIR" \
-    --out-dir "$CENTROIDS_DIR" \
-    --slides "$COHORT_CSV" \
-    --workers "${SLURM_CPUS_PER_TASK:-16}"
+  --parquet-dir "$PARQUET_DIR" \
+  --out-dir "$CENTROIDS_DIR" \
+  --slides "$COHORT_CSV" \
+  --workers "${SLURM_CPUS_PER_TASK:-16}"
 
 STATUS=$?
 echo "npz now:    $(ls -1 "$CENTROIDS_DIR" 2>/dev/null | wc -l)"

@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=gtex_tissue_anndata
 #SBATCH --account=lab_rendeiro
-#SBATCH --partition=mediumq
+#SBATCH --partition=longq
 #SBATCH --time=12:00:00
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=256G
@@ -47,7 +47,7 @@ echo "workers:  ${SLURM_CPUS_PER_TASK:-8}"
 # The project venv is used directly on purpose: `uv run` re-syncs the
 # environment on every invocation, which is not what a batch job should pay.
 "$PYTHON" -m gtex_liver_cells.tissues build \
-    --root "$ROOT" \
-    --index "$SLURM_ARRAY_TASK_ID" \
-    --parquet-dir "$PARQUET_DIR" \
-    --workers "${SLURM_CPUS_PER_TASK:-8}"
+  --root "$ROOT" \
+  --index "$SLURM_ARRAY_TASK_ID" \
+  --parquet-dir "$PARQUET_DIR" \
+  --workers "${SLURM_CPUS_PER_TASK:-8}"

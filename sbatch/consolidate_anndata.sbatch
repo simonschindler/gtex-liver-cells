@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=gtex_consolidate_anndata
 #SBATCH --account=lab_rendeiro
-#SBATCH --partition=mediumq
+#SBATCH --partition=longq
 #SBATCH --time=12:00:00
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=128G
@@ -32,7 +32,7 @@ H5AD="$OUT_DIR/gtex_liver_cells.h5ad"
 
 EXTRA_ARGS=()
 if [ "${FILTER_TO_COHORT:-0}" = "1" ]; then
-    EXTRA_ARGS+=(--filter-to-cohort)
+  EXTRA_ARGS+=(--filter-to-cohort)
 fi
 
 cd "$REPO_DIR" || exit 1
@@ -44,11 +44,11 @@ echo "cohort csv: $COHORT_CSV"
 echo "output:     $H5AD"
 
 "$REPO_DIR/.venv/bin/python" -m gtex_liver_cells.consolidate \
-    --centroids-dir "$CENTROIDS_DIR" \
-    --cohort "$COHORT_CSV" \
-    --out "$H5AD" \
-    --provenance-out "$OUT_DIR/provenance.json" \
-    "${EXTRA_ARGS[@]}"
+  --centroids-dir "$CENTROIDS_DIR" \
+  --cohort "$COHORT_CSV" \
+  --out "$H5AD" \
+  --provenance-out "$OUT_DIR/provenance.json" \
+  "${EXTRA_ARGS[@]}"
 
 STATUS=$?
 cp -f "$COHORT_CSV" "$OUT_DIR/liver_cohort.csv"
