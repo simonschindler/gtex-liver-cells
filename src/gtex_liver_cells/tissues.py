@@ -27,6 +27,7 @@ whose source fails to extract is left out of the object, listed in
 """
 
 import argparse
+import contextlib
 import os
 import re
 import sys
@@ -198,6 +199,13 @@ def build_tissue(
             file=sys.stderr,
         )
         return 1
+
+    if overwrite:
+        # Re-extract from scratch: a slide whose source no longer extracts
+        # must count as failed, not be stood in for by its old npz.
+        for slide_id, _ in sources:
+            with contextlib.suppress(FileNotFoundError):
+                os.remove(os.path.join(centroids_dir, f"{slide_id}.npz"))
 
     counts = centroids.extract_many(sources, centroids_dir, workers, overwrite)
     print(

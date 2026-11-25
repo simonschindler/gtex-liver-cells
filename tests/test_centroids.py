@@ -2,6 +2,7 @@ import json
 import os
 import tempfile
 import unittest
+from unittest import mock
 
 import numpy as np
 import pyarrow as pa
@@ -101,6 +102,31 @@ class ExtractOneTests(unittest.TestCase):
         self.assertEqual(provenance["n_cells"], 3)
         self.assertEqual(provenance["n_classes"], 2)
         self.assertEqual(provenance["source_file"], "GTEX-AAAA-0126/cell_types.gpd")
+
+    def test_a_failed_write_leaves_no_file_under_the_final_name(self):
+        def interrupted(file, **arrays):
+            # Write a few bytes to whatever target extract_one chose, then fail
+            # the way a full disk or a killed task does.
+            if hasattr(file, "write"):
+                file.write(b"PK\x03\x04partial")
+            else:
+                with open(file, "wb") as handle:
+                    handle.write(b"PK\x03\x04partial")
+            raise OSError("disk full")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            source = slide_source(tmp, "GTEX-AAAA-0126")
+            out = os.path.join(tmp, "GTEX-AAAA-0126.npz")
+            write_source(source, [(SQUARE, "Fibroblasts", 0.9)])
+
+            with (
+                mock.patch.object(centroids.np, "savez_compressed", side_effect=interrupted),
+                self.assertRaises(OSError),
+            ):
+                centroids.extract_one(source, out)
+
+            self.assertFalse(os.path.exists(out))
+            self.assertFalse(os.path.exists(f"{out}.tmp"))
 
     def test_rejects_empty_parquet(self):
         with tempfile.TemporaryDirectory() as tmp:

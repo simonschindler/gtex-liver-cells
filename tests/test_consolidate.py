@@ -2,6 +2,7 @@ import json
 import os
 import tempfile
 import unittest
+from unittest import mock
 
 import anndata as ad
 import h5py
@@ -476,6 +477,80 @@ class RunTests(unittest.TestCase):
 
         self.assertEqual(summary, {"n_obs": 1, "n_slides": 1, "missing_slide_ids": []})
         self.assertEqual(provenance["tissue"], "Liver")
+
+    def test_names_an_unreadable_npz(self):
+        with open(os.path.join(self.centroid_dir, "GTEX-AAAA-0126.npz"), "wb") as handle:
+            handle.write(b"not a zip")
+        write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126")])
+
+        with self.assertRaisesRegex(consolidate.ConsolidateError, "GTEX-AAAA-0126.npz"):
+            consolidate.run(
+                self.centroid_dir, self.cohort_csv, os.path.join(self.tmp.name, "x.h5ad")
+            )
+
+    def first_run_with_side_files(self):
+        """Build a one-slide object with slides.csv and provenance.json, then add a slide."""
+        paths = {
+            "out": os.path.join(self.tmp.name, "cohort.h5ad"),
+            "slides_out": os.path.join(self.tmp.name, "slides.csv"),
+            "provenance_out": os.path.join(self.tmp.name, "provenance.json"),
+        }
+        write_npz(
+            os.path.join(self.centroid_dir, "GTEX-BBBB-0126.npz"), [[1, 1]], [0], ["Fibroblasts"]
+        )
+        write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126"), cohort_row("GTEX-BBBB-0126")])
+        consolidate.run(
+            self.centroid_dir,
+            self.cohort_csv,
+            paths["out"],
+            slides_out=paths["slides_out"],
+            provenance_out=paths["provenance_out"],
+        )
+        write_npz(
+            os.path.join(self.centroid_dir, "GTEX-AAAA-0126.npz"), [[2, 2]], [0], ["Fibroblasts"]
+        )
+        return paths
+
+    def test_a_failure_after_the_swap_leaves_no_stale_side_files(self):
+        paths = self.first_run_with_side_files()
+
+        # Die right after the new object replaces the old one: the old
+        # slides.csv would put GTEX-BBBB-0126 at rows 0-1, now GTEX-AAAA-0126's.
+        with (
+            mock.patch.object(consolidate, "slide_table", side_effect=RuntimeError("killed")),
+            self.assertRaises(RuntimeError),
+        ):
+            consolidate.run(
+                self.centroid_dir,
+                self.cohort_csv,
+                paths["out"],
+                slides_out=paths["slides_out"],
+                provenance_out=paths["provenance_out"],
+            )
+
+        self.assertEqual(ad.read_h5ad(paths["out"]).n_obs, 2)
+        self.assertFalse(os.path.exists(paths["slides_out"]))
+        self.assertFalse(os.path.exists(paths["provenance_out"]))
+
+    def test_an_interrupted_provenance_write_leaves_no_partial_file(self):
+        write_npz(
+            os.path.join(self.centroid_dir, "GTEX-AAAA-0126.npz"), [[1, 1]], [0], ["Fibroblasts"]
+        )
+        write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126")])
+        provenance_path = os.path.join(self.tmp.name, "provenance.json")
+
+        # json.dump writes the sorted keys before "zzz" and then fails on it.
+        with self.assertRaises(TypeError):
+            consolidate.run(
+                self.centroid_dir,
+                self.cohort_csv,
+                os.path.join(self.tmp.name, "cohort.h5ad"),
+                provenance_out=provenance_path,
+                extra_provenance={"zzz": object()},
+            )
+
+        self.assertFalse(os.path.exists(provenance_path))
+        self.assertFalse(os.path.exists(f"{provenance_path}.tmp"))
 
     def test_raises_when_no_npz_exist(self):
         write_cohort(self.cohort_csv, [cohort_row("GTEX-AAAA-0126")])

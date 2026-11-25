@@ -331,6 +331,31 @@ class BuildTests(unittest.TestCase):
 
         self.assertEqual(os.stat(npz).st_mtime_ns, first)
 
+    def test_overwrite_reports_a_slide_that_no_longer_extracts(self):
+        self.build("liver", "Liver")
+        # B's source is regenerated into one that cannot be extracted; its
+        # old npz must not stand in for it.
+        write_source(
+            slide_source(self.parquet_dir, "GTEX-BBBB-0126"), [(Point(1, 1), "Macrophages", 0.5)]
+        )
+
+        exit_code, _ = quietly(
+            tissues.build_tissue,
+            self.root,
+            "liver",
+            "Liver",
+            self.parquet_dir,
+            workers=1,
+            overwrite=True,
+        )
+
+        self.assertEqual(exit_code, 1)
+        adata = ad.read_h5ad(self.organ("liver", "gtex_liver_cells.h5ad"))
+        self.assertEqual(list(adata.obs["slide_id"].cat.categories), ["GTEX-AAAA-0126"])
+        self.assertEqual(
+            self.provenance("liver")["failed_slide_ids"], ["GTEX-BBBB-0126", "GTEX-BBBC-0126"]
+        )
+
     def test_a_tissue_without_sources_exits_one_without_an_object(self):
         slug = "skin_sun_exposed_lower_leg"
 

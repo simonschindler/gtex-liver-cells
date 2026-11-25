@@ -10,12 +10,13 @@ objects, which keeps the build's memory near what anndata itself needs.
 """
 
 import argparse
+import contextlib
 import datetime
 import json
 import os
 import subprocess
 import sys
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 
 import anndata as ad
 import numpy as np
@@ -207,11 +208,33 @@ def slide_table(adata: ad.AnnData, cohort: pd.DataFrame) -> pd.DataFrame:
     return table
 
 
-def write_h5ad_atomic(adata: ad.AnnData, path: str) -> None:
-    """Write ``path`` gzip-compressed through ``<path>.tmp``, so it is never left partial."""
+def _write_atomic(path: str, write: Callable[[str], object]) -> None:
+    """Call ``write(<path>.tmp)``, then rename it onto ``path``; a failure leaves neither."""
     partial = f"{path}.tmp"
-    adata.write_h5ad(partial, compression="gzip")
-    os.replace(partial, path)
+    try:
+        write(partial)
+        os.replace(partial, path)
+    except BaseException:
+        with contextlib.suppress(FileNotFoundError):
+            os.remove(partial)
+        raise
+
+
+def write_h5ad_atomic(adata: ad.AnnData, path: str, stale: Sequence[str] = ()) -> None:
+    """Write ``path`` gzip-compressed through ``<path>.tmp``, so it is never left partial.
+
+    ``stale`` names side files that describe the object being replaced (its
+    slide table, its provenance). They are removed just before the rename, so
+    a side file that is present always describes the object beside it.
+    """
+
+    def write(partial: str) -> None:
+        adata.write_h5ad(partial, compression="gzip")
+        for side_file in stale:
+            with contextlib.suppress(FileNotFoundError):
+                os.remove(side_file)
+
+    _write_atomic(path, write)
 
 
 def run(
@@ -247,7 +270,12 @@ def run(
 
     n_extracted = len(paths)
 
-    entries = [load_centroids(path) for path in paths]
+    entries = []
+    for path in paths:
+        try:
+            entries.append(load_centroids(path))
+        except Exception as error:
+            raise ConsolidateError(f"cannot read {path}: {error}") from error
     known = set(cohort.index)
     warnings: list[str] = []
 
@@ -277,11 +305,12 @@ def run(
         raise ConsolidateError("no entries left after filtering")
 
     adata = consolidate(entries, cohort, metadata_columns)
-    write_h5ad_atomic(adata, out)
+    write_h5ad_atomic(adata, out, stale=[path for path in (slides_out, provenance_out) if path])
 
     if slides_out:
         os.makedirs(os.path.dirname(os.path.abspath(slides_out)), exist_ok=True)
-        slide_table(adata, cohort).to_csv(slides_out, index=False)
+        table = slide_table(adata, cohort)
+        _write_atomic(slides_out, lambda partial: table.to_csv(partial, index=False))
         print(f"wrote the slide table to {slides_out}")
 
     if provenance_out:
@@ -298,9 +327,13 @@ def run(
         )
         provenance.update(extra_provenance or {})
         os.makedirs(os.path.dirname(os.path.abspath(provenance_out)), exist_ok=True)
-        with open(provenance_out, "w", encoding="utf-8") as handle:
-            json.dump(provenance, handle, indent=2, sort_keys=True)
-            handle.write("\n")
+
+        def write_provenance(partial: str) -> None:
+            with open(partial, "w", encoding="utf-8") as handle:
+                json.dump(provenance, handle, indent=2, sort_keys=True)
+                handle.write("\n")
+
+        _write_atomic(provenance_out, write_provenance)
         print(f"wrote provenance to {provenance_out}")
 
     print(f"wrote {adata.n_obs} cells from {adata.uns['n_slides']} slides to {out}")

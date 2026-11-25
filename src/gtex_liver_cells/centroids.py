@@ -9,6 +9,7 @@ file is missing are reported as warnings and skipped; they never abort the run.
 """
 
 import argparse
+import contextlib
 import json
 import os
 import sys
@@ -108,14 +109,25 @@ def extract_one(source: str, out_path: str) -> dict:
     )
 
     os.makedirs(os.path.dirname(os.path.abspath(out_path)), exist_ok=True)
-    np.savez_compressed(
-        out_path,
-        coords=coords,
-        labels=labels,
-        prob=prob,
-        class_names=class_names,
-        provenance=np.array(provenance),
-    )
+    # Write through a temporary name and rename, so a killed task or a failed
+    # write never leaves a partial npz under the final name, which a later run
+    # would skip as done.
+    partial = f"{out_path}.tmp"
+    try:
+        with open(partial, "wb") as handle:
+            np.savez_compressed(
+                handle,
+                coords=coords,
+                labels=labels,
+                prob=prob,
+                class_names=class_names,
+                provenance=np.array(provenance),
+            )
+        os.replace(partial, out_path)
+    except BaseException:
+        with contextlib.suppress(FileNotFoundError):
+            os.remove(partial)
+        raise
     return {"slide_id": slide_id, "n_cells": int(coords.shape[0]), "path": out_path}
 
 
